@@ -1,4 +1,4 @@
-#!/usr/bin/env -S ${PYTHON_BIN}
+#!/usr/bin/env -S bash -c 'exec "$PYTHON_BIN" "${@:0}"'
 
 import sys
 import os.path

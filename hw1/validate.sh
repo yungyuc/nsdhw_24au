@@ -7,6 +7,8 @@ tmp_dir=$(mktemp -d -t hw1-XXXXXXXXXX)
 echo "working directory: $tmp_dir"
 cd $tmp_dir
 
+score=0
+
 # question 1
 rm -rf *
 cp $solution_path/countline.sh .
@@ -19,6 +21,7 @@ else
     echo "wrong number ; NO POINT"
   else
     echo "GET POINT 1"
+    score=$(($score + 1))
   fi
 fi
 
@@ -33,6 +36,7 @@ else
     echo "wrong number ; NO POINT"
   else
     echo "GET POINT 1"
+    score=$(($score + 1))
   fi
 fi
 
@@ -48,6 +52,7 @@ else
     echo "expected message not found ; NO POINT"
   else
     echo "GET POINT 1"
+    score=$(($score + 1))
   fi
 fi
 
@@ -62,6 +67,7 @@ else
     echo "wrong number ; NO POINT"
   else
     echo "GET POINT 1"
+    score=$(($score + 1))
   fi
 fi
 
@@ -76,12 +82,20 @@ else
     echo "wrong number ; NO POINT"
   else
     echo "GET POINT 1"
+    score=$(($score + 1))
   fi
 fi
 
 echo "deleting working directory $tmp_dir"
 rm -rf $tmp_dir
 
-exit 0
+# Check score is 5 or exit code should be non-zero
+echo "Score: " $score/5
+
+if [ $score = 5 ]; then
+  exit 0
+else
+  exit 1
+fi
 
 # vim: set fenc=utf8 ff=unix et sw=2 ts=2 sts=2:

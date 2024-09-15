@@ -38,7 +38,7 @@ Question
 2. Modify the script ``countline.py`` so that it reads the environment variable
    named "``PYTHON_BIN``" to switch the Python executable for the script.  The
    script must be runnable by both ``python2`` and ``python3``.  It should
-   exit with an error code when the auecified binary is not found.
+   exit with an error code when the specified binary is not found.
 
    Hint: play a trick using bash.
 

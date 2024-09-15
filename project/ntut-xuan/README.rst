@@ -190,3 +190,9 @@ Schedule
  * - 16
    - Winding up.
    - 100% (26/26)
+
+Reference
+--------------------------
+- Gaussian blur: https://en.wikipedia.org/wiki/Gaussian_blur
+- Otsu's Method: https://en.wikipedia.org/wiki/Otsu%27s_method
+- CodeCov: https://about.codecov.io/

@@ -2,24 +2,26 @@
 
 ## Basic Information
 
-`onnxinfo` provides a summary of ONNX models, including:
+`onnxinfo` provides a summary of ONNX models like torchinfo, including:
 * layer name, type
 * MAC, parameter insights
 * input/output shapes
 
-available through both C++ and Python interfaces. 
+and available through both C++ and Python interfaces. 
+
+The project relies on the [ONNX Python API](https://github.com/onnx/onnx/blob/main/docs/PythonAPIOverview.md) for model parsing and analysis.
 
 GitHub URL: https://github.com/ExplorerRay/onnxinfo
 
 ## Problem to Solve
 
-ONNX is an open standard for machine learning models, users used to inspect the structure of models by [Netron](https://github.com/lutzroeder/netron).
+Users used to inspect the structure of ONNX models by [Netron](https://github.com/lutzroeder/netron).
 
-However, it is not that convenient to use it when in a CLI-only environment. 
+However, it is not convenient to use in a CLI-only environment. 
 
-This project aims to provide a utility for summarizing ONNX models like torchinfo.
+Therefore, this project aims to provide a utility for summarizing ONNX models in terminal.
 
-The project relies on the ONNX Python API for model parsing and analysis.
+Note: This project won't compare with Netron for runtime performace because they are tools in different aspects and runtime is not the main goal of this.
 
 ## Prospective Users
 
@@ -38,6 +40,7 @@ Anyone who use ONNX models and need a way in terminal to inspect the model's str
     * Parameter count (e.g., weights and biases)
     * MACs (Multiply-Accumulate Operations)
 * Output: Name, Type, Input/Output shapes, MACs, parameters in every layer
+  * Only in stdout, no write back to ONNX model.
 
 ## API Description
 ```python
@@ -74,7 +77,7 @@ The development of `onnxinfo` will follow the schedule below.
   * Find Pytorch layer corresponding operator in ONNX.
   * Implement iterating nodes in ONNX model using C++.
 * Week 2 (10/7 ~):
-  * Write unit test for python and C++.
+  * Write unit test for python and C++, validating the correctness.
   * Learn how to do CI in github, setting up.
 * Week 3 (10/14 ~): 
   * Flextime to do any adjustments to this project.

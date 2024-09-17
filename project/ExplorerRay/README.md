@@ -1,22 +1,29 @@
 # onnxinfo - A tool to show ONNX model summary like torchinfo
 
-This project aims to develop a tool that provides a summary of ONNX models, similar to how torchinfo works for PyTorch models. The tool will focus on offering a layer-wise breakdown, MAC/parameter counts, input/output shapes, and other key model details, all accessible via C++ and Python APIs.
-
 ## Basic Information
 
-`onnxinfo` provides a detailed summary of ONNX models, including layer structure and parameter insights, available through both C++ and Python interfaces. 
+`onnxinfo` provides a summary of ONNX models, including:
+* layer name, type
+* MAC, parameter insights
+* input/output shapes
+
+available through both C++ and Python interfaces. 
 
 GitHub URL: https://github.com/ExplorerRay/onnxinfo
 
 ## Problem to Solve
 
-With the widespread use of ONNX as an open standard for machine learning models, users used to inspect the structure and parameters of these models by [Netron](https://github.com/lutzroeder/netron). However, it is not that convenient to use it when in a CLI-only environment. This project aims to provide a utility for summarizing ONNX models like torchinfo.
+ONNX is an open standard for machine learning models, users used to inspect the structure of models by [Netron](https://github.com/lutzroeder/netron).
 
-The project applies knowledge from machine learning (deep neural networks) and the ONNX standard, relying on the ONNX Python API for model parsing and analysis.
+However, it is not that convenient to use it when in a CLI-only environment. 
+
+This project aims to provide a utility for summarizing ONNX models like torchinfo.
+
+The project relies on the ONNX Python API for model parsing and analysis.
 
 ## Prospective Users
 
-Developers and reasearchers who use ONNX models and need a quick way in python to inspect the model's structure.
+Anyone who use ONNX models and need a way in terminal to inspect the model's structure.
 
 ## System Architecture
 
@@ -24,7 +31,8 @@ Developers and reasearchers who use ONNX models and need a quick way in python t
   * ONNX format stores a model graph as a protobuf structure (GraphProto)
 * Process: Iterate nodes in ONNX and parse info, then calculate
   * ONNX model parsing
-    * Parse ONNX models using the ONNX C++ and Python APIs to get info like layer type (e.g., Conv, Gemm, BatchNorm).
+    * Parse ONNX models using the ONNX C++ and Python APIs to get info. 
+      * Like layer type (e.g., Conv, Gemm, BatchNorm).
   * Layer-wise calculating
     * Input and output shapes
     * Parameter count (e.g., weights and biases)
@@ -62,21 +70,22 @@ print(onnxinfo.summary(onnx_model))
 The development of `onnxinfo` will follow the schedule below.
 
 * Week 1 (9/30 ~):
-  * Survey and implement iterating nodes in ONNX model using C++.
   * Search different kinds of operators in ONNX.
   * Find Pytorch layer corresponding operator in ONNX.
-* Week 2-3 (10/7 ~): 
-  * Write C++ code to calculate MACs and parameters in nodes. (Conv and Gemm first, others if time is enough)
-* Week 4 (10/21 ~): 
+  * Implement iterating nodes in ONNX model using C++.
+* Week 2 (10/7 ~):
+  * Write unit test for python and C++.
+  * Learn how to do CI in github, setting up.
+* Week 3 (10/14 ~): 
+  * Flextime to do any adjustments to this project.
+* Week 4-5 (10/21 ~): 
+  * Write C++ code to calculate MACs and parameters in nodes. 
+  (Conv and Gemm first, others if time is enough)
+* Week 6 (11/4 ~): 
   * Make output similar to torchinfo.
   * Write pybind11 code for Python to use.
-* Week 5 (10/28 ~):
-  * Write unit test for python and C++.
-* Week 6 (11/4 ~): 
-  * Learn how to use Doxygen and Sphinx, generating documentations.
-  * Write usage of this tool.
 * Week 7 (11/11 ~): 
-  * Learn how to do CI in github, setting up.
+  * Learn how to use Doxygen and Sphinx, generating documentations.
 * Week 8 (11/18 ~): 
   * Flextime to do any adjustments to this project.
 

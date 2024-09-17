@@ -39,6 +39,8 @@ Follow the format to add your project:
 1. `github_account_name <https://github.com/github_account_name>`__ for
    `Project subject <github_account_name/README.rst>`__:
    https://github.com/github_account_name/project_name
+2. `cfmc30 <https://github.com/cfmc30>`__ for `FDCT <cfmc30/README.rst>`__:
+   https://github.com/cfmc30/FDCT
 
 .. note::
 

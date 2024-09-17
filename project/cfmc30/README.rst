@@ -45,15 +45,21 @@ FDCT is built as a Python extension using C++, and interacts with Python codebas
 through Numpy arrays as the primary data structure. The key architectural elements
 are:
 
-1. Input/Output
+#. Input/Output
+
    * FDCT accepts a 1D or 2D NumPy array as input, where each element represents a
      pixel intensity (for images) or a signal value.
+
    * The library outputs the DCT result as another NumPy array of the same dimensions.
-2. Configuration Options:
-   * Multithreading: Users can enable or disable multithreading, depending on their
-     hardware capabilities.
+
+#. Configuration Options:
+
+   * Multithreading: Users can enable or disable multithreading,
+     depending on their hardware capabilities.
+
    * SIMD Optimization: The library allows specifying whether SIMD support is enabled,
      taking advantage of CPU architectures that provide these instructions (e.g. AVX or SSE).
+
 
 API Description
 ===============

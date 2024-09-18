@@ -21,10 +21,18 @@ However, porting linear algebra stuffes from idea to product sometimes become a 
 The library tries to deal with the problem by supporting similiar syntax using by MATLAB developers and not to compromise the performance in the same time.
 
 The following operations are considered to be implemented:
-
-1. Vector and matrix generation
-2. Related operations (e.g. add, substract, multiply, cross, normalize, sum, average, ...)
-3. Signal processing (e.g. fast Fourier transform and its inverse) 
+- add
+- substract
+- mutiply
+- element-wise cube multiply
+- matrix cross
+- matrix / vector normalize
+- dot product
+- sum
+- average
+- element-wise power
+- fast Fourier transform
+- inverse fast Fourier transform
 
 Prospective Users
 =================

@@ -64,6 +64,9 @@ Follow the format to add your project:
 8. `lebr0nli <https://github.com/lebr0nli>`__ for
    `py-rbush <lebr0nli/README.rst>`__:
    https://github.com/lebr0nli/py-rbush
+9. `OscarShiang <https://github.com/OscarShiang>`__ for
+   `PicoLA <https://github.com/OscarShiang/PicoLA>`__:
+   https://github.com/OscarShiang/PicoLA
 
 .. note::
 

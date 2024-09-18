@@ -46,9 +46,9 @@ System Architecture
 I/O
 ---
 
--  Input (needed): An array-like object to be convolved and an
-   array-like kernel. The dimension of both inputs should be 2
--  Output: An array-like object
+-  Input (needed): An target to be convolved and a kernel. Both input
+   would be list or numpy array. The dimension of both inputs should be 2
+-  Output: A numpy array
 
 Parameters (optional)
 ---------------------
@@ -111,7 +111,7 @@ Planning phase (11 weeks from 09/29 to 12/08):
 
 - Week 1 (09/29): Learn FFT
 - Week 2 (10/06): Learn FFT, decide which algorithms would be used
-- Week 3 (10/13): Write test for FFT and FFT convolution
+- Week 3 (10/13): Write test and GitHub Action for FFT and FFT convolution
 - Week 4 (10/20): Implement a basic algorithm of FFT (depend on my learning)
 - Week 5 (10/27): Apply into convolution & Wrap into Python and test
 - Week 6 (11/03): Implement 2nd algorithm

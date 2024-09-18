@@ -45,6 +45,9 @@ Input
 The fitting target can be one of the following:
 
 -  A list of points representing the curve
+
+   -  Around 20 to 200 points, depends on the complexity of the curve
+
 -  A function that samples point along the curve
 
 Fitting parameters:
@@ -58,8 +61,12 @@ Results
 =======
 
 -  A set of Bezier curve object that approximate the input curve
+
 -  The fitting history, contains the Bezier curve objects and error
    values for each iterations
+
+   -  To prevent overfitting, the error calculation tends to use 3x to
+      5x more points than the training data
 
 *****************
  API Description

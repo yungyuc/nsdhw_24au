@@ -1,11 +1,13 @@
 FDCT: Fast Discrete Cosine Transformation Library
-=================
+=================================================
+
+`GitHub Repository <https://github.com/cfmc30/FDCT>`_
 
 Basic Information
 =================
 
-FDCT is a Python library built using C++, designed to compute Discrete Cosine
-Transformations (DCT) and invert discrete cosine transformation efficiently.
+FDCT is a Python library built using C++, designed to compute 2D Discrete Cosine
+Transformations (DCT) and 2D invert discrete cosine transformation efficiently.
 By leveraging O(nlog(n)) complexity, FDCT improves performance through optimized
 parallelism and support for CPU SIMD(Single Instruction, Multiple Data) instructions.
 The library is suitable for large-scale data transformation tasks, especially in digital
@@ -24,7 +26,7 @@ The DCT is widely used in image compression(JPEG), audio compression(MP3), and o
 processing tasks. However, as data sizes grow, performing DCT on high-resolution images or
 large datasets becomes vomputationaly expensive.
 
-FDCT provides a fast DCT algorithm that brings down the time complexity to O(nlog(n)) using
+FDCT  provides a fast 2D DCT algorithm that brings down the time complexity to O(nlog(n)) using
 parallelism and SIMD to take advantage of modern multicore processors.
 
 
@@ -33,10 +35,7 @@ Prospective Users
 
 FDCP will be valuable in fieds where DCT is used extensively:
 
-* Image Compression
-* Audio Compression
-* Video Processing
-* Signal Processing
+* Image compression and compression
 
 System Architecture
 ===================
@@ -47,7 +46,7 @@ are:
 
 #. Input/Output
 
-   * FDCT accepts a 1D or 2D NumPy array as input, where each element represents a
+   * FDCT accepts 2D NumPy array as input, where each element represents a
      pixel intensity (for images) or a signal value.
 
    * The library outputs the DCT result as another NumPy array of the same dimensions.
@@ -98,20 +97,22 @@ Engineering Infrastructure
    in a branch. After complete of implementation, it will be merged to the dev branch.
    The stable branch will merge when the code in dev branch is fully tested.
 3. Testing framework
+   Each deploy will test the library with comparing with the result of ``scipy.fftpack.dct``.
 4. Documentation
+   Each api will be will documented during development.
 
 
 Schedule
 ========
 
-* Planning phase (09/16-10/07)
-* Week 1 (10/14): Basic project infrastructure construction
-* Week 2 (10/21): Basic algorithm implementation
-* Week 3 (10/28): Code correctness validation
+* Planning phase (09/16-10/07) Learning DCT fundamental, Pybind ,and CI
+* Week 1 (10/14): Basic project structure construction and bind with Python
+* Week 2 (10/21): Deploy CI and automatic testing
+* Week 3 (10/28): Basic algorithm implementation
 * Week 4 (11/04): Optimization with SIMD and multithreading (1/2)
-* Week 5 (11/11): Optimization with SIMD and multithreading (2/2)
-* Week 6 (11/18): Code correctness validation and benchmark
-* Week 7 (11/25): Binding with Python
+* Week 5 (11/11): Optimization with SIMD and multithreading (2/3)
+* Week 6 (11/18): Optimization with SIMD and multithreading (3/3)
+* Week 7 (11/25): Benchmark and validation
 * Week 8 (12/02): Making Presentation slides and documentation
 
 References

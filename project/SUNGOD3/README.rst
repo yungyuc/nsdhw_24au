@@ -3,11 +3,22 @@ Advanced Vector Search for RAG Systems
 
 Basic Information
 -----------------
-This project, tentatively named "AdvancedVectorSearch", aims to develop and implement novel vector search methods for RAG systems.
+This `project <https://github.com/SUNGOD3/AdvancedVectorSearch>`__, tentatively named "AdvancedVectorSearch", aims to develop and implement novel vector search methods for RAG (Retrieval Augmented Generation) systems.
 
-Vector search is a crucial component in modern information retrieval systems, particularly in RAG applications. While FAISS is a well-established library for efficient similarity search, there's room for innovation in search methodologies. 
+The nature of LLM (Large Language Model) technology introduces unpredictability in LLM responses. Additionally, LLM training data is static and introduces a cut-off date on the knowledge it has. (e.g. Instagram's parent company is called Meta, but an LLM trained only on pre-2020 data would answer Facebook.)
 
-Note that the goal of this project will focus on vector search, similarity comparison function, vector data storage, and does not include matrix calculations of LLM.
+RAG combines the power of LLM with information retrieval systems. It works by:
+
+1. Retrieving relevant information from a knowledge base: This step involves converting the user's query into a vector representation and then searching the knowledge base for the most similar vectors.
+2. Feeding this information to the LLM along with the user's query.
+3. Having the LLM generate a response based on both the retrieved information and its pre-trained knowledge.
+
+Vector search is a crucial component in modern information retrieval systems, particularly in RAG applications. While FAISS (Facebook AI Similarity Search) is a well-established library for efficient similarity search, there's room for innovation in search methodologies. 
+   
+
+.. note:: 
+
+   The goal of this project will focus on vector search, similarity comparison function, vector data storage, and does not include matrix calculations of LLM.
 
 Problem to Solve
 ----------------
@@ -26,7 +37,7 @@ This project will benefit:
 2. Data scientists and machine learning engineers dealing with large-scale similarity search problems.
 3. Information retrieval specialists looking for customizable vector search solutions.
 4. Anyone working with high-dimensional data requiring efficient similarity search capabilities.
-5. Graduate students who lack graduation thesis.
+5. Graduate students who lack a graduation thesis.
 
 System Architecture
 -------------------
@@ -70,20 +81,3 @@ References
 ----------
 1. FAISS (Facebook AI Similarity Search): https://github.com/facebookresearch/faiss
 2. RAG : https://arxiv.org/abs/2005.11401
-
-
-Projects by Account Names
-+++++++++++++++++++++++++
-
-Follow the format to add your project:
-
-::
-
-1. `SUNGOD3 <https://github.com/SUNGOD3>`__ for
-   `AdvancedVectorSearch <SUNGOD3/README.rst>`__:
-   https://github.com/SUNGOD3/AdvancedVectorSearch
-
-.. note::
-
-  Append your project after the first example entry.  Do not delete the example
-  entry.

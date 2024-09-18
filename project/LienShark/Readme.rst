@@ -1,18 +1,38 @@
 =================
 Project
 =================
-Efficient-Eigenvalue-Approximation-using-Gersgorin-Theorem-and-PCA-for-Dimensionality-Reduction 
+EigenApproWithGersgorin
 
 Basic Information
 =================
 
-GitHub repository :https://github.com/LienShark/Efficient-Eigenvalue-Approximation-using-Gersgorin-Theorem-and-PCA-for-Dimensionality-Reduction
-About:I will try to use Gersgorin Theorem to find eigenvalue approximation to do spectral,
-hope can speed up PCA compression as much as possible while sacrificing the least accuracy,
-then provide APIs for related applications that will be used!
+GitHub repository :https://github.com/LienShark/EigenApproWithGersgorin
+About:
+  First step:
+    I will first try to write the basic spectral decomposition and SVD code to use in PCA, and find out the problems in the field (ML/Finance/Genetic information)
+    where I want to test the effect as a test case, and record the time and results of this approach.
+
+  second step:
+    I will try to use Gersgorin Theorem to find eigenvalue approximation to do spectral,
+    hope can speed up PCA compression as much as possible while sacrificing the least accuracy,
+    then provide APIs for related applications that will be used!
+    In my imagination, if the matrix dimensions to be processed today reach the level of millions of rows and columns,
+    it may be very troublesome and slow to calculate the eigenvalues!
+    So I thought about the matrix theory course I took in college, in which Gersgorin Theorem mentioned 
+    that all eigenvalues ​​will fall within certain specific circles.
+    I thought if I could shrink this circle as much as possible through other methods 
+    (or is not narrowed, but the guess is accurate enough within the range) 
+    I have the opportunity to avoid the tedious calculation of eigenvalues ​​and further do PCA
+
+  Final step:
+    I will compare two method, and analysis it! 
 
 Problem to Solve
 ================
+First, I will learn how to do SVD decomposition and spectral decomposition for use in PCA.
+I will also survey the current methods of SVD decomposition and spectral decomposition, compare and improve them.
+second,I hope I still have time to add Gersgorin Theorem's method to compare and see if 
+I can sacrifice some accuracy for faster speed.
 This project aims to solve the problem of calculating eigenvalues ​​and dimensionality reduction of 
 large matrices. This problem is very common in machine learning, numerical linear algebra 
 and scientific computing. Especially in natural language processing (NLP), genetic data analysis 
@@ -37,6 +57,9 @@ training large-scale NLP.
 In addition, I will also apply it to financial modeling, machine learning and big data processing, 
 and use my project to reduce memory and computing costs in the data processing process. 
 I hope it can have more practical application value.
+
+And the baseline will be the method mentioned above from my survey
+and the traditional svd decomposition and spectral decomposition that I have improved.
 
 
 System Architecture
@@ -76,12 +99,15 @@ Automated build system: Use CMake to set up a C++ build system, and use setuptoo
 Version control: Use Git for version management, and all development processes will be submitted to the GitHub project repository.
 
 ========
-* Planning phase (6 weeks from 09/16 to 10/20):survey the background knowledage, as bellow:
+* Planning phase I (2 weeks from 09/16 to 9/29):survey the background knowledage, as bellow:
   1.Matrix Theory Especially on Gersgorin-Theorem
   2.How to narrow down the possible range of eigenvalues
-  3.knowledage about NLP and ML
-  4.knowledage about Finance and genetic information
-* Week 1 (10/21): Write preliminary architecture and simple algorithm implementation
+  3.Background knowledage about NLP and ML
+  4.Background knowledage about Finance and genetic information
+* Planning phase II (4 weeks from 09/30 to 10/20):Write the first stage of code, including traditional PCA and SVD methods
+  I also collect test data for each field I want to apply, and write it into a data structure that can be automatically tested 
+  so that I can verify whether this part of my code is correct.
+* Week 1 (10/21): Write preliminary architecture and simple algorithm implementation about second step
 * Week 2 (10/28): Complete the implementation and test cases of Gersgorin Theorem,
                   and use the small matrix to test the difference between the obtained eigenvalues ​​and the actual value,
                   and think about ways to improve it.

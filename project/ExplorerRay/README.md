@@ -9,23 +9,26 @@
 
 and available through both C++ and Python interfaces. 
 
-The project relies on the [ONNX Python API](https://github.com/onnx/onnx/blob/main/docs/PythonAPIOverview.md) for model parsing and analysis.
+The project relies on the 
+[ONNX Python API](https://github.com/onnx/onnx/blob/main/docs/PythonAPIOverview.md) 
+for model parsing.
 
 GitHub URL: https://github.com/ExplorerRay/onnxinfo
 
 ## Problem to Solve
 
-Users used to inspect the structure of ONNX models by [Netron](https://github.com/lutzroeder/netron).
+Users used to inspect the structure of ONNX models by 
+[Netron](https://github.com/lutzroeder/netron).
 
 However, it is not convenient to use in a CLI-only environment. 
 
-Therefore, this project aims to provide a utility for summarizing ONNX models in terminal.
+So, `onnxinfo` aims to provide a utility to summarize ONNX models in terminal.
 
-Note: This project won't compare with Netron for runtime performace because they are tools in different aspects and runtime is not the main goal of this.
+Note: This project won't compare with other tools for runtime performace.
 
 ## Prospective Users
 
-Anyone who use ONNX models and need a way in terminal to inspect the model's structure.
+Anyone who needs a way in terminal to inspect the ONNX model's structure.
 
 ## System Architecture
 
@@ -54,8 +57,11 @@ print(onnxinfo.summary(onnx_model))
 
 ## Engineering Infrastructure
 * Build system
-  * [GNU make](https://www.gnu.org/software/make/manual/make.html) will be used to manage the C++ build process.
-  * Python bindings will be managed using [pybind11](https://github.com/pybind/pybind11) and [setuptools](https://github.com/pypa/setuptools).
+  * [GNU make](https://www.gnu.org/software/make/manual/make.html) 
+  will be used to manage the C++ build process.
+  * Python bindings will be managed using
+  [pybind11](https://github.com/pybind/pybind11)
+  and [setuptools](https://github.com/pypa/setuptools).
 * Version control
   * Git (Create branch "dev" and PR)
 * Testing framework
@@ -83,7 +89,7 @@ The development of `onnxinfo` will follow the schedule below.
   * Flextime to do any adjustments to this project.
 * Week 4-5 (10/21 ~): 
   * Write C++ code to calculate MACs and parameters in nodes. 
-  (Conv and Gemm first, others if time is enough)
+    * Conv and Gemm first, others if time is enough
 * Week 6 (11/4 ~): 
   * Make output similar to torchinfo.
   * Write pybind11 code for Python to use.

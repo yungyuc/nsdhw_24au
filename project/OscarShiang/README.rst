@@ -70,14 +70,14 @@ For public APIs, we try use [hdoc](https://hdoc.io/) to generate human-readable 
 Schedule
 ========
 
-- Week 1: Setup the infrastructures
-- Week 2: Define the library's data structures
-- Week 3: Implement fundamental operations for vector and matrix
-- Week 4: Research for implement vector and matrix operations with SIMD instructions
-- Week 5: Add SIMD support into the library
-- Week 6: Create unit tests and set onto GitHub Actions
-- Week 7: Debug the code and fix errors found in unit tests
-- Week 8: Write and publish the API document on GitHub Pages
+- Week 1 (10/02): Setup CI infrastrure on GitHub Actions
+- Week 2 (10/09): Define the library's data structures
+- Week 3 (10/16): Implement fundamental operations for vector and matrix
+- Week 4 (10/23): Implement operations and check if works on CI
+- Week 5 (10/30): Research for implement vector and matrix operations with SIMD instructions
+- Week 6 (11/06): Add SIMD support into the library
+- Week 7 (11/13): Debug the code and fix errors found in unit tests
+- Week 8 (11/20): Write and publish the API document on GitHub Pages
 
 References
 ==========

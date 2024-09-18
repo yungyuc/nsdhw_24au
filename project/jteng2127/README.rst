@@ -23,8 +23,12 @@ The goal is to use multiple third-order (or higher order) Bezier curves
 to fit the following types of curve:
 
 #. A fourth-order Bezier curve
-#. A NACA 4-digit airfoil [1]_
-#. Any arbitrary curve
+#. A `NACA 4-digit airfoil
+   <https://zh.wikipedia.org/zh-tw/NACA%E7%BF%BC%E5%9E%8B>`_
+#. Any discretely sampled curve (e.g. `Contour line
+   <https://en.wikipedia.org/wiki/Contour_line>`_)
+#. Any curve that can be expressed by a formula (e.g. `Superformula
+   <https://en.wikipedia.org/wiki/Superformula>`_ curve)
 
 The potential solutions are listed in :ref:`potential-solutions`
 
@@ -192,8 +196,3 @@ Problems
 
 -  `Use Bezier curve to fit NACA 4-digit airfoil · Issue #320 ·
    solvcon/modmesh <https://github.com/solvcon/modmesh/issues/320>`_
-
-.. [1]
-
-   `NACA翼型 - 維基百科，自由的百科全書
-   <https://zh.wikipedia.org/zh-tw/NACA%E7%BF%BC%E5%9E%8B>`_

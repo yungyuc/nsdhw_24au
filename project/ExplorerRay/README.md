@@ -83,6 +83,7 @@ The development of `onnxinfo` will follow the schedule below.
   * Find Pytorch layer corresponding operator in ONNX.
   * Implement iterating nodes in ONNX model using C++.
 * Week 2 (10/7 ~):
+  * Write initial pybind11 wrapper.
   * Write unit test for python and C++, validating the correctness.
   * Learn how to do CI in github, setting up.
 * Week 3 (10/14 ~): 
@@ -92,7 +93,7 @@ The development of `onnxinfo` will follow the schedule below.
     * Conv and Gemm first, others if time is enough
 * Week 6 (11/4 ~): 
   * Make output similar to torchinfo.
-  * Write pybind11 code for Python to use.
+  * Write complete pybind11 code.
 * Week 7 (11/11 ~): 
   * Learn how to use Doxygen and Sphinx, generating documentations.
 * Week 8 (11/18 ~): 

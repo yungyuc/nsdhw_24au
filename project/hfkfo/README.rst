@@ -12,14 +12,16 @@
 ******************
  Problem to Solve
 ******************
-**Boolean operations on polygons** involve combining two or more polygons using set operations like union, intersection, difference, and exclusive-or (XOR).
+**Boolean operations on polygons** involve combining two or more polygons using
+set operations like union, intersection, difference, and exclusive-or (XOR).
 
 .. image:: https://miro.medium.com/v2/resize:fit:1400/format:webp/1*-HFaUxQdqiibk27ovbT8QA.png
 
-Boolean operations on polygons are critical in various fields such as computer graphics, computational geometry, GIS (Geographic Information Systems), 
+Boolean operations on polygons are critical in various fields such as computer
+graphics, computational geometry, GIS (Geographic Information Systems), 
 CAD (Computer-Aided Design), and game development.
 
-The main objective of this project is to compute Boolean operations on polygons.
+The main objective of project is to compute Boolean operations on polygons.
 
 *********************
  System Architecture
@@ -30,8 +32,12 @@ The main objective of this project is to compute Boolean operations on polygons.
     - The boolean operation
 
 **Process** : 
-    - Cut the edges of polygon into smaller segments at the intersection points. This way, all edges to be processed will only intersect at endpoints.
-    - Based on the boolean operation, select the edges depending on whether they lie inside the other polygon's interior.
+    - Cut the edges of polygon into smaller segments at the intersection points. 
+      
+      This way, all edges to be processed will only intersect at endpoints.
+    - Based on the boolean operation, select the edges depending on 
+
+      whether they lie inside the other polygon's interior.
     - Join the edges together to obtain the output.
 
 **Output** : 
@@ -78,4 +84,6 @@ The main objective of this project is to compute Boolean operations on polygons.
  References
 ************
 
-- A new algorithm for computing Boolean operations on polygons : https://www.sciencedirect.com/science/article/pii/S0098300408002793
+- A new algorithm for computing Boolean operations on polygons : 
+
+    https://www.sciencedirect.com/science/article/pii/S0098300408002793

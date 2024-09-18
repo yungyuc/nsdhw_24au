@@ -13,12 +13,15 @@
  Problem to Solve
 ******************
 **Boolean operations on polygons** involve combining two or more polygons using
+
 set operations like union, intersection, difference, and exclusive-or (XOR).
 
 .. image:: https://miro.medium.com/v2/resize:fit:1400/format:webp/1*-HFaUxQdqiibk27ovbT8QA.png
 
 Boolean operations on polygons are critical in various fields such as computer
+
 graphics, computational geometry, GIS (Geographic Information Systems), 
+
 CAD (Computer-Aided Design), and game development.
 
 The main objective of project is to compute Boolean operations on polygons.

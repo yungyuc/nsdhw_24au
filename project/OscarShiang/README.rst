@@ -65,7 +65,7 @@ The system is composed by the following parts
 
 Since the whole project is composed by C++, we choose GoogleTest as the unit-testing framework. Leverage GitHub Actions to do testing whenever the code is pushed onto branches. As GitHub Action supports Apple M1 Machines, we can ensure that all the hardware-related instructions can be properly compiled and run on actual machines.
 
-For public APIs, we try use [hdoc](https://hdoc.io/) to generate human-readable document. This framework can also be builded and released via GitHub Action. So that we can simply host the document page on GitHub.
+For public APIs, we try use `hdoc <https://hdoc.io/>`__ to generate human-readable document. This framework can also be builded and released via GitHub Action. So that we can simply host the document page on GitHub.
 
 Schedule
 ========

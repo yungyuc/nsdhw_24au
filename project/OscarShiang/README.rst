@@ -9,6 +9,8 @@ Basic Information
 
 `PicoLA` aims to provide coding experience similiar to MATLAB and is capable to run on resource-limited devices without installing extra dependent packages.
 
+See more information in its repository: https://github.com/OscarShiang/PicoLA
+
 Problem to Solve
 ================
 

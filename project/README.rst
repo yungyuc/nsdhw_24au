@@ -40,7 +40,7 @@ Follow the format to add your project:
    `Project subject <github_account_name/README.rst>`__:
    https://github.com/github_account_name/project_name
 2. `hfkfo <https://github.com/hfkfo>`__ for
-   `onnxinfo <hfkfo/README.rst>`__:
+   `Boolean_Operations_on_Polygons <hfkfo/README.rst>`__:
    https://github.com/hfkfo/Boolean_Operations_on_Polygons
 .. note::
 

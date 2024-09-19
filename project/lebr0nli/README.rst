@@ -185,10 +185,10 @@ The core API will include:
 **********
 
 #. **Week 1-2:** Research and analysis of `rbush` and `py-rbush`.
-#. **Week 3-4:** Prototype core R-Tree structure and implement insertion,
-   deletion, and search functionality.
+#. **Week 3-4:** Prototype the core R-Tree structure and implement insertion.
+   Begin writing tests, and add deletion and search functionality.
 #. **Week 5-6:** Add support for dynamic updates and optimize performance.
-#. **Week 7:** Write tests, finalize documentation, and benchmark performance.
+#. **Week 7:** Finalize documentation, and benchmark performance.
 #. **Week 8:** Final review and presentation.
 
 ************

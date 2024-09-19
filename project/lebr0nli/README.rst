@@ -83,6 +83,10 @@ The core API will include:
       item = {"minX": 20, "minY": 40, "maxX": 30, "maxY": 50, "data": "example"}
       tree.insert(item)
 
+   .. epigraph::
+
+      This term project currently supports only two dimensions but aims to include three-dimensional support in the future.
+
 #. **Removing Data**
 
    Remove a previously inserted item:

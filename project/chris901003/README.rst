@@ -63,6 +63,7 @@ System Architecture
 
 1. Implements the Poisson process to simulate random packet arrivals.
   - We will use exponential distribution random variables to model the inter-arrival times of packets.
+  - In test I will ensure that the randomly generated numbers are fixed by using a fixed seed.
 2. Supports multiple streams of data packets with varying arrival rates.
 3. Handles priority-based packet processing with a queue system.
 4. Provides high-performance computation through optimized algorithms.

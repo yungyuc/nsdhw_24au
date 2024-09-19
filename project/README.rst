@@ -39,6 +39,9 @@ Follow the format to add your project:
 1. `github_account_name <https://github.com/github_account_name>`__ for
    `Project subject <github_account_name/README.rst>`__:
    https://github.com/github_account_name/project_name
+2. `Sean20405 <https://github.com/Sean20405>`__ for
+   `fftconvolve2d <Sean20405/README.rst>`__:
+   https://github.com/Sean20405/fftconvolve2d
 
 .. note::
 

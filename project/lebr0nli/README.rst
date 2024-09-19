@@ -164,7 +164,7 @@ The core API will include:
 
    .. code:: python
 
-      tree = RBushPlus.from_json(tree_data)
+      tree = RBush.from_json(tree_data)
 
    Ensure that the `max_entries` parameter is consistent between export and
    import operations.

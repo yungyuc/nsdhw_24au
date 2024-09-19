@@ -42,6 +42,9 @@ Follow the format to add your project:
 2. `ExplorerRay <https://github.com/ExplorerRay>`__ for
    `onnxinfo <ExplorerRay/README.md>`__:
    https://github.com/ExplorerRay/onnxinfo
+3. `jteng2127 <https://github.com/jteng2127>`__ for
+   `pybezier <jteng2127/README.rst>`__:
+   https://github.com/jteng2127/pybezier
 
 .. note::
 

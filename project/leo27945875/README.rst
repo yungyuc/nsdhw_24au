@@ -69,9 +69,8 @@ Automatic build system and how to build your program:
 Version control:
     There will be two branches for version control. One is the **master** branch, another is the **dev** branch. Once a new function in **dev** is finished and passes the unitest, then merge the **dev** into **master**.
     
-| **Testing framework:**
-|     C++   : GoogleTest
-|     Python: pytest
+Testing framework:
+    C++: GoogleTest, Python: pytest
 
 
 Documentation:
@@ -92,5 +91,3 @@ References
 
 | `Motivation of this project <https://www.104.com.tw/job/8dg3i?jobsource=google>`_
 | `GMRES algorithm <https://zh.wikipedia.org/zh-tw/%E5%B9%BF%E4%B9%89%E6%9C%80%E5%B0%8F%E6%AE%8B%E9%87%8F%E6%96%B9%E6%B3%95>`_
-| `GoogleTest <https://google.github.io/googletest/>`_
-| `pytest <https://docs.pytest.org/en/stable/>`_

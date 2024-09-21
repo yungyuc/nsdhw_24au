@@ -33,7 +33,9 @@ First, I will learn how to do SVD decomposition and spectral decomposition for u
 I will also survey the current methods of SVD decomposition and spectral decomposition, compare and improve them.
 second,I hope I still have time to add Gersgorin Theorem's method to compare and see if 
 I can sacrifice some accuracy for faster speed.
-This project aims to solve the problem of calculating eigenvalues ​​and dimensionality reduction of 
+
+So,the project has two tasks want to reach,first is speed up the PCA and SVD decomposition,
+the second aims to solve the problem of calculating eigenvalues ​​and dimensionality reduction of 
 large matrices. This problem is very common in machine learning, numerical linear algebra 
 and scientific computing. Especially in natural language processing (NLP), genetic data analysis 
 and big data processing, as the size of data grows, the limitations of existing tools 
@@ -66,8 +68,10 @@ System Architecture
 ===================
 
 1.input and output
-  input:massive matrix
-  output:The approximate eigenvalues ​​estimated by Gersgorin Theorem, and the low-dimensional matrix reduced by PCA.
+  input:(massive) matrix (massive I mean is 1 million row or column , since this is approximately the size of the LLM model )
+  output:
+    1.The low-dimensional matrix reduced by PCA and SVD with general solution(means not approximate)
+    2.The approximate eigenvalues ​​estimated by Gersgorin Theorem, and the low-dimensional matrix reduced by PCA
 2.System process
   2.1 Read the input matrix and preprocess it.
   2.2 Use Gersgorin Theorem to calculate the approximate range of eigenvalues.

@@ -47,6 +47,8 @@ Follow the format to add your project:
    https://github.com/jteng2127/pybezier
 4. `chris901003 <https://github.com/chris901003>`__ for `PoissonNet <chris901003/README.rst>`__:
    https://github.com/chris901003/PoissonNet
+5. `leo27945875 <https://github.com/leo27945875>`__ for `pyGMRES <leo27945875/README.rst>`__:
+   https://github.com/leo27945875/pyGMRES
 
 .. note::
 

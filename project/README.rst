@@ -47,6 +47,8 @@ Follow the format to add your project:
    https://github.com/jteng2127/pybezier
 4. `chris901003 <https://github.com/chris901003>`__ for `PoissonNet <chris901003/README.rst>`__:
    https://github.com/chris901003/PoissonNet
+5. `yang2829 <https://github.com/yang2829>`__ for `Voronoi Diagram <yang2829/README.rst>`__:
+   https://github.com/yang2829/Voronoi-Diagram
 
 .. note::
 

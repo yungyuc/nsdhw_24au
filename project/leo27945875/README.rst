@@ -104,7 +104,9 @@ Schedule
 References
 ==========
 
-| `Motivation of this project <https://www.104.com.tw/job/8dg3i?
-jobsource=google>`_
-| `GMRES algorithm <https://zh.wikipedia.org/zh-tw/
-%E5%B9%BF%E4%B9%89%E6%9C%80%E5%B0%8F%E6%AE%8B%E9%87%8F%E6%96%B9%E6%B3%95>`_
+| `Motivation of this project`_
+| `GMRES algorithm`_
+
+
+.. _`Motivation of this project`: https://www.104.com.tw/job/8dg3i?jobsource=google
+.. _`GMRES algorithm`: https://zh.wikipedia.org/zh-tw/%E5%B9%BF%E4%B9%89%E6%9C%80%E5%B0%8F%E6%AE%8B%E9%87%8F%E6%96%B9%E6%B3%95

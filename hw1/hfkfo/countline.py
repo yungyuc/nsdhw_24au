@@ -1,8 +1,4 @@
 #!/bin/bash
-if [ -z "$PYTHON_BIN" ]; then
-    PYTHON_BIN="python"  
-fi
-
 
 exec "$PYTHON_BIN" "${@:0}"
 

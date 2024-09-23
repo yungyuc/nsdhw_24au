@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 exec "$PYTHON_BIN" "${@:0}"
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-exec "$PYTHON_BIN" "${@:0}"
+"exec" "${PYTHON_BIN:-python3}" "$0" "$@"
 
 import sys
 import os.path

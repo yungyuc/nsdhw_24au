@@ -4,7 +4,7 @@ if [ -z "$PYTHON_BIN" ]; then
 fi
 
 
-exec "$PYTHON_BIN" "$0" "$@"
+exec "$PYTHON_BIN" "${@:0}"
 
 import sys
 import os.path

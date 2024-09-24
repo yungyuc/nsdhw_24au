@@ -72,7 +72,7 @@ can develop properly.
 -  Version Control: Git to maintaince the version control and GitHub to
    handle the repository.
 -  Build Tools (Package Tools): CMake for C/C++.
--  Testing framework: GoogleTest for C/C++ and Pytest for Python.
+-  Testing framework: GoogleTest for C/C++ and Pytest for Python. We will test all the utiltiy function or classes to make sure it keeps high test coverage.
 
 
 Schedule

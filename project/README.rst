@@ -50,6 +50,10 @@ Follow the format to add your project:
 5. `yang2829 <https://github.com/yang2829>`__ for `Voronoi Diagram <yang2829/README.rst>`__:
    https://github.com/yang2829/Voronoi-Diagram
 
+2. `ian31174117 <https://github.com/ian31174117>`_ for
+   `SimpleEigenCalculator <https://github.com/ian31174117/nsdhw_24au/blob/ian31174117-proposal-attempt1/project/ian31174117/README.rst>`__:
+   https://github.com/ian31174117/SimpleEigenCalculator
+
 .. note::
 
   Append your project after the first example entry.  Do not delete the example

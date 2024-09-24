@@ -20,9 +20,6 @@ You can select what polygon you want to doing with the pervious polygon.
 .. image:: https://media.discordapp.net/attachments/950048467294760990/1284862080050135071/image.png?ex=66e82c8f&is=66e6db0f&hm=8f52c071f46be06d7d6d014e8551087f495e2cf1332a784079c4805429e7aea3&=&format=webp&quality=lossless&width=2880&height=848
 
 
-(If the time allow, we want to find out the vertexs of complex polygon with 
-cell of grid also.)
-
 How do we describe the polygon
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

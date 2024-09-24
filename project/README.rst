@@ -53,7 +53,7 @@ Follow the format to add your project:
    `VisualizeWifi <hsiehbingting/README.rst>`__:
    https://github.com/hsiehbingting/VisualizeWifi
 5. `ian31174117 <https://github.com/ian31174117>`_ for
-   `SimpleEigenCalculator <project/ian31174117/README.rst>`__:
+   `SimpleEigenCalculator <ian31174117/README.rst>`__:
    https://github.com/ian31174117/SimpleEigenCalculator
 6. `jteng2127 <https://github.com/jteng2127>`__ for
    `pybezier <jteng2127/README.rst>`__:

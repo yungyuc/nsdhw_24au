@@ -29,9 +29,9 @@ Anyone who wants to set up or analyze an indoor
 wireless network environment.
 
 
-*****************
+*******************
 System Architecture
-*****************
+*******************
 * **Input**: 
     The user inputs room size, wall position and materials, and signal
     source parameters in the Python interface.
@@ -55,10 +55,14 @@ API Description
 *****************
 
 Function in Python
-+++++++++++++++++
-* ``add_room``: Define the room's size.
+++++++++++++++++++
+* ``add_room``: Define the room's size as a 2D plane.
 
-* ``add_wall``: Add a wall to the room using the specified material.
+* ``add_obstacle``: Add an obstacle to the room using the specified material.
+    
+    .. note::
+        Walls are treated as lines with no thickness, while pillars are
+        represented as 60x60cm squares.
 
 * ``set_signal_source``: Set the signal source's position and power.
 
@@ -72,9 +76,9 @@ Function in C++
 * ``compute_signal_strength``: calculates the signal strength at a given point.
 
 
-*****************
+**************************
 Engineering Infrastructure
-*****************
+**************************
 * Version control: Git
 
 * Build system: Makefile
@@ -100,13 +104,10 @@ Schedule
     * Optimize the C++ module with multithreading.
     * Integrate Python and C++ using pybind11.
 
-4. week 7 (11/11~):
-    * Flexible Week: Adjustments, bug fixes, or any backlog from previous tasks.
+4. week 7-9 (11/11~):
+    * Use Matplotlib to generate 2D heatmaps for signal strength distribution.
 
-5. week 8-9 (11/18~):
-    * Write the visualization function in Python.
-
-6. week 10-11 (12/2~): 
+5. week 10-11 (12/2~): 
     * Make the slides and Prepare the final report.
 
 

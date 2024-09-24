@@ -39,9 +39,20 @@ Follow the format to add your project:
 1. `github_account_name <https://github.com/github_account_name>`__ for
    `Project subject <github_account_name/README.rst>`__:
    https://github.com/github_account_name/project_name
-2. `hsiehbingting <https://github.com/hsiehbingting>`__ for
+2. `ExplorerRay <https://github.com/ExplorerRay>`__ for
+   `onnxinfo <ExplorerRay/README.md>`__:
+   https://github.com/ExplorerRay/onnxinfo
+3. `jteng2127 <https://github.com/jteng2127>`__ for
+   `pybezier <jteng2127/README.rst>`__:
+   https://github.com/jteng2127/pybezier
+4. `chris901003 <https://github.com/chris901003>`__ for `PoissonNet <chris901003/README.rst>`__:
+   https://github.com/chris901003/PoissonNet
+5. `yang2829 <https://github.com/yang2829>`__ for `Voronoi Diagram <yang2829/README.rst>`__:
+   https://github.com/yang2829/Voronoi-Diagram
+6. `hsiehbingting <https://github.com/hsiehbingting>`__ for
    `VisualizeWifi <hsiehbingting/README.rst>`__:
    https://github.com/hsiehbingting/VisualizeWifi
+
 .. note::
 
   Append your project after the first example entry.  Do not delete the example

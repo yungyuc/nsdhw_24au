@@ -117,46 +117,36 @@ Schedule
    - Progress (%)
  * - 1
    - System Design / Writing proposal
-   - (??/26)
-The `Point` class will have a constructor to input the 
+ * - 2
+   - Realize how to working on `pybind11` and how to implement CLI.
+ * - 3 
    - Implement CLI and doing `Pybind11` to bind "shell" classes.
-   - (??/26)
+ * - 4
+   - Implement GitHub Actions and working on `Polygon` and `Point` classes.
  * - 5
    - Implement "Input Polygon" feature
-   - (??/26)
  * - 6
    - Implement "Input Polygon" feature
-   - (??/26)
  * - 7
    - Implement "Input Polygon" feature
-   - (??/26)
  * - 8
    - Implement "Polygon Calculation" feature
-   - (??/26)
  * - 9
    - Implement "Polygon Calculation" feature
-   - (??/26)
  * - 10
    - Implement "Polygon Calculation" feature
-   - (??/26)
  * - 11
    - Implement "Polygon Bitwise Operation" feature
-   - (??/26)
  * - 12
    - Implement "Polygon Bitwise Operation" feature
-   - (??/26)
  * - 13
    - Implement "Polygon Bitwise Operation" feature
-   - (??/26)
  * - 14
    - Implement "Polygon Bitwise Operation" feature
-   - (??/26)
  * - 15
    - Implement "Polygon Bitwise Operation" feature
-   - (??/26)
  * - 16
    - Winding up
-   - (??/26)
 
 Reference
 -------------------------------------------------------------------------------

@@ -23,11 +23,13 @@ You can select what polygon you want to doing with the pervious polygon.
 How do we describe the polygon
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-We will trying to describe the polygon with point set. 
-In point set, it will contains lot of x and y pair 
+We will trying to describe the polygon with the ordered point set, it will
+store the vertex of the polygon clockwised or counterclockwised.
+
+In ordered point set, it will contains lot of x and y pair 
 to describe the vertex of polygon.
 
-The point set file may be Wavefront `.obj` file.
+The ordered point set file may be Wavefront `.obj` file.
 
 For example: A square may have these point: (0, 0), (3, 0), (3, 3) and (0, 3).
 

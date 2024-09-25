@@ -1,14 +1,14 @@
 sources = _vector.cpp
-executables = _vector$$(python3-config --extension-suffix)
+target = _vector$(shell python3-config --extension-suffix)
 
 CXX = g++
-CXXFLAGS = -O3 -Wall -shared -std=c++11 -fPIC $$(python3 -m pybind11 --includes)
+CXXFLAGS = -std=c++14 -O3 -Wall -shared -fPIC $(shell python3 -m pybind11 --includes) $(shell python3-config --includes --ldflags)
 
 all: $(sources)
-	$(CXX) $(CXXFLAGS) $(sources) -o $(executables)
+	$(CXX) $(CXXFLAGS) $(sources) -o $(target)
 
 test:
 	python3 -m pytest
 
 clean:
-	rm -rf $(executables) __pycache__ *.pyc
+	rm -rf $(executables) __pycache__ *.pyc *.so

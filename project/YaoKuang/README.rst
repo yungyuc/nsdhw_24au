@@ -1,25 +1,25 @@
 
-Optimized C++ Research<br>
+Optimized C++ Research
 ===================
-Proven techniques for heightened performance.<br>
+Proven techniques for heightened performance.
 
-Basic Information<br>
+Basic Information
 ----------------
-Proven techniques for heightened performance, and the ref code is house in its repository: https://github.com/SeattleCpp?tab=repositories<br>
+Proven techniques for heightened performance, and the ref code is house in its repository: https://github.com/SeattleCpp?tab=repositories
 
-Problem to Solve<br>
+Problem to Solve
 ----------------
-Exploit the following opportunities to improve code performance:<br>
+Exploit the following opportunities to improve code performance:
 
-• Use better libraries, and use libraries better.<br>
+• Use better libraries, and use libraries better.
 
-• Reduce memory allocation.<br>
+• Reduce memory allocation.
 
-• Reduce copying.<br>
+• Reduce copying.
 
-• Remove computation.<br>
+• Remove computation.
 
-• Increase concurrency.<br>
+• Increase concurrency.
 
 • Optimize memory management.
 
@@ -39,24 +39,31 @@ memory allocation, and loops.
 Schedule
 ----------------
 Week 1 (9/29):
-Use better libraries, and use libraries better.<br>
+Use better libraries, and use libraries better.
+
 Week 2 (10/6):
-Reduce memory allocation.<br>
+Reduce memory allocation.
+
 Week 3 (10/13):
-Reduce copying.<br>
+Reduce copying.
+
 Week 4 (10/20):
-Remove computation.<br>
+Remove computation.
+
 Week 5 (10/27):
-Increase concurrency.<br>
+Increase concurrency.
+
 Week 6 (11/03):
-Optimize memory management.<br>
+Optimize memory management.
+
 Week 7 (11/10):
-Refactoring week (and accommodation of overflown work).<br>
+Refactoring week (and accommodation of overflown work).
+
 Week 8 (11/17):
-Overflown work. <br>
+Overflown work. 
 
 References
 ----------------
-•	https://github.com/SeattleCpp?tab=repositories <br>
+•	https://github.com/SeattleCpp?tab=repositories 
 •	http://www.guntheroth.com/
 

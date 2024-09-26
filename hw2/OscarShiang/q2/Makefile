@@ -1,8 +1,9 @@
 PYTHON          := $(shell which python3)
 CXX             := g++
 CXXFLAGS        := -O3 -Wall -shared -std=c++11 -fPIC -Iinclude \
-                   $(shell ${PYTHON} -mpybind11 --includes)
-LDFLAGS         :=
+                   $(shell ${PYTHON} -mpybind11 --includes) \
+                   $(shell ${PYTHON}-config --includes)
+LDFLAGS         := $(shell ${PYTHON}-config --ldflags)
 
 LIB             := _vector$(shell ${PYTHON}-config --extension-suffix)
 OBJS            := vec.o

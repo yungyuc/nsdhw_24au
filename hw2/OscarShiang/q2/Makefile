@@ -4,7 +4,7 @@ CXXFLAGS        := -O3 -Wall -shared -std=c++11 -fPIC -Iinclude \
                    $(shell ${PYTHON} -mpybind11 --includes)
 LDFLAGS         :=
 
-LIB             := vec$(shell ${PYTHON}-config --extension-suffix)
+LIB             := _vector$(shell ${PYTHON}-config --extension-suffix)
 OBJS            := vec.o
 
 all: $(LIB)

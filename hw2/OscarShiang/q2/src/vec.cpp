@@ -26,7 +26,7 @@ float const & Vec::y() const {
     return y_;
 }
 
-PYBIND11_MODULE(vec, m) {
+PYBIND11_MODULE(_vector, m) {
     py::class_<Vec>(m, "Vec")
         .def(py::init<float, float>())
         .def("angle", &Vec::angle)

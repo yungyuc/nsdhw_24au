@@ -3,3 +3,5 @@
 *.so
 venv
 main
+__init__.py
+__pycache__

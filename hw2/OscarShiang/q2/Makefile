@@ -15,7 +15,9 @@ $(LIB): $(OBJS:%=src/%)
 %.o: %.cpp
 	$(CXX) -o $@ -c $^ $(CXXFLAGS)
 
-test:
+test: $(LIB)
+	touch tests/__init__.py
+	pytest
 .PHONY: test
 
 clean:

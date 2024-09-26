@@ -18,7 +18,7 @@ $(LIB): $(OBJS:%=src/%)
 
 test: $(LIB)
 	touch tests/__init__.py
-	pytest
+	python3 -m pytest
 .PHONY: test
 
 clean:

@@ -1,0 +1,4 @@
+[submodule "hw2/ExplorerRay/q2/extern/pybind11"]
+	path = hw2/ExplorerRay/q2/extern/pybind11
+	url = https://github.com/pybind/pybind11.git
+	branch = stable

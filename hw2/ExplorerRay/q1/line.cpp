@@ -24,18 +24,18 @@ size_t Line::size() const {
     return this->m_points.size();
 }
 
-float const &Line::x(size_t it) const {
+double const &Line::x(size_t it) const {
     return this->m_points[it].first;
 }
 
-float &Line::x(size_t it) {
+double &Line::x(size_t it) {
     return this->m_points[it].first;
 }
 
-float const &Line::y(size_t it) const { 
+double const &Line::y(size_t it) const { 
     return this->m_points[it].second; 
 };
 
-float &Line::y(size_t it) { 
+double &Line::y(size_t it) { 
     return this->m_points[it].second; 
 };

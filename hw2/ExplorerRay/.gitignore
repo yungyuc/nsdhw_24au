@@ -1,3 +1,6 @@
 *.o
+*.so
 q1/q1
 q1/result.txt
+q2/__pycache__
+q2/.pytest_cache

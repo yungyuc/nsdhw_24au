@@ -61,6 +61,9 @@ Follow the format to add your project:
 7. `yang2829 <https://github.com/yang2829>`__ for
    `Voronoi Diagram <yang2829/README.rst>`__:
    https://github.com/yang2829/Voronoi-Diagram
+8. `lebr0nli <https://github.com/lebr0nli>`__ for
+   `py-rbush <lebr0nli/README.rst>`__:
+   https://github.com/lebr0nli/py-rbush
 
 .. note::
 

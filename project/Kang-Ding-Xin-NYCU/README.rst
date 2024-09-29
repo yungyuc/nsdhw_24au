@@ -4,7 +4,7 @@ Basic Information
 PolygonAreaCalaulator
 
 `Kang-Ding-Xin-NYCU <https://github.com/Kang-Ding-Xin-NYCU>`__ for
-`PolygonAreaCalaulator <https://github.com/Kang-Ding-Xin-NYCU/PolygonAreaCaculator/README.rst>`__
+`PolygonAreaCalaulator <https://github.com/Kang-Ding-Xin-NYCU/PolygonAreaCaculator/blob/main/README.rst>`__
 :https://github.com/Kang-Ding-Xin-NYCU/PolygonAreaCaculator
 
 Problem to Solve

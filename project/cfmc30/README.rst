@@ -7,7 +7,7 @@ Basic Information
 =================
 
 FDCT is a Python library built using C++, designed to compute Discrete Cosine
-Transformations (DCT) and 2D invert discrete cosine transformation efficiently.
+Transformations (DCT) and invert discrete cosine transformation efficiently.
 By leveraging O(nlog(n)) complexity, FDCT improves performance through optimized
 parallelism and support for CPU SIMD(Single Instruction, Multiple Data) instructions.
 The library is suitable for large-scale data transformation tasks, especially in digital

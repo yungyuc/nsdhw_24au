@@ -2,7 +2,7 @@ CC     := g++
 CFLAGS := -O3 -Wall -shared -std=c++11 -fPIC
 EXEC   := _vector
 
-PY_INCUDES := $(shell python3 -m pybind11 --includes)
+PY_INCUDES := $(shell python3 -m pybind11 --includes) $(shell python3-config --includes)
 PY_SUFFIX  := $(shell python3-config --extension-suffix)
 
 

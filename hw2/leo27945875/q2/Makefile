@@ -13,7 +13,7 @@ all:
 	${CC} -O3 -Wall -shared -std=c++11 -fPIC ${PY_INCUDES} ${EXEC}.cpp -o ${EXEC}${PY_SUFFIX}
 
 test:
-	pytest
+	python3 -m pytest
 
 clean:
 	rm ${EXEC}${PY_SUFFIX}

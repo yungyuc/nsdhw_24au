@@ -1,6 +1,5 @@
 CXX = g++
-CXXFLAGS = -O3 -std=c++11 -Wall -Werror -Wextra 
-CXXFLAGS += -shared -fPIC $(shell python3 -m pybind11 --includes) $(python3-config --includes --ldflags)
+CXXFLAGS = -O3 -std=c++11 -Wall -Werror -Wextra -shared -fPIC $(shell python3 -m pybind11 --includes) $(shell python3-config --includes --ldflags)
 LIB = _vector$(shell python3-config --extension-suffix)
 
 

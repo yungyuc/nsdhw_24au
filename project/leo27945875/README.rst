@@ -56,6 +56,8 @@ API Description
     
 **For sparse matrices:**
 
+I will perform the calculation based on the Compressed Sparse Row (CSR) format. 
+
 .. code-block:: python
     
     # Solve a large-scale linear system Ax = b.
@@ -65,8 +67,22 @@ API Description
     
     mat_A: sp.csr_matrix = ...
     vec_b: sp.csr_matrix = ...
-    vec_x: sp.csr_matrix = pyGMRES.solve_sparse(mat_A, vec_b)
-	
+    vec_x: sp.csr_matrix = pyGMRES.solve_sparse(
+      mat_A.indptr, mat_A.indices, mat_A.data, mat_A.shape
+      vec_b.indptr, vec_b.indices, vec_b.data, vec_b.shape
+    )
+
+The data structure stored in C++ (vectors are also treated as 2D matrices):
+
+.. code-block:: C++
+
+    class SparseMat {
+        unsigned long n_row, n_col;
+        unsigned long *row_ptrs;
+        unsigned long *col_inds;
+        double        *nnz_vals;
+    };
+      
 
 Engineering Infrastructure
 ==========================

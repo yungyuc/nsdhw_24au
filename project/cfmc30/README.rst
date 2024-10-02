@@ -26,8 +26,9 @@ The DCT is widely used in image compression(JPEG), audio compression(MP3), and o
 processing tasks. However, as data sizes grow, performing DCT on high-resolution images or
 large datasets becomes vomputationaly expensive.
 
-FDCT  provides a fast 1D and 2D DCT algorithm that brings down the time complexity to O(nlog(n)) using
-parallelism and SIMD to take advantage of modern multicore processors.
+FDCT  provides a fast 1D and 2D DCT algorithm that brings down the time complexity
+to O(nlog(n)) using parallelism and SIMD to take advantage of modern
+multicore processors.
 
 
 Prospective Users

@@ -64,6 +64,9 @@ Follow the format to add your project:
 8. `lebr0nli <https://github.com/lebr0nli>`__ for
    `py-rbush <lebr0nli/README.rst>`__:
    https://github.com/lebr0nli/py-rbush
+9. `Bichen07 <https://github.com/Bichen07>`__ for
+   `VoronoiHybrid <Bichen07/README.rst>`__:
+   https://github.com/Bichen07/VoronoiHybrid
 
 .. note::
 

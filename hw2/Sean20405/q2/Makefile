@@ -1,13 +1,14 @@
-CXX = g++
-PYTHON_SUFFIX = $(python3-config --extension-suffix)
+CXX := g++
+CXX_FLAGS := -O3 -Wall -shared -std=c++11 -fPIC $(shell python3 -m pybind11 --includes) $(shell python3-config --ldflags --includes)
+OUTPUT := _vector$(shell python3-config --extension-suffix)
 
 .PHONY: default
 default: build
-build: calculate_angle.cpp
-	$(CXX) -O3 -Wall -shared -std=c++11 -fPIC `python3 -m pybind11 --includes` calculate_angle.cpp -o calculate_angle$(PYTHON_SUFFIX)
+build: _vector.cpp
+	$(CXX) $(CXX_FLAGS) $^ -o $(OUTPUT)
 
 .PHONY: test
-test: test_*.py calculate_angle$(PYTHON_SUFFIX)
+test: test_*.py $(OUTPUT)
 	pytest
 
 .PHONY: clean

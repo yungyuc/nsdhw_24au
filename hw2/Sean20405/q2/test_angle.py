@@ -1,5 +1,5 @@
 import pytest
-import calculate_angle
+import _vector
 import math
 import random
 
@@ -19,4 +19,4 @@ def test_answer():
         # p2 = (random.random()*10, random.random()*10)
         # p1 = (1, 0)
         # p2 = (0, 1)
-        assert calculate_angle.calculate_angle(p1, p2) == pytest.approx(getAns(p1, p2))
+        assert _vector.calculateAngle(p1, p2) == pytest.approx(getAns(p1, p2))

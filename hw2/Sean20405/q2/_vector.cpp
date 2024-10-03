@@ -5,7 +5,7 @@
 
 namespace py = pybind11;
 
-double calculate_angle(std::pair<double, double> p1, std::pair<double, double> p2) {
+double calculateAngle(std::pair<double, double> p1, std::pair<double, double> p2) {
     double inner_product = p1.first * p2.first + p1.second * p2.second;
     double p1_norm = std::sqrt(p1.first * p1.first + p1.second * p1.second);
     double p2_norm = std::sqrt(p2.first * p2.first + p2.second * p2.second);
@@ -13,8 +13,8 @@ double calculate_angle(std::pair<double, double> p1, std::pair<double, double> p
     return angle;
 }
 
-PYBIND11_MODULE(calculate_angle, m) {
-    m.doc() = "Calculate the angle of two vectors."; // optional module docstring
+PYBIND11_MODULE(_vector, m) {
+    m.doc() = "Module for vectors."; // optional module docstring
 
-    m.def("calculate_angle", &calculate_angle, "Calculate the angle of two vectors.");
+    m.def("calculateAngle", &calculateAngle, "Calculate the angle of two vectors.");
 }

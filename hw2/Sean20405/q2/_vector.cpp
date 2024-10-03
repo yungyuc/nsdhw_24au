@@ -5,11 +5,15 @@
 
 namespace py = pybind11;
 
-double calculateAngle(std::pair<double, double> p1, std::pair<double, double> p2) {
-    double inner_product = p1.first * p2.first + p1.second * p2.second;
-    double p1_norm = std::sqrt(p1.first * p1.first + p1.second * p1.second);
-    double p2_norm = std::sqrt(p2.first * p2.first + p2.second * p2.second);
-    double angle = std::acos(inner_product / (p1_norm * p2_norm));
+double calculateAngle(std::pair<double, double> v1, std::pair<double, double> v2) {
+    if ((v1.first == 0 && v1.second == 0) || (v2.first == 0 && v2.second == 0)) {
+        throw std::invalid_argument("The vectors should not be zero vector.");
+    }
+
+    double inner_product = v1.first * v2.first + v1.second * v2.second;
+    double v1_norm = std::sqrt(v1.first * v1.first + v1.second * v1.second);
+    double v2_norm = std::sqrt(v2.first * v2.first + v2.second * v2.second);
+    double angle = std::acos(inner_product / (v1_norm * v2_norm));
     return angle;
 }
 

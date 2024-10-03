@@ -11,7 +11,7 @@ using namespace std;
 class Line {
 public:
     // 預設建構函數
-    Line() = default;
+    Line();
 
     // 初始化指定大小的建構函數
     Line(size_t size) : x_coords(size), y_coords(size) {}
@@ -21,17 +21,7 @@ public:
 
     // 移動建構函數
     Line(Line&& other) noexcept : x_coords(std::move(other.x_coords)), y_coords(std::move(other.y_coords)) {}
-
-    // 複製指派運算子
-    Line& operator=(const Line& other) {
-        if (this != &other) {
-            x_coords = other.x_coords;
-            y_coords = other.y_coords;
-        }
-        return *this;
-    }
-
-    // 移動指派運算子
+    
     Line& operator=(Line&& other) noexcept {
         if (this != &other) {
             x_coords = std::move(other.x_coords);
@@ -67,8 +57,8 @@ public:
     }
 
 private:
-    std::vector<float> x_coords; // 存儲 x 座標的 STL 容器
-    std::vector<float> y_coords; // 存儲 y 座標的 STL 容器
+    vector<float> x_coords; // 存儲 x 座標的 STL 容器
+    vector<float> y_coords; // 存儲 y 座標的 STL 容器
 };
 
 

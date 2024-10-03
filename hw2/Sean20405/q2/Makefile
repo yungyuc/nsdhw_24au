@@ -9,7 +9,7 @@ build: _vector.cpp
 
 .PHONY: test
 test: test_*.py $(OUTPUT)
-	pytest
+	python3 -m pytest
 
 .PHONY: clean
 clean:

@@ -50,8 +50,9 @@ are:
 
 #. Input/Output
 
-   * FDCT accepts 2D NumPy array as input, where each element represents a
-     pixel intensity (for images) or a signal value.
+   * FDCT accepts 2D NumPy array as input where each element represents a
+     pixel intensity (for images) or a signal value. The array should be in row-major,
+     also known as C-style order, which is the default arrangement in NumPy.
 
    * The library outputs the DCT result as another NumPy array of the same dimensions.
 

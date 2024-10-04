@@ -6,6 +6,13 @@ EigenApproWithGersgorin
 Basic Information
 =================
 
+## Term Project: Eigenvalue Approximation Using Gersgorin Theorem
+This project focuses on approximating eigenvalues of large matrices using the Gersgorin Circle Theorem.
+The approach includes dimensionality reduction techniques like PCA and SVD. 
+My goal is to first write my own PCA and SVD methods and aim for them to be faster than existing packages. 
+After learning how to implement PCA and SVD, I hope to apply my mathematical knowledge of the Gersgorin Theorem 
+to see if the approximation method can be faster. 
+The repository contains the code and detailed explanation for applying this method to practical datasets.
 GitHub repository :https://github.com/LienShark/EigenApproWithGersgorin
 About:
   First step:
@@ -25,7 +32,12 @@ About:
     I have the opportunity to avoid the tedious calculation of eigenvalues ​​and further do PCA
 
   Final step:
-    I will compare two method, and analysis it! 
+    I will compare two method, and analysis it!
+    And the baseline will be:
+      1.SVD Baseline: The Singular Value Decomposition (SVD) baseline is implemented using the numpy.linalg.svd() 
+      function from the NumPy library
+      2.PCA Baseline: For Principal Component Analysis (PCA), we use the sklearn.decomposition.PCA() 
+      function from the Scikit-learn library.
 
 Problem to Solve
 ================
@@ -68,7 +80,15 @@ System Architecture
 ===================
 
 1.input and output
-  input:(massive) matrix (massive I mean is 1 million row or column , since this is approximately the size of the LLM model )
+  input:(massive) matrix , When inputting a larger matrix, 
+  I plan to use either Incremental SVD or memory mapping to address memory limitations. 
+  I am not yet certain which approach will be better, so I will experiment to find the optimal solution. 
+  The goal is to determine which method is more suitable for handling large matrix inputs.
+  Regarding the matrix size of one million rows, I derived this number from large language model datasets. 
+  Initially, I will experiment with smaller matrices to ensure feasibility. However, 
+  my ultimate goal is to work with matrices of this scale. If this proves too impractical, 
+  I would be open to suggestions and feedback on how to adjust my approach.
+
   output:
     1.The low-dimensional matrix reduced by PCA and SVD with general solution(means not approximate)
     2.The approximate eigenvalues ​​estimated by Gersgorin Theorem, and the low-dimensional matrix reduced by PCA

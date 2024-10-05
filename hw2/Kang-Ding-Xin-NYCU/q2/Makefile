@@ -1,6 +1,6 @@
 CXX = g++
-CXXFLAGS =  -O3 -Wall -shared -std=c++11 -fPIC $(shell python3 -m pybind11 --includes)
-TARGET = _vector
+CXXFLAGS =  -O3 -Wall -shared -std=c++11 -fPIC $(shell python3 -m pybind11 --includes) $(shell python3-config --includes --ldflags)
+TARGET = _vector.so
 
 .PHONY: default clean
 

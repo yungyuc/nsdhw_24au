@@ -16,7 +16,7 @@ clean:
 
 # Build the shared object from the source file
 ${LIB}: ${source}
-	$(CXX) $(CXXFLAGS) ${source} -o ${LIB} 
+	$(CXX) $(CXXFLAGS) ${source} `python3-config --includes --ldflags` -o ${LIB} 
 
 # Declare phony targets
 .PHONY: clean test

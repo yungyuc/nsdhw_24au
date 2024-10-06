@@ -17,4 +17,4 @@ check: main
 	./main > result.txt
 
 clean:
-	rm -f main Line.o main.o result.txt
+	rm -f main line.o main.o result.txt line.hpp Makefile main.cpp line.cpp

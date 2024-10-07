@@ -1,5 +1,7 @@
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 #include <cmath>
+
 int add(int i, int j) { return i + j; }
 
 double ang(double x1, double y1, double x2, double y2) {
@@ -10,7 +12,7 @@ double ang(double x1, double y1, double x2, double y2) {
   return acos(cos);
 }
 
-PYBIND11_MODULE(fdct, m) {
+PYBIND11_MODULE(_vector, m) {
     m.def("add", &add, "A function which adds two numbers");
     m.def("ang", &ang, "Compute angle between two vector.");
 }

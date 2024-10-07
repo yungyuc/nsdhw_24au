@@ -67,6 +67,9 @@ Follow the format to add your project:
 9. `OscarShiang <https://github.com/OscarShiang>`__ for
    `PicoLA <https://github.com/OscarShiang/PicoLA>`__:
    https://github.com/OscarShiang/PicoLA
+10. `ntut-xuan <https://github.com/ntut-xuan>`__ for
+    `PolygonDust <ntut-xuan/README.rst>`__:
+    https://github.com/ntut-xuan/PolygonDust
 
 .. note::
 

@@ -41,6 +41,7 @@ Engineering Infrastructure
 
 * build : make
 * version control : git
+* testing and CI : git actions
 
 Schedule
 ========

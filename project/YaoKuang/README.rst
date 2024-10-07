@@ -1,4 +1,4 @@
-SimpleArray for Multi-Dimensional Field#
+SimpleArray for Multi-Dimensional Field
 
 (Modmesh) SimpleArray: a simple C++ library for multi-dimensional arrays that provide seamless interface with numpy ndarray. Download this file.
 

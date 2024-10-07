@@ -39,6 +39,9 @@ Follow the format to add your project:
 1. `github_account_name <https://github.com/github_account_name>`__ for
    `Project subject <github_account_name/README.rst>`__:
    https://github.com/github_account_name/project_name
+14. `Kang-Ding-Xin-NYCU <https://github.com/Kang-Ding-Xin-NYCU>`__ for
+    `PolygonAreaCaculator <Kang-Ding-Xin-NYCU/README.rst>`__:
+    https://github.com/Kang-Ding-Xin-NYCU/PolygonAreaCaculator
 
 1. `ExplorerRay <https://github.com/ExplorerRay>`__ for
    `onnxinfo <ExplorerRay/README.md>`__:

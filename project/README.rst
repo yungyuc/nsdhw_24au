@@ -70,10 +70,13 @@ Follow the format to add your project:
 10. `lebr0nli <https://github.com/lebr0nli>`__ for
     `py-rbush <lebr0nli/README.rst>`__:
     https://github.com/lebr0nli/py-rbush
-11. `ntut-xuan <https://github.com/ntut-xuan>`__ for
+11. `leo27945875 <https://github.com/leo27945875>`__ for
+    `pyGMRES <leo27945875/README.rst>`__:
+    https://github.com/leo27945875/pyGMRES
+12. `ntut-xuan <https://github.com/ntut-xuan>`__ for
     `PolygonDust <ntut-xuan/README.rst>`__:
     https://github.com/ntut-xuan/PolygonDust
-12. `yang2829 <https://github.com/yang2829>`__ for
+13. `yang2829 <https://github.com/yang2829>`__ for
     `Voronoi Diagram <yang2829/README.rst>`__:
     https://github.com/yang2829/Voronoi-Diagram
 

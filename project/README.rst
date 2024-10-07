@@ -39,7 +39,7 @@ Follow the format to add your project:
 1. `github_account_name <https://github.com/github_account_name>`__ for
    `Project subject <github_account_name/README.rst>`__:
    https://github.com/github_account_name/project_name
-   https://github.com/ntut-xuan/PolygonDust
+
 1. `ExplorerRay <https://github.com/ExplorerRay>`__ for
    `onnxinfo <ExplorerRay/README.md>`__:
    https://github.com/ExplorerRay/onnxinfo
@@ -61,8 +61,15 @@ Follow the format to add your project:
 7. `yang2829 <https://github.com/yang2829>`__ for
    `Voronoi Diagram <yang2829/README.rst>`__:
    https://github.com/yang2829/Voronoi-Diagram
-8. `ntut-xuan <https://github.com/ntut-xuan>`__ for
-   `PolygonDust <ntut-xuan/README.rst>`__:
+8. `lebr0nli <https://github.com/lebr0nli>`__ for
+   `py-rbush <lebr0nli/README.rst>`__:
+   https://github.com/lebr0nli/py-rbush
+9. `OscarShiang <https://github.com/OscarShiang>`__ for
+   `PicoLA <https://github.com/OscarShiang/PicoLA>`__:
+   https://github.com/OscarShiang/PicoLA
+10. `ntut-xuan <https://github.com/ntut-xuan>`__ for
+    `PolygonDust <ntut-xuan/README.rst>`__:
+    https://github.com/ntut-xuan/PolygonDust
 
 .. note::
 

@@ -58,28 +58,28 @@ Correctness will be verified by using numpy: computation carried out in C++ shou
 
 Schedule
 
-Week 1 (mm/dd):
+Week 1 (9/29):
 Review the existing unit tests and CI runs. Start the presentation skeleton. Contents will be added to the presentation along with the code development.
 
-Week 2 (mm/dd):
+Week 2 (10/6):
 Create a universal Python constructor (or factory function) for the different fundamental element types.
 
-Week 3 (mm/dd):
+Week 3 (10/13):
 Make automatic conversion between ndarray in Python and the SimpleArray template in C++.
 
-Week 4 (mm/dd):
+Week 4 (10/20):
 Refactoring week (and accommodation of overflown work).
 
-Week 5 (mm/dd):
+Week 5 (10/27):
 Make a centralized memory manager for the arrays and the underneath buffers.
 
-Week 6 (mm/dd):
+Week 6 (11/3):
 Develop a simple scoped-based profiling system that hooks into the pybind11 wrapping code for modmesh and SimpleArray.
 
-Week 7 (mm/dd):
+Week 7 (11/10):
 Refactoring week (and accommodation of overflown work).
 
-Week 8 (mm/dd):
+Week 8 (11/27):
 Overflown work. If everything goes well, prototype a 2D unstructured mesh by porting from the old SOLVCON code base.
 
 References

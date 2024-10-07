@@ -22,9 +22,8 @@ System Architecture
 
 API Description
 ===============
-code
 
-.. code:: c++
+.. code-block:: c++
 
 class polygon {
 public:

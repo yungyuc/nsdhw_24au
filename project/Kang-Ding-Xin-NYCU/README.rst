@@ -10,7 +10,8 @@ PolygonAreaCalaulator
 Problem to Solve
 ================
 
-* Easily get the the area of polygons and the image of polygons
+* Easily get the the area of polygons and the image of polygons and can calculate the polygon with hole
+* connect the one inner polygon vertice to one outer polygon vertice(cutline) and change the calculate direction when move from outer polygon to inner polygon(eg. counterclockwise to clockwise) 
 
 System Architecture
 ===================
@@ -47,7 +48,7 @@ Schedule
 * Week 1 (09/20):survey the method to implement the area calculation and drawing image
 * Week 2 (09/27):setting the environment to implement the functions
 * Week 3 (10/04):write c++ code to implement the area calaulation
-* Week 4 (10/11):write python to implement the image drawing
+* Week 4 (10/11):write python to implement the image drawing & try to write CI and testing to make sure the major function can run properly
 * Week 5 (10/18):try to find a way to accelerate the computing
 * Week 6 (10/25):try to add some extra function
 * Week 7 (11/01):fix any problem

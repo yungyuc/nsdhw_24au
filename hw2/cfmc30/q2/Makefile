@@ -14,7 +14,7 @@ $(BUILD_DIR)/Makefile:
 
 test: SO_FILES test_vector_math.py
 	@echo "Running pytest..."
-	pytest
+	env PYTHONPATH=".:$PYTHONPATH" python3 -m pytest -v
 
 .PHONY: clean
 clean:

@@ -49,6 +49,7 @@ Multi-dimensional element accessors will be provided in C++ and Python. The C++ 
 SimpleArray can be constructed from C++ and Python. When it is constructed from Python, element type names will be part of the (Python) class.
 
 Engineering Infrastructure
+
 The existing unit-testing framework in the modmesh system will be used. Unit tests will be provided in Python. Public API will be wrapped to Python for testing. Github Action is configured for running the tests regularly and for each check-in and pull request. See https://github.com/solvcon/modmesh/actions for the CI history.
 
 All new features developed will have corresponding unit tests.

@@ -1,69 +1,78 @@
-
-Optimized C++ Research
-===================
-Proven techniques for heightened performance.
+SimpleArray for Multi-Dimensional Field
+(Modmesh) SimpleArray: a simple C++ library for multi-dimensional arrays that provide seamless interface with numpy ndarray. Download this file.
 
 Basic Information
-----------------
-Proven techniques for heightened performance, and the ref code is house in its repository: https://github.com/SeattleCpp?tab=repositories
+SimpleArray is part of modmesh, and the code is house in its repository: https://github.com/solvcon/modmesh
+
+Numerical analysis and high-performance computing (HPC) heavily rely on multi-dimensional arrays, or contiguous memory buffers on which meta data attach. For the case of the modmesh library, it focuses on field calculations. There are two major styles for storing the (multi-dimensional) field data in arrays:
+
+For an N-dimensional field, use an N-dimensional array. Each of the axis in the field corresponds to a distinct axis in the array.
+
+Store the coordinates in an M x N arrays, where M is the number of coordinates and N is the number of dimensions. Use lookup tables (LUT) to keep track of the connectivities among the coordinates as well as the multi-dimensional field.
 
 Problem to Solve
-----------------
-Exploit the following opportunities to improve code performance:
+The primary problem SimpleArray tries to solve is to share memory buffers between Python (numpy) and C++.
 
-• Use better libraries, and use libraries better.
+Multi-dimensional arrays are high-speed data structure optimized for reading and writing but slow for resizing. Programmers try to minimize array copying because it is time-consuming. Numpy provides a fast and easy-to-use implementation of the multi-dimensional array, which is called numpy.ndarray (N-dimensional array). However, using ndarray must include the whole (C)Python and numpy runtime, which depends on the Python memory management system.
 
-• Reduce memory allocation.
-
-• Reduce copying.
-
-• Remove computation.
-
-• Increase concurrency.
-
-• Optimize memory management.
+Because modmesh focuses on field calculations, SimpleArray must make them fast and easy. Field can be scalar or vector, and SimpleArray should provide fundamental helpers for both. The array may also be used as building blocks for the internal buffers of other constructs like trees optimized for reading.
 
 Prospective Users
-----------------
-It is difficult for developers to reason about the effects of individual coding decisions on the overall performance of a large program. Thus, practically all complete programs contain significant opportunities for optimization. Even code produced by experienced teams with plenty of time can often be sped up by a factor of 30%–100%.
+The field calculations by the modmesh library are for computational mechanics. Numerical methods like the space-time conservation element and solution element method, finite volume method, finite element method, etc., may take advantage of the array features.
 
 System Architecture
-----------------
-The mix of features in C++ provides a continuum of implementation choices ranging
-from hands-off automation and expressiveness on one hand, to increasingly fine con‐
-trol over performance on the other hand. It is this degree of choice that makes it pos‐
-sible to tune C++ programs to meet requirements for performance.
-C++ has its “usual suspects” for optimization hot spots, including function calls,
-memory allocation, and loops. 
+Modmesh SimpleArray will be developed as a simple counterpart in C++ and does not depend on Python. It can share the memory buffer with numpy, or use the memory buffer managed by numpy ndarray. Users are enabled to take an ndarray to C++ without data copy, and use C++ to write fast code operating the memory buffer, and have the results available in Python.
+
+Note
+
+By simple, SimpleArray does not try to implement all features of ndarray.
+
+A class template SimpleArray is holding a smart pointer to an untyped memory buffer as well as an object for the array meta data, including shape, stride, etc. The untyped memory buffer is managed by a class ConcreteBuffer.
+
+In C++, because SimpleArray is a class template, there is not runtime overhead in determining the element types.
+
+In Python, the C++ class template SimpleArray will have multiple instantiations for each of the fundamental types supported.
+
+It is not sure how to supported composition types (struct). At the moment, it is left unspecified.
+
+API Description
+Both SimpleArray and ConcreteBuffer are under the namespace modmesh. They will have constructors defined, including copy and movement.
+
+Multi-dimensional element accessors will be provided in C++ and Python. The C++ element accessors will be implemented for no overheads, but the Python counterparts will not try to optimize. For high-speed access of the memory buffers from Python, SimpleArray will provide an ndarray wrapper.
+
+SimpleArray can be constructed from C++ and Python. When it is constructed from Python, element type names will be part of the (Python) class.
+
+Engineering Infrastructure
+The existing unit-testing framework in the modmesh system will be used. Unit tests will be provided in Python. Public API will be wrapped to Python for testing. Github Action is configured for running the tests regularly and for each check-in and pull request. See https://github.com/solvcon/modmesh/actions for the CI history.
+
+All new features developed will have corresponding unit tests.
+
+Correctness will be verified by using numpy: computation carried out in C++ should produce exactly identical results to that in numpy.
 
 Schedule
-----------------
-Week 1 (9/29):
-Use better libraries, and use libraries better.
+Week 1 (mm/dd):
+Review the existing unit tests and CI runs. Start the presentation skeleton. Contents will be added to the presentation along with the code development.
 
-Week 2 (10/6):
-Reduce memory allocation.
+Week 2 (mm/dd):
+Create a universal Python constructor (or factory function) for the different fundamental element types.
 
-Week 3 (10/13):
-Reduce copying.
+Week 3 (mm/dd):
+Make automatic conversion between ndarray in Python and the SimpleArray template in C++.
 
-Week 4 (10/20):
-Remove computation.
-
-Week 5 (10/27):
-Increase concurrency.
-
-Week 6 (11/03):
-Optimize memory management.
-
-Week 7 (11/10):
+Week 4 (mm/dd):
 Refactoring week (and accommodation of overflown work).
 
-Week 8 (11/17):
-Overflown work. 
+Week 5 (mm/dd):
+Make a centralized memory manager for the arrays and the underneath buffers.
+
+Week 6 (mm/dd):
+Develop a simple scoped-based profiling system that hooks into the pybind11 wrapping code for modmesh and SimpleArray.
+
+Week 7 (mm/dd):
+Refactoring week (and accommodation of overflown work).
+
+Week 8 (mm/dd):
+Overflown work. If everything goes well, prototype a 2D unstructured mesh by porting from the old SOLVCON code base.
 
 References
-----------------
-•	https://github.com/SeattleCpp?tab=repositories 
-•	http://www.guntheroth.com/
-
+SOLVCON (part of it is a predecessor of modmesh): https://github.com/solvcon/solvcon

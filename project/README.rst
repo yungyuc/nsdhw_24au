@@ -82,6 +82,9 @@ Follow the format to add your project:
 14. `yang2829 <https://github.com/yang2829>`__ for
     `Voronoi Diagram <yang2829/README.rst>`__:
     https://github.com/yang2829/Voronoi-Diagram
+15. `LienShark <https://github.com/LienShark>`__ for
+    `EigenApproWithGersgorin <LienShark/README.rst>`__:
+    https://github.com/LienShark/EigenApproWithGersgorin
 
 .. note::
 

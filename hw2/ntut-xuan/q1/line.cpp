@@ -1,4 +1,5 @@
 #include "line.hpp"
+#include <string>
 #include <utility>
 
 Line::Line(Line const &line) : x_datas(line.x_datas), y_datas(line.y_datas) {

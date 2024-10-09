@@ -47,7 +47,7 @@ Follow the format to add your project:
    `PolygonAreaCaculator <Kang-Ding-Xin-NYCU/README.rst>`__:
    https://github.com/Kang-Ding-Xin-NYCU/PolygonAreaCaculator
 3. `OscarShiang <https://github.com/OscarShiang>`__ for
-   `PicoLA <OscarShiang/PicoLA/README.rst>`__:
+   `PicoLA <OscarShiang/README.rst>`__:
    https://github.com/OscarShiang/PicoLA
 4. `Sean20405 <https://github.com/Sean20405>`__ for
    `fftconvolve2d <Sean20405/README.rst>`__:

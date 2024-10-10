@@ -110,3 +110,4 @@ References
 ----------
 1. FAISS (Facebook AI Similarity Search): https://github.com/facebookresearch/faiss
 2. RAG : https://arxiv.org/abs/2005.11401
+3. FAISS index structures: https://faiss.ai/cpp_api/struct/structfaiss_1_1Index.html

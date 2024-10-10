@@ -82,6 +82,9 @@ Follow the format to add your project:
 14. `yang2829 <https://github.com/yang2829>`__ for
     `Voronoi Diagram <yang2829/README.rst>`__:
     https://github.com/yang2829/Voronoi-Diagram
+15. `Bichen07 <https://github.com/Bichen07>`__ for
+    `VoronoiHybrid <Bichen07/README.rst>`__:
+    https://github.com/Bichen07/VoronoiHybrid
 
 .. note::
 

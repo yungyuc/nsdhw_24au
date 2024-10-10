@@ -40,18 +40,34 @@ Follow the format to add your project:
    `Project subject <github_account_name/README.rst>`__:
    https://github.com/github_account_name/project_name
 
-1. `ExplorerRay <https://github.com/ExplorerRay>`__ for
+1. `Bichen07 <https://github.com/Bichen07>`__ for
+   `VoronoiHybrid <Bichen07/README.rst>`__:
+   https://github.com/Bichen07/VoronoiHybrid
+2. `ExplorerRay <https://github.com/ExplorerRay>`__ for
    `onnxinfo <ExplorerRay/README.md>`__:
    https://github.com/ExplorerRay/onnxinfo
-2. `chris901003 <https://github.com/chris901003>`__ for
+3. `Kang-Ding-Xin-NYCU <https://github.com/Kang-Ding-Xin-NYCU>`__ for
+   `PolygonAreaCaculator <Kang-Ding-Xin-NYCU/README.rst>`__:
+   https://github.com/Kang-Ding-Xin-NYCU/PolygonAreaCaculator
+4. `OscarShiang <https://github.com/OscarShiang>`__ for
+   `PicoLA <OscarShiang/README.rst>`__:
+   https://github.com/OscarShiang/PicoLA
+5. `Sean20405 <https://github.com/Sean20405>`__ for
+   `fftconvolve2d <Sean20405/README.rst>`__:
+   https://github.com/Sean20405/fftconvolve2d
+6. `cfmc30 <https://github.com/cfmc30>`__ for
+   `FDCT <cfmc30/README.rst>`__:
+   https://github.com/cfmc30/FDCT
+7. `chris901003 <https://github.com/chris901003>`__ for
    `PoissonNet <chris901003/README.rst>`__:
    https://github.com/chris901003/PoissonNet
-3. `hfkfo <https://github.com/hfkfo>`__ for
+8. `hfkfo <https://github.com/hfkfo>`__ for
    `Boolean_Operations_on_Polygons <hfkfo/README.rst>`__:
    https://github.com/hfkfo/Boolean_Operations_on_Polygons
-4. `hsiehbingting <https://github.com/hsiehbingting>`__ for
+9. `hsiehbingting <https://github.com/hsiehbingting>`__ for
    `VisualizeWifi <hsiehbingting/README.rst>`__:
    https://github.com/hsiehbingting/VisualizeWifi
+<<<<<<< project_proposal
 5. `ian31174117 <https://github.com/ian31174117>`_ for
    `SimpleEigenCalculator <ian31174117/README.rst>`__:
    https://github.com/ian31174117/SimpleEigenCalculator
@@ -64,7 +80,26 @@ Follow the format to add your project:
 8. `YaoKuang <https://github.com/YaoKuang>`__ for
    `project_proposal <YaoKuang/README.rst>`__:
    https://github.com/YaoKuang/Queue-for-multiprocessing
-
+=======
+10. `ian31174117 <https://github.com/ian31174117>`_ for
+    `SimpleEigenCalculator <ian31174117/README.rst>`__:
+    https://github.com/ian31174117/SimpleEigenCalculator
+11. `jteng2127 <https://github.com/jteng2127>`__ for
+    `pybezier <jteng2127/README.rst>`__:
+    https://github.com/jteng2127/pybezier
+12. `lebr0nli <https://github.com/lebr0nli>`__ for
+    `py-rbush <lebr0nli/README.rst>`__:
+    https://github.com/lebr0nli/py-rbush
+13. `leo27945875 <https://github.com/leo27945875>`__ for
+    `pyGMRES <leo27945875/README.rst>`__:
+    https://github.com/leo27945875/pyGMRES
+14. `ntut-xuan <https://github.com/ntut-xuan>`__ for
+    `PolygonDust <ntut-xuan/README.rst>`__:
+    https://github.com/ntut-xuan/PolygonDust
+15. `yang2829 <https://github.com/yang2829>`__ for
+    `Voronoi Diagram <yang2829/README.rst>`__:
+    https://github.com/yang2829/Voronoi-Diagram
+>>>>>>> project
 .. note::
 
   Append your project after the first example entry.  Do not delete the example

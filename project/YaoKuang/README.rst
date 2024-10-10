@@ -6,12 +6,12 @@
 
 **Basic Information**
 
-Queue for multiprocessing, and the ref code is house in its repository: https://github.com/python/cpython/blob/main/Lib/multiprocessing/queues.py
+Queue for multiprocessing(Process-based parallelism), and the ref code is house in its repository: https://github.com/python/cpython/blob/main/Lib/multiprocessing/queues.py
 
 **Problem to Solve**
 
 Exploit the following opportunities to improve code performance:
-• Resource sharing between multiple process
+• Resource sharing between multiple process.
 
 **Prospective Users**
 
@@ -60,7 +60,9 @@ Overflown work.
 
 •	https://github.com/python/cpython/blob/main/Lib/multiprocessing/queues.py
 
-•	Using Lists as Queues
+•	https://docs.python.org/3/library/multiprocessing.html
+
+
 
 
 

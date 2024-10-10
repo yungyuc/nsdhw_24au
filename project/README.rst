@@ -49,48 +49,48 @@ Follow the format to add your project:
 3. `Kang-Ding-Xin-NYCU <https://github.com/Kang-Ding-Xin-NYCU>`__ for
    `PolygonAreaCaculator <Kang-Ding-Xin-NYCU/README.rst>`__:
    https://github.com/Kang-Ding-Xin-NYCU/PolygonAreaCaculator
-4. `OscarShiang <https://github.com/OscarShiang>`__ for
+4. `LienShark <https://github.com/LienShark>`__ for
+   `EigenApproWithGersgorin <LienShark/README.rst>`__:
+   https://github.com/LienShark/EigenApproWithGersgorin
+5. `OscarShiang <https://github.com/OscarShiang>`__ for
    `PicoLA <OscarShiang/README.rst>`__:
    https://github.com/OscarShiang/PicoLA
-5. `SUNGOD3 <https://github.com/SUNGOD3>`__ for
-    `AdvancedVectorSearch <SUNGOD3/README.rst>`__:
-    https://github.com/SUNGOD3/AdvancedVectorSearch
-6. `Sean20405 <https://github.com/Sean20405>`__ for
+6. `SUNGOD3 <https://github.com/SUNGOD3>`__ for
+   `AdvancedVectorSearch <SUNGOD3/README.rst>`__:
+   https://github.com/SUNGOD3/AdvancedVectorSearch
+7. `Sean20405 <https://github.com/Sean20405>`__ for
    `fftconvolve2d <Sean20405/README.rst>`__:
    https://github.com/Sean20405/fftconvolve2d
-7. `cfmc30 <https://github.com/cfmc30>`__ for
+8. `cfmc30 <https://github.com/cfmc30>`__ for
    `FDCT <cfmc30/README.rst>`__:
    https://github.com/cfmc30/FDCT
-8. `chris901003 <https://github.com/chris901003>`__ for
+9. `chris901003 <https://github.com/chris901003>`__ for
    `PoissonNet <chris901003/README.rst>`__:
    https://github.com/chris901003/PoissonNet
-9. `hfkfo <https://github.com/hfkfo>`__ for
-   `Boolean_Operations_on_Polygons <hfkfo/README.rst>`__:
-   https://github.com/hfkfo/Boolean_Operations_on_Polygons
-10. `hsiehbingting <https://github.com/hsiehbingting>`__ for
+10. `hfkfo <https://github.com/hfkfo>`__ for
+    `Boolean_Operations_on_Polygons <hfkfo/README.rst>`__:
+    https://github.com/hfkfo/Boolean_Operations_on_Polygons
+11. `hsiehbingting <https://github.com/hsiehbingting>`__ for
     `VisualizeWifi <hsiehbingting/README.rst>`__:
     https://github.com/hsiehbingting/VisualizeWifi
-11. `ian31174117 <https://github.com/ian31174117>`_ for
+12. `ian31174117 <https://github.com/ian31174117>`_ for
     `SimpleEigenCalculator <ian31174117/README.rst>`__:
     https://github.com/ian31174117/SimpleEigenCalculator
-12. `jteng2127 <https://github.com/jteng2127>`__ for
+13. `jteng2127 <https://github.com/jteng2127>`__ for
     `pybezier <jteng2127/README.rst>`__:
     https://github.com/jteng2127/pybezier
-13. `lebr0nli <https://github.com/lebr0nli>`__ for
+14. `lebr0nli <https://github.com/lebr0nli>`__ for
     `py-rbush <lebr0nli/README.rst>`__:
     https://github.com/lebr0nli/py-rbush
-14. `leo27945875 <https://github.com/leo27945875>`__ for
+15. `leo27945875 <https://github.com/leo27945875>`__ for
     `pyGMRES <leo27945875/README.rst>`__:
     https://github.com/leo27945875/pyGMRES
-15. `ntut-xuan <https://github.com/ntut-xuan>`__ for
+16. `ntut-xuan <https://github.com/ntut-xuan>`__ for
     `PolygonDust <ntut-xuan/README.rst>`__:
     https://github.com/ntut-xuan/PolygonDust
-16. `yang2829 <https://github.com/yang2829>`__ for
+17. `yang2829 <https://github.com/yang2829>`__ for
     `Voronoi Diagram <yang2829/README.rst>`__:
     https://github.com/yang2829/Voronoi-Diagram
-15. `LienShark <https://github.com/LienShark>`__ for
-    `EigenApproWithGersgorin <LienShark/README.rst>`__:
-    https://github.com/LienShark/EigenApproWithGersgorin
 
 .. note::
 

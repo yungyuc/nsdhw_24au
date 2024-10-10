@@ -91,6 +91,55 @@ System Architecture
   I will start with smaller matrices to ensure feasibility but aim to work with million-row matrices eventually.  
   If that proves impractical, I will adjust my approach accordingly.
 
+  I will adopt the row-major approach to store my matrix because, in most cases, a row in a matrix typically represents a new data sample,
+  while a column represents its features. When performing Incremental SVD, I tend to add more rows incrementally, as this approach is more meaningful in practice. 
+  It also helps reduce computational complexity and simplifies storage management.
+  For e.g: Today, if I need to process a matrix larger than 1000x1000, I would first load a portion of it, and then incrementally update the SVD one row at a time
+  So, row-major is a relatively better choice for me.
+
+  .. code-block:: cpp 
+    class Matrix {
+    public:
+        Matrix(int m, int n)
+        {
+            m_nrow = m;
+            m_ncol = n;
+            m_buffer = vector<double>(m * n, 0);
+        }
+        
+        // Row-major storage: access matrix value at (i, j)
+        double& value(int i, int j)
+        {
+            return m_buffer[i * m_ncol + j];
+        }
+
+        // Adding a new row to the matrix (for incremental SVD)
+        void addRow(const vector<double>& new_row) {
+            if (new_row.size() != m_ncol) {
+                throw invalid_argument("Row size does not match column size.");
+            }
+            m_nrow++;
+            m_buffer.resize(m_nrow * m_ncol);  // Resize buffer to add the new row
+            for (int j = 0; j < m_ncol; j++) {
+                value(m_nrow - 1, j) = new_row[j];
+            }
+        }
+        
+        void printMatrix() const {
+            for (int i = 0; i < m_nrow; i++) {
+                for (int j = 0; j < m_ncol; j++) {
+                    cout << m_buffer[i * m_ncol + j] << " ";
+                }
+                cout << endl;
+            }
+        }
+
+    private:
+        vector<double> m_buffer;
+        int m_nrow;
+        int m_ncol;
+    };
+
 - **Output:**  
   1. The low-dimensional matrix reduced by PCA and SVD (non-approximate).
   2. Approximate eigenvalues estimated using the Gersgorin Theorem, and the low-dimensional matrix reduced by PCA.
@@ -108,13 +157,6 @@ System Architecture
 - Eigenvalue estimation module  
 - Dimensionality reduction module  
 - API module
-
-**4. Array Majoring:**
-
-- **Row-Major vs Column-Major:**
-  - **C++:**  I will use row-major order for better memory access.
-  - **Python (NumPy):** I will use column-major order for optimized operations.
-- **Large Matrice:** If necessary, I will adjust storage order or transpose matrices to improve efficiency during calculations.
 
 
 

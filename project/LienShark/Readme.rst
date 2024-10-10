@@ -109,6 +109,14 @@ System Architecture
 - Dimensionality reduction module  
 - API module
 
+**4. Array Majoring:**
+
+- **Row-Major vs Column-Major:**
+  - **C++:**  I will use row-major order for better memory access.
+  - **Python (NumPy):** I will use column-major order for optimized operations.
+- **Large Matrice:** If necessary, I will adjust storage order or transpose matrices to improve efficiency during calculations.
+
+
 
 ######################
 API Description

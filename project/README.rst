@@ -32,13 +32,17 @@ Presentation
 Projects by Account Names
 +++++++++++++++++++++++++
 
-Follow the format to add your project:
+..
+ Follow the format to add your project:
 
-::
+ 1. `github_account_name <https://github.com/github_account_name>`__ for
+    `Project subject <github_account_name/README.rst>`__:
+    https://github.com/github_account_name/project_name
 
-1. `github_account_name <https://github.com/github_account_name>`__ for
-   `Project subject <github_account_name/README.rst>`__:
-   https://github.com/github_account_name/project_name
+ .. note::
+
+   Append your project after the first example entry.  Do not delete the example
+   entry.
 
 1. `Bichen07 <https://github.com/Bichen07>`__ for
    `VoronoiHybrid <Bichen07/README.rst>`__:
@@ -91,8 +95,3 @@ Follow the format to add your project:
 17. `yang2829 <https://github.com/yang2829>`__ for
     `Voronoi Diagram <yang2829/README.rst>`__:
     https://github.com/yang2829/Voronoi-Diagram
-
-.. note::
-
-  Append your project after the first example entry.  Do not delete the example
-  entry.

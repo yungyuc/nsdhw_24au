@@ -44,9 +44,38 @@ System Architecture
 The AdvancedVectorSearch system will consist of the following components:
 
 1. Dataset Module: For generating and managing large-scale, high-dimensional vector datasets for testing and benchmarking.
-2. Index Module: Implementing various similarity comparison functions and indexing structures.
+2. Index Module: Implementing various similarity comparison functions and indexing structures. 
 3. Search Module: Providing add and search functionalities with support for different search algorithms.
 4. Benchmark Module: For comparing the implemented methods against linear search and potentially FAISS in terms of speed, accuracy, and memory usage.
+
+Index Module
+------------
+
+The Index Module is responsible for implementing various similarity comparison functions and indexing structures. It supports basic operations for adding, searching, and removing vectors from the index. The basic index structure includes the following:
+
+- **vector<float>** : Stores the vector data.
+- **int** : Stores the vector dimension.
+- **int** : Stores the number of vectors in the index.
+- **string** : Unique identifier for each vector.
+
+The module provides the following methods:
+
+- **add(vector)** : Adds vectors to the index.
+- **search(query_vector)** : Searches the index given a query vector.
+- **remove(vector)** : Removes vectors from the index.
+
+Supported Index Types
+---------------------
+
+The Index Module supports the following types of indices:
+
+1. **Flat Index** : 
+   - A simple index that stores vectors in memory and performs an exhaustive search.
+   
+2. **IVF (Inverted File) Index** :
+   - An index that partitions the vector space into clusters for faster search.
+   
+   - This method provides a more efficient search process compared to flat indices, especially for large-scale datasets.
 
 The system will be implemented in C++ for core functionalities, with Python bindings for ease of use.
 

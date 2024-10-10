@@ -63,7 +63,7 @@ Follow the format to add your project:
    https://github.com/yang2829/Voronoi-Diagram
 8. `YaoKuang <https://github.com/YaoKuang>`__ for
    `project_proposal <YaoKuang/README.rst>`__:
-   https://github.com/YaoKuang/Optimized-C-Research
+   https://github.com/YaoKuang/Queue-for-multiprocessing
 
 .. note::
 

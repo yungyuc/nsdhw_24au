@@ -1,87 +1,66 @@
-SimpleArray for Multi-Dimensional Field
+==================================
+**Queue for multiprocessing**
+==================================
 
-(Modmesh) SimpleArray: a simple C++ library for multi-dimensional arrays that provide seamless interface with numpy ndarray. Download this file.
+(CPython)Queue for multiprocessing.
 
-Basic Information
+**Basic Information**
 
-SimpleArray is part of modmesh, and the code is house in its repository: https://github.com/solvcon/modmesh
+Queue for multiprocessing, and the ref code is house in its repository: https://github.com/python/cpython/blob/main/Lib/multiprocessing/queues.py
 
-Numerical analysis and high-performance computing (HPC) heavily rely on multi-dimensional arrays, or contiguous memory buffers on which meta data attach. For the case of the modmesh library, it focuses on field calculations. There are two major styles for storing the (multi-dimensional) field data in arrays:
+**Problem to Solve**
 
-For an N-dimensional field, use an N-dimensional array. Each of the axis in the field corresponds to a distinct axis in the array.
+Exploit the following opportunities to improve code performance:
+• Resource sharing between multiple process
 
-Store the coordinates in an M x N arrays, where M is the number of coordinates and N is the number of dimensions. Use lookup tables (LUT) to keep track of the connectivities among the coordinates as well as the multi-dimensional field.
+**Prospective Users**
 
-Problem to Solve
+It is difficult for developers to reason about the effects of individual coding decisions on the overall performance of a Module implementing queues.
 
-The primary problem SimpleArray tries to solve is to share memory buffers between Python (numpy) and C++.
+**System Architecture**
 
-Multi-dimensional arrays are high-speed data structure optimized for reading and writing but slow for resizing. Programmers try to minimize array copying because it is time-consuming. Numpy provides a fast and easy-to-use implementation of the multi-dimensional array, which is called numpy.ndarray (N-dimensional array). However, using ndarray must include the whole (C)Python and numpy runtime, which depends on the Python memory management system.
+Queue is an abstract data type, characterized by first in first out (FIFO, first in first out)
+In high-level programming languages, it is easy to implement using arrays and linked lists.
 
-Because modmesh focuses on field calculations, SimpleArray must make them fast and easy. Field can be scalar or vector, and SimpleArray should provide fundamental helpers for both. The array may also be used as building blocks for the internal buffers of other constructs like trees optimized for reading.
+**Schedule**
 
-Prospective Users
+Week 1 (10/10):
 
-The field calculations by the modmesh library are for computational mechanics. Numerical methods like the space-time conservation element and solution element method, finite volume method, finite element method, etc., may take advantage of the array features.
+Review the existing unit tests and runs. Start the presentation skeleton. Contents will be added to the presentation along with the code development.
 
-System Architecture
+Week 2 (10/17):
 
-Modmesh SimpleArray will be developed as a simple counterpart in C++ and does not depend on Python. It can share the memory buffer with numpy, or use the memory buffer managed by numpy ndarray. Users are enabled to take an ndarray to C++ without data copy, and use C++ to write fast code operating the memory buffer, and have the results available in Python.
-
-Note
-
-By simple, SimpleArray does not try to implement all features of ndarray.
-
-A class template SimpleArray is holding a smart pointer to an untyped memory buffer as well as an object for the array meta data, including shape, stride, etc. The untyped memory buffer is managed by a class ConcreteBuffer.
-
-In C++, because SimpleArray is a class template, there is not runtime overhead in determining the element types.
-
-In Python, the C++ class template SimpleArray will have multiple instantiations for each of the fundamental types supported.
-
-It is not sure how to supported composition types (struct). At the moment, it is left unspecified.
-
-API Description
-
-Both SimpleArray and ConcreteBuffer are under the namespace modmesh. They will have constructors defined, including copy and movement.
-
-Multi-dimensional element accessors will be provided in C++ and Python. The C++ element accessors will be implemented for no overheads, but the Python counterparts will not try to optimize. For high-speed access of the memory buffers from Python, SimpleArray will provide an ndarray wrapper.
-
-SimpleArray can be constructed from C++ and Python. When it is constructed from Python, element type names will be part of the (Python) class.
-
-Engineering Infrastructure
-
-The existing unit-testing framework in the modmesh system will be used. Unit tests will be provided in Python. Public API will be wrapped to Python for testing. Github Action is configured for running the tests regularly and for each check-in and pull request. See https://github.com/solvcon/modmesh/actions for the CI history.
-
-All new features developed will have corresponding unit tests.
-
-Correctness will be verified by using numpy: computation carried out in C++ should produce exactly identical results to that in numpy.
-
-Schedule
-
-Week 1 (9/29):
-Review the existing unit tests and CI runs. Start the presentation skeleton. Contents will be added to the presentation along with the code development.
-
-Week 2 (10/6):
 Create a universal Python constructor (or factory function) for the different fundamental element types.
 
-Week 3 (10/13):
-Make automatic conversion between ndarray in Python and the SimpleArray template in C++.
+Week 3 (10/24):
 
-Week 4 (10/20):
+Make automatic conversion between Queue in Python and the Queue template in Cpython.
+
+Week 4 (10/31): 
+
 Refactoring week (and accommodation of overflown work).
 
-Week 5 (10/27):
-Make a centralized memory manager for the arrays and the underneath buffers.
+Week 5 (11/7): 
 
-Week 6 (11/3):
-Develop a simple scoped-based profiling system that hooks into the pybind11 wrapping code for modmesh and SimpleArray.
+Make a multiprocessing for the Queue.
 
-Week 7 (11/10):
+Week 6 (11/14): 
+
 Refactoring week (and accommodation of overflown work).
 
-Week 8 (11/27):
-Overflown work. If everything goes well, prototype a 2D unstructured mesh by porting from the old SOLVCON code base.
+Week 7 (11/21): 
 
-References
+Refactoring week (and accommodation of overflown work).
 
-SOLVCON (part of it is a predecessor of modmesh): https://github.com/solvcon/solvcon
+Week 8 (11/28): 
+
+Overflown work.
+
+**References**
+
+•	https://github.com/python/cpython/blob/main/Lib/multiprocessing/queues.py
+
+•	Using Lists as Queues
+
+
+

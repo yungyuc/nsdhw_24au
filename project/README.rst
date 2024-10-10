@@ -85,6 +85,8 @@ Follow the format to add your project:
 15. `yang2829 <https://github.com/yang2829>`__ for
     `Voronoi Diagram <yang2829/README.rst>`__:
     https://github.com/yang2829/Voronoi-Diagram
+16. `SUNGOD3 <https://github.com/SUNGOD3>`__ for
+    `AdvancedVectorSearch <SUNGOD3/README.rst>`__:
 
 .. note::
 

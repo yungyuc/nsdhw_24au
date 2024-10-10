@@ -26,7 +26,7 @@ In high-level programming languages, it is easy to implement using arrays and li
 
 Week 1 (10/10):
 
-Review the existing unit tests and runs. Start the presentation skeleton. Contents will be added to the presentation along with the code development.
+Review the existing automatic unit tests and CI runs. Start the presentation skeleton. Contents will be added to the presentation along with the code development.
 
 Week 2 (10/17):
 

@@ -143,7 +143,7 @@ System Architecture
 - **Output:**  
   1. The low-dimensional matrix reduced by PCA and SVD (non-approximate).
   2. Approximate eigenvalues estimated using the Gersgorin Theorem, and the low-dimensional matrix reduced by PCA.
-  the Output will also row-major,because I want my term project has consistent
+  The output will also use row-major storage because I want my term project to have consistent memory access patterns.
 
   .. code-block:: cpp 
     // After performing PCA or SVD, the output matrix is still stored in row-major format.

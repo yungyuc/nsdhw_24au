@@ -237,24 +237,7 @@ std::ostream & operator << (std::ostream & ostr, Matrix const & mat)
     return ostr;
 }
 
-// int main(int argc, char ** argv)
-// {
-//     std::cout << ">>> A(2x3) times B(3x2):" << std::endl;
-//     Matrix mat1(2, 3, std::vector<double>{1, 2, 3, 4, 5, 6});
-//     Matrix mat2(3, 2, std::vector<double>{1, 2, 3, 4, 5, 6});
 
-//     Matrix mat3 = multiply_naive(mat1, mat2);
-//     Matrix mat4 = multiply_mkl(mat1, mat2);
-//     Matrix mat5 = multiply_tile(mat1, mat2, 16);
-
-//     std::cout << "result matrix C (2x2) = AB:" << mat4 << std::endl;
-//     std::cout << "result matrix C (2x2) = AB:" << mat5 << std::endl;
-//     std::cout << "result matrix C (2x2) = AB:" << mat3 << std::endl;
-
-
-
-//     return 0;
-// }
 
 PYBIND11_MODULE(_matrix, m){
     m.def("multiply_naive", &multiply_naive, "use naive");

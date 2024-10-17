@@ -10,7 +10,7 @@ _matrix.so: _matrix.cpp
 	$(CXX) $(CXXFLAGS) $< -I$(MKL_INCLUDE_DIR) `python3-config --includes --ldflags` -o $@  -lblas -lmkl_rt
 
 clean:
-	rm -rf performance.txt *.so __pycache__ .pytest* 
+	rm -rf *.so __pycache__ .pytest* 
 
 test: $(OBJ) test_matrix.py
 	python3 -m pytest -v $2

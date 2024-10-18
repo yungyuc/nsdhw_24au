@@ -9,10 +9,11 @@ MODULE := _matrix.*.so
 PYCACHE := __pycache__
 
 BUILD_SCRIPT := build.py
+BENCHMARK_SCRIPT := benchmark.py
 
 SOURCES := _matrix.cpp _matrix.h module.cpp
 
-.PHONY: all venv test clean clean-all
+.PHONY: all venv test clean clean-all benchmark
 
 all: $(MODULE)
 
@@ -25,6 +26,9 @@ $(VENV_DIR):
 
 $(MODULE): venv $(BUILD_SCRIPT) $(SOURCES)
 	$(VENV_PYTHON) $(BUILD_SCRIPT) build_ext --inplace
+
+benchmark: $(MODULE)
+	$(VENV_PYTHON) $(BENCHMARK_SCRIPT)
 
 test: $(MODULE)
 	$(VENV_PYTHON) -m pytest -vvv .

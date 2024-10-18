@@ -1,0 +1,15 @@
+Matrix size: 500x500
+Repeat: 5
+multiply_naive time: 0.076474 seconds
+multiply_tile time: 0.024348 seconds
+multiply_mkl time: 0.002633 seconds
+Tile speed-up over naive: 3.14x
+MKL speed-up over naive: 29.04x
+
+Matrix size: 1000x1000
+Repeat: 5
+multiply_naive time: 0.779446 seconds
+multiply_tile time: 0.228121 seconds
+multiply_mkl time: 0.018327 seconds
+Tile speed-up over naive: 3.42x
+MKL speed-up over naive: 42.53x

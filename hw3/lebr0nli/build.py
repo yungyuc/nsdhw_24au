@@ -13,7 +13,7 @@ ext_modules = [
 ]
 
 setup(
-    name="_vector",
+    name="_matrix",
     ext_modules=ext_modules,
     cmdclass={"build_ext": build_ext},
 )

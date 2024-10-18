@@ -1,0 +1,5 @@
+Naive multiplication time: 0.949701 seconds
+Tiled multiplication time: 0.511409 seconds
+MKL multiplication time: 0.044648 seconds
+Tiled speedup over naive: 1.86x
+MKL speedup over naive: 21.27x

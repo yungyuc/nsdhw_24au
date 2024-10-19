@@ -1,0 +1,27 @@
+[tool.ruff]
+line-length = 100
+target-version = "py38"
+
+[tool.ruff.lint]
+select = [
+    "A", # flake8-builtins
+    "E", # pycodestyle
+    "F", # pyflakes
+    "W", # pycodestyle
+    "C4", # flake8-comprehensions
+    "I", # isort
+    "SLOT", # flake8-slots
+    "FLY", # flynt
+    "PGH", # pygrep-hooks
+    "RET506", # flake8-return: superfluous-else-raise
+    "RET507", # flake8-return: superfluous-else-continue
+    "RET508", # flake8-return: superfluous-else-break
+    "UP" # pyupgrade
+]
+ignore = [
+    "E402", # Module level import not at top of file
+    "E501" # Line too long
+]
+
+[tool.ruff.lint.isort]
+force-single-line = true

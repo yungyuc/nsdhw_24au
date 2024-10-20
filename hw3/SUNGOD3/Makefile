@@ -1,33 +1,33 @@
 export LD_LIBRARY_PATH := $(LD_LIBRARY_PATH):/opt/intel/oneapi/mkl/2024.2/lib/intel64
+CXX := g++
+CXXFLAGS := -std=c++17 -O3 -fPIC -fopenmp -march=native
+PYBIND11_INCLUDES := $(shell python3 -m pybind11 --includes)
 
-CXX = g++
-CXXFLAGS = -O3 -march=native -std=c++17 -fPIC
-PYTHON_CONFIG = python3-config
-PYBIND11_INCLUDES = $(shell python3 -m pybind11 --includes)
-PYTHON_INCLUDES = $(shell $(PYTHON_CONFIG) --includes)
-PYTHON_LDFLAGS = $(shell $(PYTHON_CONFIG) --ldflags)
+# MKL 設置
+MKL_ROOT := /opt/intel/oneapi/mkl/latest
+MKL_INCLUDE := -I$(MKL_ROOT)/include
+MKL_LIB := -L$(MKL_ROOT)/lib/intel64 -lmkl_rt
 
-# MKL settings
-MKL_ROOT = /opt/intel/oneapi/mkl/2024.2
-MKL_INCLUDE = -I$(MKL_ROOT)/include
-MKL_LIB = -L$(MKL_ROOT)/lib/intel64 -Wl,--start-group -lmkl_intel_lp64 -lmkl_gnu_thread -lmkl_core -Wl,--end-group -lgomp -lpthread -lm -ldl
+# Python 設置
+PYTHON_INCLUDE := $(shell python3-config --includes)
+PYTHON_LIB := $(shell python3-config --ldflags)
 
-# Update CXXFLAGS and add LDFLAGS
-CXXFLAGS += $(MKL_INCLUDE) $(PYBIND11_INCLUDES) $(PYTHON_INCLUDES)
-LDFLAGS = $(MKL_LIB) $(PYTHON_LDFLAGS)
+# 組合所有的 flags
+ALL_INCLUDES := $(PYBIND11_INCLUDES) $(MKL_INCLUDE) $(PYTHON_INCLUDE)
+ALL_LIBS := $(MKL_LIB) $(PYTHON_LIB)
 
-all: _matrix.so
+SOURCES := matrix.cpp
+TARGET := _matrix$(shell python3-config --extension-suffix)
 
-_matrix.so: matrix.cpp matrix.hpp
-	$(CXX) $(CXXFLAGS) -shared -fPIC matrix.cpp -o $@ $(LDFLAGS)
+.PHONY: all clean test
 
-test: _matrix.so
-	python3 -m pytest test_matrix.py
+all: $(TARGET)
 
-benchmark: _matrix.so
-	python3 benchmark.py
+$(TARGET): $(SOURCES)
+	$(CXX) $(CXXFLAGS) $(ALL_INCLUDES) -shared -o $@ $^ $(ALL_LIBS)
+
+test: $(TARGET)
+	python3 -m pytest -vvv .
 
 clean:
-	rm -f *.o *.so performance.txt
-
-.PHONY: all test benchmark clean
+	rm -f $(TARGET)

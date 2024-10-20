@@ -1,3 +1,4 @@
+# export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/intel/oneapi/mkl/2024.2/lib/intel64
 CXX = g++
 CXXFLAGS = -O3 -march=native -std=c++17 -fPIC
 PYBIND11_INCLUDES = $(shell python3 -m pybind11 --includes)

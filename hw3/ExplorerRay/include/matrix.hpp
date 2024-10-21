@@ -26,10 +26,10 @@ public:
     size_t get_nrow() const;
     size_t get_ncol() const;
     double *get_buffer() const;
+    double *m_buffer;
     
 private:
     size_t m_nrow;
     size_t m_ncol;
-    double *m_buffer;
     bool m_transpose = false;
 };

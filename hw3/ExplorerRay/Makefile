@@ -1,5 +1,14 @@
+OS = $(shell cat /etc/os-release | grep -oP '(?<=^ID=).+' | tr -d '"')
+ifeq ($(OS),ubuntu)
+	OSDEF = -DUBUNTU
+else ifeq ($(OS),debian)
+	OSDEF = -DDEBIAN
+else
+	OSDEF = -DOTHER
+endif
+
 CXX = g++
-CXXFLAGS = -std=c++14 -Wall -Wextra -Werror -Ofast -march=native -fPIC
+CXXFLAGS = -std=c++14 -Wall -Wextra -Werror -Ofast -march=native -m64 -fPIC $(OSDEF)
 LDFLAGS = -shared
 INCLUDE = -I./include -Ithird_party/pybind11/include $(shell python3-config --includes)
 

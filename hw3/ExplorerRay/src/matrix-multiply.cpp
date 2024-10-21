@@ -1,6 +1,11 @@
 #include "matrix-multiply.hpp"
-#include <mkl.h>
 #include <stdexcept>
+
+#ifdef UBUNTU
+#include <mkl/mkl.h>
+#else
+#include <mkl.h>
+#endif
 
 matrix_2d multiply_naive(matrix_2d const &A, matrix_2d const &B) {
     if (A.get_ncol() != B.get_nrow()) {

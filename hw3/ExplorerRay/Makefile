@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -std=c++14 -Wall -Wextra -Werror -O3 -fPIC
+CXXFLAGS = -std=c++14 -Wall -Wextra -Werror -Ofast -fPIC
 LDFLAGS = -shared
 INCLUDE = -I./include -Ithird_party/pybind11/include $(shell python3-config --includes)
 

@@ -7,15 +7,17 @@ matrix_2d multiply_naive(matrix_2d const &A, matrix_2d const &B) {
         throw std::out_of_range("Matrix dimensions do not match");
     }
 
-    matrix_2d C(A.get_nrow(), B.get_ncol());
-    for (uint i = 0; i < A.get_nrow(); ++i) {
-        for (uint j = 0; j < B.get_ncol(); ++j) {
+    auto row_iter = A.get_nrow();
+    auto col_iter = B.get_ncol();
+    auto inner_iter = A.get_ncol();
+    matrix_2d C(row_iter, col_iter);
+    for (size_t i = 0; i < row_iter; ++i) {
+        for (size_t j = 0; j < col_iter; ++j) {
             double sum = 0;
-            for (uint k = 0; k < A.get_ncol(); ++k) {
+            for (size_t k = 0; k < inner_iter; ++k) {
                 sum += A(i, k) * B(k, j);
             }
             C(i, j) = sum;
-            printf("%lf\n", C(i, j));
         }
     }
     return C;
@@ -26,14 +28,22 @@ matrix_2d multiply_tile(matrix_2d const &A, matrix_2d const &B, size_t tsize){
         throw std::out_of_range("Matrix dimensions do not match");
     }
 
-    matrix_2d C(A.get_nrow(), B.get_ncol());
-    for (uint i = 0; i < A.get_nrow(); i += tsize) {
-        for (uint j = 0; j < B.get_ncol(); j += tsize) {
-            for (uint k = 0; k < A.get_ncol(); k += tsize) {
-                for (uint ii = i; ii < std::min(i + tsize, A.get_nrow()); ++ii) {
-                    for (uint jj = j; jj < std::min(j + tsize, B.get_ncol()); ++jj) {
+    const size_t row_iter = A.get_nrow();
+    const size_t col_iter = B.get_ncol();
+    const size_t inner_iter = A.get_ncol();
+
+    matrix_2d C(row_iter, col_iter);
+    for (size_t i = 0; i < row_iter; i += tsize) {
+        for (size_t j = 0; j < col_iter; j += tsize) {
+            for (size_t k = 0; k < inner_iter; k += tsize) {
+                const size_t ii_iter = std::min(i + tsize, row_iter);
+                const size_t jj_iter = std::min(j + tsize, col_iter);
+                const size_t kk_iter = std::min(k + tsize, inner_iter);
+
+                for (size_t ii = i; ii < ii_iter; ++ii) {
+                    for (size_t jj = j; jj < jj_iter; ++jj) {
                         double sum = 0;
-                        for (uint kk = k; kk < std::min(k + tsize, A.get_ncol()); ++kk) {
+                        for (size_t kk = k; kk < kk_iter; ++kk) {
                             sum += A(ii, kk) * B(kk, jj);
                         }
                         C(ii, jj) += sum;

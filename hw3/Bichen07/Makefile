@@ -1,12 +1,13 @@
 # Compiler and flags
 CXX = g++
-CXXFLAGS = -std=c++11 -Wall -O3 -fPIC
+CXXFLAGS = -std=c++11 -Wall -O3 -fPIC `python3 -m pybind11 --includes`
 
-# Pybind11
-PYBIND11_INCLUDE = $(shell python3 -m pybind11 --includes)
+# Intel MKL paths (adjust if needed)
+MKL_INCLUDE_PATH = /usr/include/mkl
+MKL_LIB_PATH = /usr/lib/x86_64-linux-gnu
 
-# Linker flags for MKL (Intel Math Kernel Library)
-MKLFLAGS = -lmkl_rt -lpthread -lm -ldl
+# Linker flags for MKL
+MKLFLAGS = -L$(MKL_LIB_PATH) -lmkl_rt -lpthread -lm -ldl
 
 # Target
 TARGET = _matrix.so
@@ -15,14 +16,14 @@ TARGET = _matrix.so
 source = _matrix.cpp _matrix.hpp
 
 # Run the Python tests using pytest
-test: ${TARGET}
-	python3 -m pytest test_matrix.py
+test: $(TARGET)
+    python3 -m pytest test_matrix.py
 
 # Compile
 all: $(TARGET)
 
 $(TARGET): $(source)
-	$(CXX) $(CXXFLAGS) $(PYBIND11_INCLUDE) -shared -o $(TARGET) $(source) $(MKLFLAGS)
+    $(CXX) $(CXXFLAGS) -I$(MKL_INCLUDE_PATH) `python3-config --includes --ldflags` -o $(TARGET) $(source) $(MKLFLAGS)
 
 clean:
-	rm -f $(TARGET)
+    rm -rf *.so __pycache__ .pytest*

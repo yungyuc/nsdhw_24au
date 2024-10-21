@@ -1,5 +1,6 @@
-
 #pragma once
+#include <stdexcept>
+#include <cstddef>
 
 using namespace std;
 
@@ -23,4 +24,9 @@ class Matrix{
     size_t index(size_t i, size_t j) const;
     double* getData() const;
 
-}
+    // Overload operator to access elements
+    double operator()(size_t i, size_t j) const;
+    double& operator()(size_t i, size_t j);
+
+    bool operator==(const Matrix &other) const; // Compare matrices
+};

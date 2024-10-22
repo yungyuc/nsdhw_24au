@@ -1,44 +1,59 @@
-#include "_matrix.hpp"
 #include <pybind11/pybind11.h>
 #include <pybind11/operators.h>
 #include <mkl.h>
+#include <iomanip>
+#include <stdexcept>
+#include <algorithm>  // For std::min
 
+#include "_matrix.hpp"
 /* basic operations of matrix*/
 
-// initialize Matrix value = 0
-Matrix::Matrix(size_t nrow, size_t ncol)
-    : m_nrow(nrow), m_ncol(ncol), data(nrow * ncol) {
+// Initialize Matrix with value = 0
+Matrix::Matrix(size_t nrow, size_t ncol): m_nrow(nrow), m_ncol(ncol){
+    data = new double[nrow * ncol]; 
     for (size_t i = 0; i < nrow * ncol; i++) {
         data[i] = 0;
-    }
-}  
+    }  
+}
 
 // assign same value for each elements in matrix
-Matrix::Matrix(size_t nrow, size_t ncol, double init)
-    : m_nrow(nrow), m_ncol(ncol), data(nrow * ncol, init) {
+Matrix::Matrix(size_t nrow, size_t ncol, double init): m_nrow(nrow), m_ncol(ncol){
+    data = new double[nrow * ncol]; 
     for (size_t i = 0; i < nrow * ncol; i++) {
         data[i] = init;
-    }
     }  
+}
+
 
 // Copy Constructor (Deep Copy)
-Matrix::Matrix(const Matrix &mat)
-    : m_nrow(mat.m_nrow), m_ncol(mat.m_ncol), data(new double[mat.m_nrow * mat.m_ncol]) {
-    std::copy(mat.data, mat.data + (mat.m_nrow * mat.m_ncol), data);  // Deep copy of the data
-}
+Matrix::Matrix(const Matrix &mat): m_nrow(mat.m_nrow), m_ncol(mat.m_ncol){
+    data = new double[m_nrow * m_ncol]; 
+    for (size_t i = 0; i < m_nrow * m_ncol; i++) {
+        data[i] = mat.data[i];
+    } 
+} 
 
 // Copy Assignment Operator (Deep Copy)
 Matrix& Matrix::operator=(const Matrix &mat) {
-    if (this == &mat)  // Prevent self-assignment
-        return *this;
+    // Step 1: Self-assignment check
+    if (this == &mat) {
+        return *this; // Return *this to allow chained assignment (e.g., a = b = c)
+    }
 
-    delete[] data;  // Clean up existing data
+    // Step 2: Delete old data
+    delete[] data;
 
+    // Step 3: Copy the dimensions and allocate new memory
     m_nrow = mat.m_nrow;
     m_ncol = mat.m_ncol;
-    data = new double[m_nrow * m_ncol];  // Allocate new memory
-    std::copy(mat.data, mat.data + (m_nrow * m_ncol), data);  // Deep copy of the data
+    data = new double[m_nrow * m_ncol];
 
+    // Step 4: Copy the elements
+    for (size_t i = 0; i < m_nrow * m_ncol; i++) {
+        data[i] = mat.data[i];
+    }
+
+    // Step 5: Return *this to allow chained assignments
     return *this;
 }
 
@@ -47,26 +62,41 @@ Matrix::~Matrix() {
     delete[] data;
 }
 
-
-
 /* get size*/
-
 // return size of row and col
-size_t nrow() const { return m_nrow; }
-size_t ncol() const { return m_ncol; }
+size_t Matrix::nrow() const { return m_nrow; }
+size_t Matrix::ncol() const { return m_ncol; }
 
 // return index of (i, j) element
-size_t index(size_t i, size_t j) const {
+size_t Matrix::index(size_t i, size_t j) const {
     return i * m_ncol + j;
 }
 
-// return data of index (i, j)
-double operator()(size_t i, size_t j) const {
-    return data[index(i, j)];
+double *Matrix::getData() const {
+    return data;
 }
 
-double* Matrix::getData() const {
-    return data;
+/* Overload operator to access and compare elements */
+double &Matrix::operator()(size_t row, size_t col) {
+    return data[index(row, col)];
+}
+
+const double &Matrix::operator()(size_t row, size_t col) const {
+    return data[index(row, col)];
+}
+
+bool Matrix::operator==(const Matrix &other) const {
+    // Check if the dimensions are the same
+    if (m_nrow != other.m_nrow || m_ncol != other.m_ncol) {
+        return false;
+    }
+    // Compare each element
+    for (size_t i = 0; i < m_nrow * m_ncol; i++) {
+        if (data[i] != other.data[i]) {
+            return false;
+        }
+    }
+    return true;
 }
 
 //  Naive matrix matrix multiplication.
@@ -143,11 +173,35 @@ Matrix multiply_mkl(Matrix const & mat1, Matrix const & mat2){
 PYBIND11_MODULE(_matrix, mat){
     mat.def("multiply_naive", &multiply_naive, "use naive");
     mat.def("multiply_mkl", &multiply_mkl, "use mkl");
-    mat.def("multiply_tile", &multiply_tile, "use tile");
+    // Set default blockSize value for multiply_tile
+    mat.def("multiply_tile", &multiply_tile, pybind11::arg("mat1"), pybind11::arg("mat2"), pybind11::arg("blockSize") = 16, "use tile");
     // Expose the Matrix class
     pybind11::class_<Matrix>(mat, "Matrix")
         // Expose the constructor Matrix(size_t nrow, size_t ncol)
         .def(pybind11::init<size_t, size_t>(), "Constructor with rows and columns")
         // Expose the constructor Matrix(size_t nrow, size_t ncol, double init)
-        .def(pybind11::init<size_t, size_t, double>(), "Constructor with rows, columns, and initial value");
+        .def(pybind11::init<size_t, size_t, double>(), "Constructor with rows, columns, and initial value")
+        // Expose the copy constructor
+        .def(pybind11::init<const Matrix&>(), "Copy constructor")
+        // Expose the nrow() method
+        .def("nrow", &Matrix::nrow, "Get number of rows")
+        // Expose the ncol() method
+        .def("ncol", &Matrix::ncol, "Get number of columns")
+        // Expose the index() method
+        .def("index", &Matrix::index, "Get the 1D index from 2D coordinates")
+        // Expose getData() method
+        .def("get_data", &Matrix::getData, "Get a pointer to the matrix data")
+        .def("__getitem__", [](const Matrix &self, std::pair<size_t, size_t> index) {
+            return self(index.first, index.second);  // Access matrix element
+        })
+        .def("__setitem__", [](Matrix &self, std::pair<size_t, size_t> index, double value) {
+            self(index.first, index.second) = value;  // Set matrix element
+        })
+        // .def("setItem", &Matrix::setItem)
+        // .def("getItem", &Matrix::getItem)
+        .def("__call__", static_cast<double&(Matrix::*)(size_t, size_t)>(&Matrix::operator()), pybind11::return_value_policy::reference, "Access element at (row, col)")
+        // Expose the () operator for element access (const)
+        .def("__call__", static_cast<const double&(Matrix::*)(size_t, size_t) const>(&Matrix::operator()), pybind11::return_value_policy::reference, "Access element at (row, col) (const)")
+        // Expose the equality operator (__eq__)
+        .def("__eq__", &Matrix::operator==, "Check if two matrices are equal");
 }

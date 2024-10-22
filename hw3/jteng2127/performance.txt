@@ -1,0 +1,2 @@
+Start multiply_naive (repeat=5), take min = 3.415336334030144 seconds
+Start multiply_mkl (repeat=5), take min = 

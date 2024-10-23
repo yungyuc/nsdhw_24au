@@ -35,11 +35,9 @@ Matrix multiply_tile(Matrix &a, Matrix &b, size_t tile_size) {
                 size_t j_end = std::min(b.GetColumn(), j + tile_size);
 
                 for (size_t ii = i; ii < i_end; ++ii) {
-                    for (size_t kk = k; kk < k_end; ++kk) {
-                        double r = GetMatrixData(a, ii, kk);
-                        for (size_t jj = j; jj < j_end; ++jj) {
-                            GetMatrixData(result, ii, jj) +=
-                                r * GetMatrixData(b, kk, jj);
+                    for (size_t jj = j; jj < j_end; ++jj) {
+                        for (size_t kk = k; kk < k_end; ++kk) {
+                            GetMatrixData(result, ii, jj) += GetMatrixData(a, ii, kk) * GetMatrixData(b, kk, jj);
                         }
                     }
                 }

@@ -244,6 +244,7 @@ for it in range(size):
         w.write('MKL speed-up over naive: %g x\n' % (naivesec/mklsec))
 
 if __name__ == '__main__':
-    benchmark()
+    # benchmark()
+    print()
 
 # vim: set fenc=utf8 ff=unix et sw=4 ts=4 sts=4:

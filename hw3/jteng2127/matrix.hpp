@@ -25,4 +25,4 @@ class Matrix {
 
 Matrix multiply_naive(const Matrix& A, const Matrix& B);
 Matrix multiply_tile(const Matrix& A, const Matrix& B, size_t tile_size);
-// Matrix multiply_mkl(const Matrix& A, const Matrix& B);
+Matrix multiply_mkl(const Matrix& A, const Matrix& B);

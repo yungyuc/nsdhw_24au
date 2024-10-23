@@ -77,24 +77,24 @@ def test_tile_multiplication():
     assert C[2, 2] == 90.0
 
 
-# @pytest.mark.skipif(not hasattr(_matrix, "multiply_mkl"), reason="MKL not available")
-# def test_mkl_multiplication():
-#     A = _matrix.Matrix(2, 2)
-#     B = _matrix.Matrix(2, 2)
-#     A[0, 0] = 1.0
-#     A[0, 1] = 2.0
-#     A[1, 0] = 3.0
-#     A[1, 1] = 4.0
 
-#     B[0, 0] = 1.0
-#     B[0, 1] = 0.0
-#     B[1, 0] = 0.0
-#     B[1, 1] = 1.0
+def test_mkl_multiplication():
+    A = _matrix.Matrix(2, 2)
+    B = _matrix.Matrix(2, 2)
+    A[0, 0] = 1.0
+    A[0, 1] = 2.0
+    A[1, 0] = 3.0
+    A[1, 1] = 4.0
 
-#     C = _matrix.multiply_mkl(A, B)
+    B[0, 0] = 1.0
+    B[0, 1] = 0.0
+    B[1, 0] = 0.0
+    B[1, 1] = 1.0
+
+    C = _matrix.multiply_mkl(A, B)
     
-#     assert C[0, 0] == 1.0
-#     assert C[0, 1] == 2.0
-#     assert C[1, 0] == 3.0
-#     assert C[1, 1] == 4.0
+    assert C[0, 0] == 1.0
+    assert C[0, 1] == 2.0
+    assert C[1, 0] == 3.0
+    assert C[1, 1] == 4.0
 

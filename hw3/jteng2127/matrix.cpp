@@ -6,7 +6,7 @@
 
 #include <cstring>
 #include <stdexcept>
-// #include <mkl.h>
+#include <mkl.h>
 
 namespace py = pybind11;
 
@@ -105,21 +105,21 @@ Matrix multiply_tile(const Matrix& A, const Matrix& B, size_t tile_size) {
 }
 
 // Matrix multiplication using Intel MKL
-// Matrix multiply_mkl(const Matrix& A, const Matrix& B) {
-//   if (A.ncol() != B.nrow()) {
-//     throw std::invalid_argument(
-//         "Matrix dimensions do not match for multiplication");
-//   }
+Matrix multiply_mkl(const Matrix& A, const Matrix& B) {
+  if (A.ncol() != B.nrow()) {
+    throw std::invalid_argument(
+        "Matrix dimensions do not match for multiplication");
+  }
 
-//   Matrix C(A.nrow(), B.ncol());
+  Matrix C(A.nrow(), B.ncol());
 
-//   // Use MKL's cblas_dgemm for matrix multiplication
-//   cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, A.nrow(), B.ncol(),
-//               A.ncol(), 1.0, A.getData(), A.ncol(), B.getData(), B.ncol(),
-//               0.0, C.getData(), C.ncol());
+  // Use MKL's cblas_dgemm for matrix multiplication
+  cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, A.nrow(), B.ncol(),
+              A.ncol(), 1.0, A.getData(), A.ncol(), B.getData(), B.ncol(),
+              0.0, C.getData(), C.ncol());
 
-//   return C;
-// }
+  return C;
+}
 
 PYBIND11_MODULE(_matrix, m) {
   py::class_<Matrix>(m, "Matrix")
@@ -153,7 +153,6 @@ PYBIND11_MODULE(_matrix, m) {
         py::arg("A"), py::arg("B"));
   m.def("multiply_tile", &multiply_tile, "Tiled matrix multiplication",
         py::arg("A"), py::arg("B"), py::arg("tile_size"));
-  //   m.def("multiply_mkl", &multiply_mkl, "MKL optimized matrix
-  //   multiplication",
-  //         py::arg("A"), py::arg("B"));
+  m.def("multiply_mkl", &multiply_mkl, "MKL optimized matrix multiplication",
+        py::arg("A"), py::arg("B"));
 }

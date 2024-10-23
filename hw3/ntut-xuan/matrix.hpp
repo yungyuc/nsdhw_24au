@@ -1,6 +1,8 @@
 #ifndef _MATRIX_H_
 #define _MATRIX_H_
 
+#include <cstddef>
+#include <cstring>
 #include <vector>
 
 class Matrix {
@@ -14,22 +16,38 @@ public:
         this->matrix_data = data;
     }
 
-    double& GetMatrixData(int row, int column){
-        return matrix_data[row * column + column];
-    }
-
     void SetMatrixValue(int i, int j, double value){
         this->matrix_data[i*this->row+j] = value;
+    }
+
+    double   operator() (size_t row, size_t col) const
+    {
+        return matrix_data[row * col + col];
+    }
+    double & operator() (size_t row, size_t col)
+    {
+        return matrix_data[row * col + col];
+    }
+
+    bool operator==(const Matrix &other) const {
+        if (row != other.GetRow() || column != other.GetColumn())
+            return false;
+        return std::memcmp((double*) matrix_data.data(), (double*) other.matrix_data.data(),
+                        row * column * sizeof(double)) == 0;
     }
 
     size_t GetRow() const { return this->row; }
     size_t GetColumn() const { return this->column; }
 };
 
-inline double& GetMatrixData(Matrix &matrix, int row, int column);
+inline const double& GetMatrixData(const Matrix &matrix, size_t row, size_t column);
+inline double& GetMatrixData(Matrix &matrix, size_t row, size_t column);
 
-Matrix multiply_naive(Matrix a, Matrix b);
-Matrix multiply_mkl(Matrix a, Matrix b);
-Matrix multiply_tile(Matrix a, Matrix b, size_t tile_size);
+double MatrixGetItem(const Matrix &m, const std::pair<size_t, size_t> &indices);
+void MatrixSetItem(Matrix &m, const std::pair<size_t, size_t> &indices, double value);
+
+Matrix multiply_naive(Matrix &a, Matrix &b);
+Matrix multiply_mkl(Matrix &a, Matrix &b);
+Matrix multiply_tile(Matrix &a, Matrix &b, size_t tile_size);
 
 #endif

@@ -132,9 +132,11 @@ Matrix multiply_tile(Matrix const & mat1, Matrix const & mat2, size_t blockSize 
                 // Multiply sub-blocks of the matrices
                 for (size_t ii = i; ii < std::min(i + blockSize, n); ++ii) {
                     for (size_t jj = j; jj < std::min(j + blockSize, p); ++jj) {
+                        double sum = 0.0;
                         for (size_t kk = k; kk < std::min(k + blockSize, m); ++kk) {
-                            result(ii, jj) += mat1(ii, kk) * mat2(kk, jj);
+                            sum = mat1(ii, kk) * mat2(kk, jj);
                         }
+                        result(ii, jj) += sum
                     }
                 }
             }
@@ -183,10 +185,13 @@ PYBIND11_MODULE(_matrix, mat){
         .def(pybind11::init<size_t, size_t, double>(), "Constructor with rows, columns, and initial value")
         // Expose the copy constructor
         .def(pybind11::init<const Matrix&>(), "Copy constructor")
-        // Expose the nrow() method
-        .def("nrow", &Matrix::nrow, "Get number of rows")
-        // Expose the ncol() method
-        .def("ncol", &Matrix::ncol, "Get number of columns")
+        // Expose nrow and ncol as properties (no parentheses in Python)
+        .def_property("nrow", &Matrix::nrow, nullptr)
+        .def_property("ncol", &Matrix::ncol, nullptr)
+        // // Expose the nrow() method
+        // .def("nrow", &Matrix::nrow, "Get number of rows")
+        // // Expose the ncol() method
+        // .def("ncol", &Matrix::ncol, "Get number of columns")
         // Expose the index() method
         .def("index", &Matrix::index, "Get the 1D index from 2D coordinates")
         // Expose getData() method

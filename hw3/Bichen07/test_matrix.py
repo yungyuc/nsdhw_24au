@@ -1,86 +1,223 @@
 import pytest
+import timeit
+import os
 import _matrix
+import unittest
 
-def make_matrix(size = 10):
-    matrix = _matrix.Matrix(size, size)  # Create an original matrix
-    for i in range(size):
-        for j in range(size):
-            matrix[i, j] = i * size + j  # __getitem__  and __setitem__ 
-            return matrix
+class GradingTest(unittest.TestCase):
 
-def test_matrix_creation():
-    mat = _matrix.Matrix(3, 3)
-    assert mat.nrow() == 3
-    assert mat.ncol() == 3
-    assert mat(0, 0) == 0.0  # Initialized to 0
+    def make_matrices(self, size):
 
-def test_init():
-    size = 10
-    mat = _matrix.Matrix(size, size)
-    assert mat.nrow() == size
-    assert mat.ncol() == size
-    for i in range(size):
-        for j in range(size):
-            assert mat(i, j) == 0  
+        mat1 = _matrix.Matrix(size,size)
+        mat2 = _matrix.Matrix(size,size)
+        mat3 = _matrix.Matrix(size,size)
 
-def test_copy_constructor():
-    size = 10
-    mat1 = _matrix.Matrix(size, size)  # Create an original matrix
-    for i in range(size):
-        for j in range(size):
-            mat1[i, j] = i * size + j  # __getitem__  and __setitem__ 
+        for it in range(size):
+            for jt in range(size):
+                mat1[it, jt] = it * size + jt + 1
+                mat2[it, jt] = it * size + jt + 1
+                mat3[it, jt] = 0
 
-    mat2 = _matrix.Matrix(mat1)  # Use the copy constructor to create mat2
-    assert mat2 == mat1
+        return mat1, mat2, mat3
 
+    def test_basic(self):
 
-def test_copy_assignment():
-    size = 10
-    mat1 = _matrix.Matrix(size, size, 20)
-    mat2 = _matrix.Matrix(size, size)
-    mat2 = mat1
-    assert mat1 == mat2
+        size = 100
+        mat1, mat2, mat3, *_ = self.make_matrices(size)
 
-def test_matrix_multiplication_equal():
-    size = 100
-    mat1 = make_matrix(size)
-    mat2 = make_matrix(size)
+        self.assertEqual(size, mat1.nrow)
+        self.assertEqual(size, mat1.ncol)
+        self.assertEqual(size, mat2.nrow)
+        self.assertEqual(size, mat2.ncol)
+        self.assertEqual(size, mat3.nrow)
+        self.assertEqual(size, mat3.ncol)
 
-    mat3_naive = _matrix.multiply_naive(mat1, mat2)
-    mat3_tile = _matrix.multiply_tile(mat1, mat2, 16)
-    mat3_mkl = _matrix.multiply_mkl(mat1, mat2)
-    assert mat3_naive == mat3_tile
-    assert mat3_naive == mat3_mkl
+        self.assertEqual(2, mat1[0,1])
+        self.assertEqual(size+2, mat1[1,1])
+        self.assertEqual(size*2, mat1[1,size-1])
+        self.assertEqual(size*size, mat1[size-1,size-1])
 
-def test_matrix_multiplication_naive():
-    mat1 = _matrix.Matrix(2, 2, 1.0)  # 2x2 matrix filled with 1.0
-    mat2 = _matrix.Matrix(2, 2, 2.0)  # 2x2 matrix filled with 2.0
-    result = _matrix.multiply_naive(mat1, mat2)
+        for i in range(mat1.nrow):
+            for j in range(mat1.ncol):
+                self.assertNotEqual(0, mat1[i,j])
+                self.assertEqual(mat1[i,j], mat2[i,j])
+                self.assertEqual(0, mat3[i,j])
+
+        self.assertEqual(mat1, mat2)
+        self.assertTrue(mat1 is not mat2)
+
+    def test_match_naive_mkl(self):
+
+        size = 100
+        mat1, mat2, *_ = self.make_matrices(size)
+
+        ret_naive = _matrix.multiply_naive(mat1, mat2)
+        ret_mkl = _matrix.multiply_mkl(mat1, mat2)
+
+        self.assertEqual(size, ret_naive.nrow)
+        self.assertEqual(size, ret_naive.ncol)
+        self.assertEqual(size, ret_mkl.nrow)
+        self.assertEqual(size, ret_mkl.ncol)
+
+        for i in range(ret_naive.nrow):
+            for j in range(ret_naive.ncol):
+                self.assertNotEqual(mat1[i,j], ret_mkl[i,j])
+                self.assertEqual(ret_naive[i,j], ret_mkl[i,j])
+
+    def test_zero(self):
+
+        size = 100
+        mat1, mat2, mat3, *_ = self.make_matrices(size)
+
+        ret_naive = _matrix.multiply_naive(mat1, mat3)
+        ret_mkl = _matrix.multiply_mkl(mat1, mat3)
+
+        self.assertEqual(size, ret_naive.nrow)
+        self.assertEqual(size, ret_naive.ncol)
+        self.assertEqual(size, ret_mkl.nrow)
+        self.assertEqual(size, ret_mkl.ncol)
+
+        for i in range(ret_naive.nrow):
+            for j in range(ret_naive.ncol):
+                self.assertEqual(0, ret_naive[i,j])
+                self.assertEqual(0, ret_mkl[i,j])
+
+    def check_tile(self, mat1, mat2, tsize):
+
+        if 0 == tsize:
+            ret_tile = _matrix.multiply_naive(mat1, mat2)
+            tile_str = "_matrix.multiply_naive(mat1, mat2)"
+        else:
+            ret_tile = _matrix.multiply_tile(mat1, mat2, tsize)
+            tile_str = "_matrix.multiply_tile(mat1, mat2, tsize)"
+        ret_mkl = _matrix.multiply_mkl(mat1, mat2)
+
+        for i in range(ret_tile.nrow):
+            for j in range(ret_tile.ncol):
+                self.assertNotEqual(mat1[i,j], ret_mkl[i,j])
+                self.assertEqual(ret_tile[i,j], ret_mkl[i,j])
+
+        ns = dict(_matrix=_matrix, mat1=mat1, mat2=mat2, tsize=tsize)
+        t_tile = timeit.Timer(tile_str, globals=ns)
+        t_mkl = timeit.Timer('_matrix.multiply_mkl(mat1, mat2)', globals=ns)
+
+        time_tile = min(t_tile.repeat(10, 1))
+        time_mkl = min(t_mkl.repeat(10, 1))
+        ratio = time_tile/time_mkl
+
+        return ratio, time_tile
+
+    def test_tile(self):
+
+        show_ratio = bool(os.environ.get('SHOW_RATIO', False))
+
+        mat1, mat2, *_ = self.make_matrices(500)
+
+        ratio0, time0 = self.check_tile(mat1, mat2, 0)
+        if show_ratio:
+            print("naive ratio:", ratio0)
+
+        ratio16, time16 = self.check_tile(mat1, mat2, 16)
+        if show_ratio:
+            print("tile 16 ratio:", ratio16)
+            print("time16/time0:", time16/time0)
+        self.assertLess(ratio16/ratio0, 0.8)
+
+        ratio17, time17 = self.check_tile(mat1, mat2, 17)
+        if show_ratio:
+            print("tile 17 ratio:", ratio17)
+            print("time17/time0:", time17/time0)
+        self.assertLess(ratio17/ratio0, 0.8)
+
+        ratio19, time19 = self.check_tile(mat1, mat2, 19)
+        if show_ratio:
+            print("tile 19 ratio:", ratio19)
+            print("time19/time0:", time19/time0)
+        self.assertLess(ratio19/ratio0, 0.8)
+
+if __name__ == '__main__':
+    unittest.main()  # This will run all test cases
     
-    assert result.nrow() == 2
-    assert result.ncol() == 2
-    for i in range(2):
-        for j in range(2):
-            assert result(i, j) == 4.0  # 1*2 + 1*2 = 4
+# def make_matrix(size = 10):
+#     matrix = _matrix.Matrix(size, size)  # Create an original matrix
+#     for i in range(size):
+#         for j in range(size):
+#             matrix[i, j] = i * size + j  # __getitem__  and __setitem__ 
+#             return matrix
 
-def test_matrix_multiplication_tile():
-    mat1 = _matrix.Matrix(2, 2, 1.0)
-    mat2 = _matrix.Matrix(2, 2, 2.0)
-    result = _matrix.multiply_tile(mat1, mat2, 1)  # Tiling with block size 1
+# def test_matrix_creation():
+#     mat = _matrix.Matrix(3, 3)
+#     assert mat.nrow() == 3
+#     assert mat.ncol() == 3
+#     assert mat(0, 0) == 0.0  # Initialized to 0
 
-    assert result.nrow() == 2
-    assert result.ncol() == 2
-    for i in range(2):
-        for j in range(2):
-            assert result(i, j) == 4.0
+# def test_init():
+#     size = 10
+#     mat = _matrix.Matrix(size, size)
+#     assert mat.nrow() == size
+#     assert mat.ncol() == size
+#     for i in range(size):
+#         for j in range(size):
+#             assert mat(i, j) == 0  
 
-def test_matrix_multiplication_mkl():
-    mat1 = _matrix.Matrix(2, 2, 1.0)
-    mat2 = _matrix.Matrix(2, 2, 2.0)
-    result = _matrix.multiply_mkl(mat1, mat2)
+# def test_copy_constructor():
+#     size = 10
+#     mat1 = _matrix.Matrix(size, size)  # Create an original matrix
+#     for i in range(size):
+#         for j in range(size):
+#             mat1[i, j] = i * size + j  # __getitem__  and __setitem__ 
 
-    assert result.nrow() == 2
-    assert result.ncol() == 2
-    for i in range(2):
-        for j in range(2):
-            assert result(i, j) == 4.0
+#     mat2 = _matrix.Matrix(mat1)  # Use the copy constructor to create mat2
+#     assert mat2 == mat1
+
+
+# def test_copy_assignment():
+#     size = 10
+#     mat1 = _matrix.Matrix(size, size, 20)
+#     mat2 = _matrix.Matrix(size, size)
+#     mat2 = mat1
+#     assert mat1 == mat2
+
+# def test_matrix_multiplication_equal():
+#     size = 100
+#     mat1 = make_matrix(size)
+#     mat2 = make_matrix(size)
+
+#     mat3_naive = _matrix.multiply_naive(mat1, mat2)
+#     mat3_tile = _matrix.multiply_tile(mat1, mat2, 16)
+#     mat3_mkl = _matrix.multiply_mkl(mat1, mat2)
+#     assert mat3_naive == mat3_tile
+#     assert mat3_naive == mat3_mkl
+
+# def test_matrix_multiplication_naive():
+#     mat1 = _matrix.Matrix(2, 2, 1.0)  # 2x2 matrix filled with 1.0
+#     mat2 = _matrix.Matrix(2, 2, 2.0)  # 2x2 matrix filled with 2.0
+#     result = _matrix.multiply_naive(mat1, mat2)
+    
+#     assert result.nrow() == 2
+#     assert result.ncol() == 2
+#     for i in range(2):
+#         for j in range(2):
+#             assert result(i, j) == 4.0  # 1*2 + 1*2 = 4
+
+# def test_matrix_multiplication_tile():
+#     mat1 = _matrix.Matrix(2, 2, 1.0)
+#     mat2 = _matrix.Matrix(2, 2, 2.0)
+#     result = _matrix.multiply_tile(mat1, mat2, 1)  # Tiling with block size 1
+
+#     assert result.nrow() == 2
+#     assert result.ncol() == 2
+#     for i in range(2):
+#         for j in range(2):
+#             assert result(i, j) == 4.0
+
+# def test_matrix_multiplication_mkl():
+#     mat1 = _matrix.Matrix(2, 2, 1.0)
+#     mat2 = _matrix.Matrix(2, 2, 2.0)
+#     result = _matrix.multiply_mkl(mat1, mat2)
+
+#     assert result.nrow() == 2
+#     assert result.ncol() == 2
+#     for i in range(2):
+#         for j in range(2):
+#             assert result(i, j) == 4.0

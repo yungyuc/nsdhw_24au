@@ -1,7 +1,0 @@
-[
-{
-  "directory": "/home/cfmc/repos/NYCU-2024-NSD/hw3/cfmc30",
-  "command": "/usr/bin/c++ -D_matrix_EXPORTS -isystem /usr/include/python3.11 -isystem /opt/intel/oneapi/mkl/latest/include -fPIC -fvisibility=hidden -DMKL_ILP64 -m64 -flto -fno-fat-lto-objects -o CMakeFiles/_matrix.dir/src/_matrix.cpp.o -c /home/cfmc/repos/NYCU-2024-NSD/hw3/cfmc30/src/_matrix.cpp",
-  "file": "/home/cfmc/repos/NYCU-2024-NSD/hw3/cfmc30/src/_matrix.cpp"
-}
-]

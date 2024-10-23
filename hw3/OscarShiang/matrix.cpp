@@ -3,6 +3,7 @@
 #include <cstring>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+#include <mkl/mkl.h>
 
 namespace py = pybind11;
 
@@ -54,6 +55,8 @@ public:
     {
         return m_buffer[index(row, col)];
     }
+
+    double *data() const { return m_buffer; }
 
     size_t nrow() const { return m_nrow; }
 
@@ -133,6 +136,20 @@ Matrix Matrix::multiply_tile(Matrix const &mat1, Matrix const &mat2, const size_
     return m;
 }
 
+Matrix Matrix::multiply_mkl(Matrix const &mat1, Matrix const &mat2)
+{
+    if (mat1.ncol() != mat2.nrow()) {
+        throw std::out_of_range("Dimension mismatch");
+    }
+
+    Matrix m(mat1.nrow(), mat2.ncol());
+    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, mat1.nrow(),
+                mat2.ncol(), mat1.ncol(), 1, mat1.data(), mat1.ncol(),
+                mat2.data(), mat2.ncol(), 0, m.data(), m.ncol());
+
+    return m;
+}
+
 PYBIND11_MODULE(_matrix, m) {
     py::class_<Matrix>(m, "Matrix")
         .def(py::init<size_t, size_t>())
@@ -147,4 +164,5 @@ PYBIND11_MODULE(_matrix, m) {
         });
     m.def("multiply_naive", &Matrix::multiply_naive);
     m.def("multiply_tile", &Matrix::multiply_tile);
+    m.def("multiply_mkl", &Matrix::multiply_mkl);
 }

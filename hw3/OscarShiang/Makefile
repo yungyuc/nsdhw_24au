@@ -3,7 +3,7 @@ CXX             := g++
 CXXFLAGS        := -O3 -Wall -shared -std=c++14 -fPIC \
                    $(shell ${PYTHON} -mpybind11 --includes) \
                    $(shell ${PYTHON}-config --includes)
-LDFLAGS         := $(shell ${PYTHON}-config --ldflags)
+LDFLAGS         := $(shell ${PYTHON}-config --ldflags) -lmkl_rt -lblas
 
 LIB             := _matrix$(shell ${PYTHON}-config --extension-suffix)
 OBJS            := matrix.o

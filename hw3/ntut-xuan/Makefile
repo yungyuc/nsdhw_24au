@@ -9,4 +9,4 @@ test:
 	python3 -m pytest .
 
 clean:
-	rm *.so
+	rm -rf *.so

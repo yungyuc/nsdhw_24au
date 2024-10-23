@@ -1,23 +1,11 @@
-BUILD_DIR = build
-SO_FILES := $(wildcard *.so)
 
-.PHONY: all
-all: SO_FILES
-SO_FILES: $(BUILD_DIR)/Makefile
-	@echo "Building CMake project..."
-	@cmake --build $(BUILD_DIR)
-	cp $(BUILD_DIR)/*.so ./
+MKL_INCLUDE_DIR = /usr/include/mkl
 
-$(BUILD_DIR)/Makefile: 
-	@echo "Running CMake configuration..."
-	@cmake -S . -B $(BUILD_DIR)
+_matrix.so: _matrix.cpp
+	g++ -Ofast -shared -std=c++11 -fPIC `python3 -m pybind11 --includes` _matrix.cpp -I$(MKL_INCLUDE_DIR) `python3-config --includes --ldflags` -o $@ -lblas -lmkl_rt
 
-test: SO_FILES test_matrix_math.py
-	@echo "Running pytest..."
-	env PYTHONPATH=".:$PYTHONPATH" python3 -m pytest -v
+test: _matrix.so test_matrix_math.py
+	python3 -m pytest -v test_matrix_math.py
 
-.PHONY: clean
 clean:
-	@echo "Cleaning build directory..."
-	@rm -rf $(BUILD_DIR)
-	@rm -rf __pycache__ *.so
+	rm -rf *.so

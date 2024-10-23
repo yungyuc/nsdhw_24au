@@ -13,7 +13,6 @@
 #include <stdio.h>
 #include <random>
 #include <stddef.h>
-#include "_matrix.h"
 #include <mkl/mkl.h>
 #include <vector>
 #include <utility>

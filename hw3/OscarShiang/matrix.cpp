@@ -60,7 +60,7 @@ public:
     size_t ncol() const { return m_ncol; }
 
     static Matrix multiply_naive(Matrix const &a, Matrix const &b);
-    static Matrix multiply_tile(Matrix const &a, Matrix const &b);
+    static Matrix multiply_tile(Matrix const &a, Matrix const &b, const size_t step);
     static Matrix multiply_mkl(Matrix const &a, Matrix const &b);
 
 private:
@@ -109,11 +109,36 @@ Matrix Matrix::multiply_naive(Matrix const &mat1, Matrix const &mat2)
     return ret;
 }
 
+Matrix Matrix::multiply_tile(Matrix const &mat1, Matrix const &mat2, const size_t step)
+{
+    if (mat1.ncol() != mat2.nrow()) {
+        throw std::out_of_range("Dimension mismatch");
+    }
+
+    // XXX: Can we simplify these loops with multiply_naive?
+    Matrix m(mat1.nrow(), mat2.ncol());
+    for (size_t i = 0; i < mat1.nrow(); i += step) {
+        for (size_t k = 0; k < mat2.ncol(); k += step) {
+            for (size_t j = 0; j < mat1.ncol(); j += step) {
+                for (size_t ti = i; ti < std::min(mat1.nrow(), i + step); ++ti) {
+                    for (size_t tk = k; tk < std::min(mat2.ncol(), k + step); ++tk) {
+                        for (size_t tj = j; tj < std::min(mat1.ncol(), j + step); ++tj) {
+                            m(ti, tk) += mat1(ti, tj) * mat2(tj, tk);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return m;
+}
+
 PYBIND11_MODULE(_matrix, m) {
     py::class_<Matrix>(m, "Matrix")
         .def(py::init<size_t, size_t>())
         .def_property_readonly("nrow", &Matrix::nrow)
         .def_property_readonly("ncol", &Matrix::ncol)
+        .def("__assign__", &Matrix::operator=)
         .def("__setitem__", [](Matrix &m, std::vector<size_t> idx, double val) {
             m(idx[0], idx[1]) = val;
         })
@@ -121,4 +146,5 @@ PYBIND11_MODULE(_matrix, m) {
             return m(idx[0], idx[1]);
         });
     m.def("multiply_naive", &Matrix::multiply_naive);
+    m.def("multiply_tile", &Matrix::multiply_tile);
 }

@@ -20,7 +20,7 @@ def benchmark():
     setup = '''
 import _matrix
 
-size = 500
+size = 1000
 
 mat1 = _matrix.Matrix(size,size)
 mat2 = _matrix.Matrix(size,size)

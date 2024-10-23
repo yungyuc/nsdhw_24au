@@ -56,6 +56,37 @@ public:
         return m_buffer[index(row, col)];
     }
 
+    bool operator== (Matrix const &m)
+    {
+        if (m_nrow != m.nrow() || m_ncol != m.ncol()) {
+            return false;
+        }
+
+        for (size_t i = 0; i < m_nrow; ++i) {
+            for (size_t j = 0; j < m_ncol; ++j) {
+                if (m_buffer[i * m_ncol + j] != m(i, j)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    std::string to_string()
+    {
+        std::string retval = "";
+        for (size_t i = 0; i < m_nrow; ++i) {
+            retval += std::to_string(m_buffer[i * m_ncol]);
+            for (size_t j = 1; j < m_ncol; ++j) {
+                retval += "\t" + std::to_string(m_buffer[i * m_ncol + j]);
+            }
+            if (i != m_nrow - 1) {
+                retval += "\n";
+            }
+        }
+        return retval;
+    }
+
     double *data() const { return m_buffer; }
 
     size_t nrow() const { return m_nrow; }
@@ -161,7 +192,9 @@ PYBIND11_MODULE(_matrix, m) {
         })
         .def("__getitem__", [](Matrix &m, std::vector<size_t> idx) {
             return m(idx[0], idx[1]);
-        });
+        })
+        .def("__repr__", &Matrix::to_string)
+        .def("__eq__", &Matrix::operator==);
     m.def("multiply_naive", &Matrix::multiply_naive);
     m.def("multiply_tile", &Matrix::multiply_tile);
     m.def("multiply_mkl", &Matrix::multiply_mkl);

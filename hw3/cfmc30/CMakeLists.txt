@@ -7,7 +7,6 @@ include_directories(${PYTHON_INCLUDE_DIRS})
 
 # Find Pybind11
 find_package(pybind11 REQUIRED)
-set(ENV{MKLROOT} "/opt/intel/oneapi/mkl/latest/")
 find_package(MKL CONFIG REQUIRED PATHS $ENV{MKLROOT})
 #message(STATUS "${MKL_IMPORTED_TARGETS}") #Provides available list of targets based on input
 

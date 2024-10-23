@@ -4,7 +4,7 @@
 #include <pybind11/stl.h>
 #include <utility>
 
-#include <mkl.h>
+#include <mkl/mkl.h>
 
 using data_t = double;
 

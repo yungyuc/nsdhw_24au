@@ -28,8 +28,8 @@ Matrix multiply_tile(Matrix &a, Matrix &b, size_t tile_size) {
     Matrix result(a.GetRow(), b.GetColumn());
     
     for (size_t i = 0; i < a.GetRow(); i += tile_size) {
-        for (size_t k = 0; k < a.GetColumn(); k += tile_size) {
-            for (size_t j = 0; j < b.GetColumn(); j += tile_size) {
+        for (size_t j = 0; j < b.GetColumn(); j += tile_size) {
+            for (size_t k = 0; k < a.GetColumn(); k += tile_size) {
                 size_t i_end = std::min(a.GetRow(), i + tile_size);
                 size_t k_end = std::min(a.GetColumn(), k + tile_size);
                 size_t j_end = std::min(b.GetColumn(), j + tile_size);

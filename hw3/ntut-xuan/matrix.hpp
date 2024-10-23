@@ -29,6 +29,37 @@ public:
         return matrix_data[row * col + col];
     }
 
+    Matrix(const Matrix &other) : row(other.row), column(other.column) {
+        matrix_data = std::vector<double>(row * column);
+        std::memcpy(matrix_data.data(), other.matrix_data.data(), row * column * sizeof(double));
+    }
+
+    Matrix(Matrix &&other) noexcept
+        : matrix_data(std::move(other.matrix_data)), row(other.row), column(other.column) {
+        other.row = other.column = 0;
+    }
+    
+    Matrix &operator=(const Matrix &other) {
+        if (this != &other) {
+            row = other.row;
+            column = other.column;
+            matrix_data = std::vector<double>(row * column);
+            std::memcpy(matrix_data.data(), other.matrix_data.data(),
+                        row * column * sizeof(double));
+        }
+        return *this;
+    }
+
+    Matrix &operator=(Matrix &&other) noexcept {
+        if (this != &other) {
+            matrix_data = std::move(other.matrix_data);
+            row = other.row;
+            column = other.column;
+            other.row = other.column = 0;
+        }
+        return *this;
+    }
+
     bool operator==(const Matrix &other) const {
         if (row != other.GetRow() || column != other.GetColumn())
             return false;

@@ -1,36 +1,25 @@
-# Compiler and flags
-CXX = g++
-CXXFLAGS = -Wall -O2
-PYTHON = python3
+CC = g++
+MKLINCLUDE = -I/usr/include/mkl
+INCLUDE = `python3 -m pybind11 --includes`
+POSFIX = `python3-config --extension-suffix`
+CONFIG = `python3-config --includes`
+CFLAGS = -O3 -Wall -shared -std=c++11 -fPIC
 
-# Targets
-TARGET = multiplication
-OBJECTS = _matrix.o multiplication.o
 
-# Default rule: build the main target
-all: $(TARGET)
 
-# Rule to build the executable
-$(TARGET): $(OBJECTS)
-	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJECTS)
+#MKLCONFIG = -L/usr/lib/x86_64-linux-gnu -lblas -I/opt/intel/mkl #-I/usr/include/mkl #
 
-# Compile the _matrix.cpp source file
-_matrix.o: _matrix.cpp
-	$(CXX) $(CXXFLAGS) -c _matrix.cpp
 
-# Compile the multiplication.cpp source file
-multiplication.o: multiplication.cpp
-	$(CXX) $(CXXFLAGS) -c multiplication.cpp
+.PHONY: all, matrix, test, clean
 
-# Clean up object files, the executable, and any shared object files (.so)
+all: matrix test
+
+matrix: _matrix.cpp
+	$(CC)  $(CFLAGS) $(INCLUDE) _matrix.cpp -o _matrix$(POSFIX)  -lblas $(MKLINCLUDE) $(CONFIG)
+
+test: matrix
+	python3  test_file.py -v
 clean:
-	rm -f $(OBJECTS) $(TARGET) *.so
-
-# Run Python test script
-test:
-	$(PYTHON) test_performance.py
-
-# Phony targets to avoid conflict with files named clean or test
-.PHONY: clean test
-
+	rm -f *.so
+	rm -rf __pycache* .pytest*
 

@@ -10,7 +10,7 @@ public:
     size_t row, column;
     std::vector<double> matrix_data;
 
-    Matrix(size_t r, size_t c) : row(r), column(c) { matrix_data = std::vector<double>(r * c);  }
+    Matrix(size_t r, size_t c) : row(r), column(c) { matrix_data = std::vector<double>(r * c, 0);  }
 
     void SetMatrixData(std::vector<double> data) {
         this->matrix_data = data;

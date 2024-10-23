@@ -1,8 +1,4 @@
-Matrix size: 500x500
-Repeat: 5
-multiply_naive time: 1.505040 seconds
-multiply_tile time: 1.515726 seconds
-multiply_mkl time: 0.061158 seconds
-Tile speed-up over naive: 0.99x
-MKL speed-up over naive: 24.61x
-
+Start multiply_naive (repeat=5), take min = 1.4812101130373776 seconds
+Start multiply_tile (repeat=5), take min = 1.2382250430528075 seconds
+Start multiply_mkl (repeat=5), take min = 0.04729427397251129 seconds
+MKL speed-up over naive: 31.319 x

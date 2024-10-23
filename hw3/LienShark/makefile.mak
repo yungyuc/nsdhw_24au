@@ -7,7 +7,7 @@ PYTHON = python3
 TARGET = multiplication
 OBJECTS = _matrix.o multiplication.o
 
-# Default rule
+# Default rule: build the main target
 all: $(TARGET)
 
 # Rule to build the executable
@@ -22,10 +22,14 @@ _matrix.o: _matrix.cpp
 multiplication.o: multiplication.cpp
 	$(CXX) $(CXXFLAGS) -c multiplication.cpp
 
-# Clean up object files and the executable
+# Clean up object files, the executable, and any shared object files (.so)
 clean:
-	rm -f $(OBJECTS) $(TARGET)
+	rm -f $(OBJECTS) $(TARGET) *.so
 
-# Run Python test script (optional)
+# Run Python test script
 test:
 	$(PYTHON) test_performance.py
+
+# Phony targets to avoid conflict with files named clean or test
+.PHONY: clean test
+

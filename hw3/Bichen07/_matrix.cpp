@@ -134,9 +134,9 @@ Matrix multiply_tile(Matrix const & mat1, Matrix const & mat2, size_t blockSize 
                     for (size_t jj = j; jj < std::min(j + blockSize, p); ++jj) {
                         double sum = 0.0;
                         for (size_t kk = k; kk < std::min(k + blockSize, m); ++kk) {
-                            sum = mat1(ii, kk) * mat2(kk, jj);
+                            sum += mat1(ii, kk) * mat2(kk, jj);
                         }
-                        result(ii, jj) += sum
+                        result(ii, jj) += sum;
                     }
                 }
             }

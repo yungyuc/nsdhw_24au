@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cstddef>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
@@ -40,9 +41,8 @@ public:
       for (size_t j = 0; j < b.ncol; j += tile_size) {
         for (size_t k = 0; k < a.ncol; k += tile_size) {
           for (size_t ii = i; ii < std::min(i + tile_size, a.nrow); ++ii) {
-            for (size_t kk = k; kk < std::min(k + tile_size, a.ncol); ++kk) {
-              for (size_t jj = j; jj < std::min(j + tile_size, b.ncol); ++jj) {
-
+            for (size_t jj = j; jj < std::min(j + tile_size, b.ncol); ++jj) {
+              for (size_t kk = k; kk < std::min(k + tile_size, a.ncol); ++kk) {
                 result(ii, jj) += a(ii, kk) * b(kk, jj);
               }
             }
@@ -147,11 +147,14 @@ Matrix multiply_tile(Matrix a, Matrix b, size_t tile_size) {
   for (size_t i = 0; i < a.nrow; i += tile_size) {
     for (size_t j = 0; j < b.ncol; j += tile_size) {
       for (size_t k = 0; k < a.ncol; k += tile_size) {
-        for (size_t ii = i; ii < std::min(i + tile_size, a.nrow); ++ii) {
-          for (size_t kk = k; kk < std::min(k + tile_size, a.ncol); ++kk) {
-            for (size_t jj = j; jj < std::min(j + tile_size, b.ncol); ++jj) {
-
-              result(ii, jj) += a(ii, kk) * b(kk, jj);
+	size_t ii_lim = std::min(i + tile_size, a.nrow);
+	size_t jj_lim = std::min(j + tile_size, b.ncol);
+	size_t kk_lim = std::min(k + tile_size, a.ncol);
+	for (size_t ii = i; ii < ii_lim; ++ii) {
+          for (size_t kk = k; kk < kk_lim; ++kk) {
+	    data_t a_ii_kk = a(ii, kk);
+	    for (size_t jj = j; jj < jj_lim; ++jj) {
+              result(ii, jj) += a_ii_kk * b(kk, jj);
             }
           }
         }

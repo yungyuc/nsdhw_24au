@@ -16,6 +16,10 @@ $(LIB): $(OBJS)
 %.o: %.cpp
 	$(CXX) -o $@ -c $^ $(CXXFLAGS)
 
+test: $(LIB)
+	$(PYTHON) -m pytest
+.PHONY: test
+
 clean:
 	$(RM) $(LIB) $(OBJS)
 .PHONY: clean

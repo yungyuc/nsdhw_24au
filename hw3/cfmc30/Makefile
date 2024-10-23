@@ -12,7 +12,7 @@ $(BUILD_DIR)/Makefile:
 	@echo "Running CMake configuration..."
 	@cmake -S . -B $(BUILD_DIR)
 
-test: SO_FILES test_vector_math.py
+test: SO_FILES test_matrix_math.py
 	@echo "Running pytest..."
 	env PYTHONPATH=".:$PYTHONPATH" python3 -m pytest -v
 

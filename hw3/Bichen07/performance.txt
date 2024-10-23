@@ -1,6 +1,14 @@
-Matrix multiplication performance (1000 x 1000 matrix):
-Naive method: 5.552328 seconds
-Tiled method (block size = 50): 4.167777 seconds
-MKL method: 0.022962 seconds
-Speed-up of tiled over naive: 1.33x
-Speed-up of MKL over naive: 241.81x
+Matrix multiplication performance (320 x 320 matrix):
+Naive method: 0.125064 seconds
+Tiled method (block size = 32): 0.143632 seconds
+MKL method: 0.001215 seconds
+Speed-up of tiled over naive: 0.87x
+Speed-up of MKL over naive: 102.95x
+
+Matrix multiplication performance (1280 x 1280 matrix):
+Naive method: 14.171373 seconds
+Tiled method (block size = 32): 9.510982 seconds
+MKL method: 0.035361 seconds
+Speed-up of tiled over naive: 1.49x
+Speed-up of MKL over naive: 400.76x
+

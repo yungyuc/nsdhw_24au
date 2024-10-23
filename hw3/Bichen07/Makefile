@@ -22,3 +22,6 @@ $(TARGET): $(source)
 
 clean:
 	rm -rf *.so __pycache__ .pytest*
+
+clean_txt:
+	rm -rf *.txt

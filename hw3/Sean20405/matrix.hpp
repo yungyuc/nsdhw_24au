@@ -2,7 +2,8 @@
 #include <iomanip>
 #include <vector>
 #include <stdexcept>
-#include <mkl.h>
+#include <mkl/mkl.h>
+#include <mkl/mkl_lapack.h>
 
 class Matrix {
 

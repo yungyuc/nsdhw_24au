@@ -1,14 +1,15 @@
 MKLROOT_DIR = ${MKLROOT}
 CXX := g++
-MKL_FLAGS := -m64 -L${MKLROOT}/lib -Wl,--no-as-needed -lmkl_intel_ilp64 -lmkl_gnu_thread -lmkl_core -lgomp -lpthread -lm -ldl
-MKL_FLAGS_TEST := -I/usr/include/mkl -lblas -lmkl_rt
-CXX_FLAGS := -O3 -Wall -shared -fPIC -std=c++11 $(shell python3 -m pybind11 --includes) $(shell python3-config --ldflags --includes) $(MKL_FLAGS_TEST)
+MKL_FLAGS_OLD := -m64 -L${MKLROOT}/lib -Wl,--no-as-needed -lmkl_intel_ilp64 -lmkl_gnu_thread -lmkl_core -lgomp -lpthread -lm -ldl
+INCLUDE_FLAGS := -I/usr/include/mkl $(shell python3 -m pybind11 --includes) $(shell python3-config --includes)
+LD_FLAGS := $(shell python3-config --ldflags) -lblas -lmkl_rt
+CXX_FLAGS := -O3 -Wall -shared -fPIC -std=c++11
 OUTPUT := _matrix$(shell python3-config --extension-suffix)
 
 .PHONY: default
 default: $(OUTPUT)
 $(OUTPUT): matrix.cpp
-	$(CXX) $(CXX_FLAGS) $^ -o $(OUTPUT)
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_FLAGS) $^ -o $(OUTPUT) $(LD_FLAGS)
 
 .PHONY: test
 test: test_*.py $(OUTPUT)

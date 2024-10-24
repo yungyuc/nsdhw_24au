@@ -7,11 +7,16 @@
 class Matrix {
 
 public:
+    /* Member variable */
+    size_t nrow = 0;
+    size_t ncol = 0;
+    std::vector<double> data;
 
-    Matrix(size_t nrow, size_t ncol);
-    Matrix(size_t nrow, size_t ncol, std::vector<double> const & vec);
+    Matrix(size_t num_row, size_t num_col);
+    Matrix(size_t num_row, size_t num_col, std::vector<double> const & vec);
 
     Matrix & operator=(std::vector<double> const & vec);
+    bool operator==(const Matrix &m) const;
 
     /* copy constructor */
     Matrix(Matrix const & other);
@@ -25,30 +30,8 @@ public:
     /* move assignment operator */
     Matrix & operator=(Matrix && other);
 
-    /* Matrix addition */
-    Matrix operator+(Matrix const & other);
-
-    ~Matrix();
-
     double   operator() (size_t row, size_t col) const;
     double & operator() (size_t row, size_t col);
-
-    size_t nrow() const;
-    size_t ncol() const;
-
-    size_t size() const;
-    double buffer(size_t i) const;
-    std::vector<double> buffer_vector() const;
-    double * getBuffer() const;
-
-
-private:
-
-    size_t index(size_t row, size_t col) const;
-    void reset_buffer(size_t nrow, size_t ncol);
-    size_t m_nrow = 0;
-    size_t m_ncol = 0;
-    double * m_buffer = nullptr;
 };
 
 
@@ -59,7 +42,7 @@ std::ostream & operator << (std::ostream & ostr, Matrix const & mat);
 Matrix multiply_naive(Matrix const & mat1, Matrix const & mat2);
 
 /* Matrix matrix multiplication using tiling */
-Matrix multiple_tile(Matrix const & mat1, Matrix const & mat2);
+Matrix multiply_tile(Matrix const & mat1, Matrix const & mat2, int tile_size);
 
 
 /* Matrix matrix multiplication using DGEMM */

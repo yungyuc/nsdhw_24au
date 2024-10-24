@@ -6,8 +6,8 @@ CXX_FLAGS := -O3 -Wall -shared -fPIC -std=c++11 $(shell python3 -m pybind11 --in
 OUTPUT := _matrix$(shell python3-config --extension-suffix)
 
 .PHONY: default
-default: build
-build: matrix.cpp
+default: $(OUTPUT)
+$(OUTPUT): matrix.cpp
 	$(CXX) $(CXX_FLAGS) $^ -o $(OUTPUT)
 
 .PHONY: test
@@ -16,4 +16,4 @@ test: test_*.py $(OUTPUT)
 
 .PHONY: clean
 clean:
-	rm -rf *
+	rm -f *.so *.o __pycache__

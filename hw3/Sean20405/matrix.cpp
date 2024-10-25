@@ -6,15 +6,16 @@
 namespace py = pybind11;
 
 Matrix::Matrix(size_t num_row, size_t num_col) : nrow(num_row), ncol(num_col) {
-    data = std::vector<double>(nrow * ncol, 0);
+    reset_buffer(nrow, ncol);
 }
 
 Matrix::Matrix(size_t num_row, size_t num_col, std::vector<double> const & vec) : nrow(num_row), ncol(num_col) {
-    data = std::vector<double>(vec);
+    reset_buffer(num_row, num_col);
+    (*this) = vec;
 }
 
 Matrix & Matrix::operator=(std::vector<double> const & vec) {
-    if (data.size() != vec.size()) {
+    if (nrow * ncol != vec.size()) {
         throw std::out_of_range("number of elements mismatch");
     }
 
@@ -47,7 +48,7 @@ bool Matrix::operator==(const Matrix &m) const {
 
 /* copy constructor */
 Matrix::Matrix(Matrix const & other) : nrow(other.nrow), ncol(other.ncol) {
-    data.resize(nrow * ncol);
+    reset_buffer(other.nrow, other.ncol);
     
     for (size_t i=0; i<nrow; ++i) {
         for (size_t j=0; j<ncol; ++j) {
@@ -61,7 +62,7 @@ Matrix & Matrix::operator=(Matrix const & other) {
     if (this == &other) { return *this; }
     
     if (nrow != other.nrow || ncol != other.ncol) {
-        data.resize(other.nrow * other.ncol);
+        reset_buffer(other.nrow, other.ncol);
     }
 
     for (size_t i=0; i<nrow; ++i) {
@@ -75,9 +76,10 @@ Matrix & Matrix::operator=(Matrix const & other) {
 
 /* move constructor */
 Matrix::Matrix(Matrix && other) : nrow(other.nrow), ncol(other.ncol) {
+    reset_buffer(0, 0);
     std::swap(nrow, other.nrow);
     std::swap(ncol, other.ncol);
-    data.swap(other.data);
+    std::swap(data, other.data);
 }
 
 /* move assignment operator */
@@ -85,15 +87,34 @@ Matrix & Matrix::operator=(Matrix && other) {
     if (this == &other) { return *this; }
     std::swap(nrow, other.nrow);
     std::swap(ncol, other.ncol);
-    data.swap(other.data);
+    std::swap(data, other.data);
     return *this;
 }
 
-double   Matrix::operator() (size_t row, size_t col) const {
-    return data[ncol * row + col];
+Matrix::~Matrix() {
+    reset_buffer(0, 0);
 }
-double & Matrix::operator() (size_t row, size_t col) {
-    return data[ncol * row + col];
+
+double   Matrix::operator() (size_t row, size_t col) const { return data[ncol * row + col]; }
+double & Matrix::operator() (size_t row, size_t col)       { return data[ncol * row + col]; }
+
+void Matrix::reset_buffer(size_t nrow, size_t ncol) {
+    if (data) {
+        delete[] data;
+    }
+    const size_t nelement = nrow * ncol;
+    if (nelement) {
+        data = new double[nelement];
+        memset(data, 0, sizeof(double) * nelement);
+    } else {
+        data = nullptr;
+    }
+    this->nrow = nrow;
+    this->ncol = ncol;
+}
+
+std::vector<double> Matrix::to_vector() const {
+    return std::vector<double>(data, data + nrow * ncol);
 }
 
 std::ostream & operator << (std::ostream & ostr, Matrix const & mat) {
@@ -120,11 +141,9 @@ Matrix multiply_naive(Matrix const & mat1, Matrix const & mat2) {
 
     for (size_t i=0; i<mat1.nrow; ++i) {
         for (size_t k=0; k<mat2.ncol; ++k) {
-            double v = 0;
             for (size_t j=0; j<mat1.ncol; ++j) {
-                v += mat1(i, j) * mat2(j, k);
+                ret(i, k) += mat1(i, j) * mat2(j, k);
             }
-            ret(i, k) = v;
         }
     }
 
@@ -132,7 +151,7 @@ Matrix multiply_naive(Matrix const & mat1, Matrix const & mat2) {
 }
 
 /* Matrix matrix multiplication using tiling */
-Matrix multiply_tile(Matrix const & mat1, Matrix const & mat2, int tile_size) {
+Matrix multiply_tile(Matrix const & mat1, Matrix const & mat2, size_t tile_size) {
     if (mat1.ncol != mat2.nrow) {
         throw std::out_of_range(
             "the number of first matrix column "
@@ -154,8 +173,9 @@ Matrix multiply_tile(Matrix const & mat1, Matrix const & mat2, int tile_size) {
 
                 for (size_t i=tile_i; i<tile_i_end; ++i) {
                     for (size_t k=tile_k; k<tile_k_end; ++k) {
+                        double tmp = mat1(i, k);
                         for (size_t j=tile_j; j<tile_j_end; ++j) {
-                            ret(i, k) += mat1(i, j) * mat2(j, k);
+                            ret(i, j) += tmp * mat2(k, j);
                         }
                     }
                 }
@@ -185,12 +205,12 @@ Matrix multiply_mkl(Matrix const & mat1, Matrix const & mat2) {
       , mat2.ncol       // const MKL_INT n
       , mat1.ncol       // const MKL_INT k
       , 1.0               // const double alpha
-      , mat1.data.data()  // const double *A
+      , mat1.data  // const double *A
       , mat1.ncol       // The size of the first dimension of matrix A
-      , mat2.data.data()  // const double *B
+      , mat2.data  // const double *B
       , mat2.ncol       // The size of the first dimension of matrix B
       , 0.0               // const double beta
-      , ret.data.data()   // double *C
+      , ret.data   // double *C
       , ret.ncol        // The size of the first dimension of matrix C
     );
 
@@ -204,6 +224,7 @@ PYBIND11_MODULE(_matrix, m) {
     py::class_<Matrix>(m, "Matrix")
         .def(py::init<size_t, size_t>())
         .def(py::init<size_t, size_t, std::vector<double>>())
+        .def("to_list", &Matrix::to_vector)
         .def("__repr__", [](Matrix const & mat) {
             return "Matrix(" + std::to_string(mat.nrow) + ", " + std::to_string(mat.ncol) + ")";
         })
@@ -219,10 +240,6 @@ PYBIND11_MODULE(_matrix, m) {
         .def_readonly("nrow", &Matrix::nrow)
         .def_readonly("ncol", &Matrix::ncol)
         .def_readonly("data", &Matrix::data);
-
-    // py::class_<Matrix>(m, "Matrix")
-    //     .def(py::init<size_t, size_t>())
-    //     .def(py::init<size_t, size_t, std::vector<double>>());
 
     m.def("multiply_naive", &multiply_naive, "Matirx multiplication by the naive approach.");
     m.def("multiply_tile", &multiply_tile, "Matirx multiplication leveraging tiling.");

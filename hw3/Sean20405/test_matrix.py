@@ -4,9 +4,11 @@ import random
 import numpy as np
 import _matrix
 
+avg_time_naive = 0.0
+
 def get_ans(mat1, mat2, mat_size):
-    mat1 = np.array(mat1.data).reshape(mat_size, mat_size)
-    mat2 = np.array(mat2.data).reshape(mat_size, mat_size)
+    mat1 = np.array(mat1.to_list()).reshape(mat_size, mat_size)
+    mat2 = np.array(mat2.to_list()).reshape(mat_size, mat_size)
 
     return (mat1 @ mat2).flatten().tolist()
 
@@ -16,7 +18,7 @@ def test_naive_unit():
 
     result = _matrix.multiply_naive(mat_unit, mat_unit)
 
-    assert result.data == get_ans(mat_unit, mat_unit, mat_size)
+    assert result.to_list() == get_ans(mat_unit, mat_unit, mat_size)
 
 def test_naive_random():
     num_tests = 5
@@ -34,15 +36,18 @@ def test_naive_random():
         end = time.time()
         total_time.append(end - start)
 
-        assert result.data == pytest.approx(get_ans(mat1, mat2, mat_size))
+        assert result.to_list() == pytest.approx(get_ans(mat1, mat2, mat_size))
 
     with open('performance.txt', 'a') as f:
         f.write("=== Naive ===\n")
         f.write(f'> Matrix size:\t{mat_size}x{mat_size}\n')
         f.write(f'> Repeated:\t\t{num_tests}\n')
-        f.write(f'> Time:\t{total_time}\n')
+        f.write(f'> Time:\t\t\t{total_time}\n')
         f.write(f'> Total time:\t{sum(total_time)}\n')
         f.write(f'> Average time:\t{sum(total_time) / num_tests}\n\n')
+
+    global avg_time_naive
+    avg_time_naive = sum(total_time) / num_tests 
 
 def test_tiling_unit():
     mat_size = 1000
@@ -50,7 +55,7 @@ def test_tiling_unit():
 
     result = _matrix.multiply_tile(mat_unit, mat_unit, 8)
 
-    assert result.data == get_ans(mat_unit, mat_unit, mat_size)
+    assert result.to_list() == get_ans(mat_unit, mat_unit, mat_size)
 
 def test_tiling_random():
     num_tests = 5
@@ -69,16 +74,17 @@ def test_tiling_random():
         end = time.time()
         total_time.append(end - start)
 
-        assert result.data == pytest.approx(get_ans(mat1, mat2, mat_size))
+        assert result.to_list() == pytest.approx(get_ans(mat1, mat2, mat_size))
     
     with open('performance.txt', 'a') as f:
         f.write("=== Tiling ===\n")
         f.write(f'> Matrix size:\t{mat_size}x{mat_size}\n')
         f.write(f'> Repeated:\t\t{num_tests}\n')
         f.write(f'> Tile size:\t{tile_size}\n')
-        f.write(f'> Time:\t{total_time}\n')
+        f.write(f'> Time:\t\t\t{total_time}\n')
         f.write(f'> Total time:\t{sum(total_time)}\n')
-        f.write(f'> Average time:\t{sum(total_time) / num_tests}\n\n')
+        f.write(f'> Average time:\t{sum(total_time) / num_tests}\n')
+        f.write(f'> Speedup:\t\t{avg_time_naive / (sum(total_time) / num_tests)} x\n\n')
 
 def test_mkl_unit():
     mat_size = 1000
@@ -86,7 +92,7 @@ def test_mkl_unit():
 
     result = _matrix.multiply_mkl(mat_unit, mat_unit)
 
-    assert result.data == get_ans(mat_unit, mat_unit, mat_size)
+    assert result.to_list() == get_ans(mat_unit, mat_unit, mat_size)
 
 def test_mkl_random():
     num_tests = 5
@@ -105,27 +111,13 @@ def test_mkl_random():
         end = time.time()
         total_time.append(end - start)
 
-        assert result.data == pytest.approx(get_ans(mat1, mat2, mat_size))
+        assert result.to_list() == pytest.approx(get_ans(mat1, mat2, mat_size))
 
     with open('performance.txt', 'a') as f:
         f.write("=== dgemm ===\n")
         f.write(f'> Matrix size:\t{mat_size}x{mat_size}\n')
         f.write(f'> Repeated:\t\t{num_tests}\n')
-        f.write(f'> Time:\t{total_time}\n')
+        f.write(f'> Time:\t\t\t{total_time}\n')
         f.write(f'> Total time:\t{sum(total_time)}\n')
-        f.write(f'> Average time:\t{sum(total_time) / num_tests}\n\n')
-
-
-# def test_simple():
-#     mat_size = 4
-#     mat1 = _matrix.Matrix(mat_size, mat_size, [i for i in range(mat_size * mat_size)])
-#     mat2 = _matrix.Matrix(mat_size, mat_size, [i for i in range(mat_size * mat_size)])
-
-#     # print(mat1.data)
-#     # print(np.array(mat1.data).reshape(mat_size, mat_size))
-
-#     result = _matrix.multiply_naive(mat1, mat2)
-
-#     assert result.data == pytest.approx(get_ans(mat1, mat2, mat_size))
-
-# test_naive_random()
+        f.write(f'> Average time:\t{sum(total_time) / num_tests}\n')
+        f.write(f'> Speedup:\t\t{avg_time_naive / (sum(total_time) / num_tests)} x\n\n')

@@ -1,0 +1,6 @@
+size: 1000 * 1000
+naive: 1.5145657230004872 seconds
+mkl: 0.5914358650006761 seconds
+tile: 0.7469050500003505 seconds
+mkl speedup over naive: 2.5608283376571284
+tile speedup over naive: 2.0277888374161837

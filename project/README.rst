@@ -80,7 +80,7 @@ General:
 Linear albegra:
 
 1. `LienShark <https://github.com/LienShark>`__ for
-   `EigenApproWithGersgorin <LienShark/README.rst>`__:
+   `EigenApproWithGersgorin <LienShark/Readme.rst>`__:
    https://github.com/LienShark/EigenApproWithGersgorin
 2. `OscarShiang <https://github.com/OscarShiang>`__ for
    `PicoLA <OscarShiang/README.rst>`__:
@@ -138,7 +138,7 @@ Projects by Account Names
    `PolygonAreaCaculator <Kang-Ding-Xin-NYCU/README.rst>`__:
    https://github.com/Kang-Ding-Xin-NYCU/PolygonAreaCaculator
 4. `LienShark <https://github.com/LienShark>`__ for
-   `EigenApproWithGersgorin <LienShark/README.rst>`__:
+   `EigenApproWithGersgorin <LienShark/Readme.rst>`__:
    https://github.com/LienShark/EigenApproWithGersgorin
 5. `OscarShiang <https://github.com/OscarShiang>`__ for
    `PicoLA <OscarShiang/README.rst>`__:

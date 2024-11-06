@@ -95,9 +95,9 @@ public:
 
     size_t ncol() const { return m_ncol; }
 
-    static Matrix multiply_naive(Matrix const &a, Matrix const &b);
-    static Matrix multiply_tile(Matrix const &a, Matrix const &b, const size_t step);
-    static Matrix multiply_mkl(Matrix const &a, Matrix const &b);
+    static Matrix &multiply_naive(Matrix const &a, Matrix const &b);
+    static Matrix &multiply_tile(Matrix const &a, Matrix const &b, const size_t step);
+    static Matrix &multiply_mkl(Matrix const &a, Matrix const &b);
 
     const static size_t bytes()
     {
@@ -137,64 +137,64 @@ private:
 
     size_t m_nrow = 0;
     size_t m_ncol = 0;
-    double *m_buffer = nullptr;
+    std::vector<double, CustomAllocator<double>> m_buffer;
 };
 
-Matrix Matrix::multiply_naive(Matrix const &mat1, Matrix const &mat2)
+Matrix &Matrix::multiply_naive(Matrix const &mat1, Matrix const &mat2)
 {
     if (mat1.ncol() != mat2.nrow()) {
         throw std::out_of_range("Dimesion mismatch");
     }
 
-    Matrix ret(mat1.nrow(), mat2.ncol());
-    for (size_t i = 0; i < ret.nrow(); ++i) {
-        for (size_t k = 0; k < ret.ncol(); ++k) {
+    Matrix *ret = new Matrix(mat1.nrow(), mat2.ncol());
+    for (size_t i = 0; i < ret->nrow(); ++i) {
+        for (size_t k = 0; k < ret->ncol(); ++k) {
             double val = 0;
             for (size_t j = 0; j < mat1.ncol(); ++j) {
                 val += mat1(i, j) * mat2(j, k);
             }
-            ret(i, k) = val;
+            (*ret)(i, k) = val;
         }
     }
-    return ret;
+    return *ret;
 }
 
-Matrix Matrix::multiply_tile(Matrix const &mat1, Matrix const &mat2, const size_t step)
+Matrix &Matrix::multiply_tile(Matrix const &mat1, Matrix const &mat2, const size_t step)
 {
     if (mat1.ncol() != mat2.nrow()) {
         throw std::out_of_range("Dimension mismatch");
     }
 
     // XXX: Can we simplify these loops with multiply_naive?
-    Matrix m(mat1.nrow(), mat2.ncol());
+    Matrix *m = new Matrix(mat1.nrow(), mat2.ncol());
     for (size_t i = 0; i < mat1.nrow(); i += step) {
         for (size_t k = 0; k < mat2.ncol(); k += step) {
             for (size_t j = 0; j < mat1.ncol(); j += step) {
                 for (size_t ti = i; ti < std::min(mat1.nrow(), i + step); ++ti) {
                     for (size_t tk = k; tk < std::min(mat2.ncol(), k + step); ++tk) {
                         for (size_t tj = j; tj < std::min(mat1.ncol(), j + step); ++tj) {
-                            m(ti, tk) += mat1(ti, tj) * mat2(tj, tk);
+                            (*m)(ti, tk) += mat1(ti, tj) * mat2(tj, tk);
                         }
                     }
                 }
             }
         }
     }
-    return m;
+    return *m;
 }
 
-Matrix Matrix::multiply_mkl(Matrix const &mat1, Matrix const &mat2)
+Matrix &Matrix::multiply_mkl(Matrix const &mat1, Matrix const &mat2)
 {
     if (mat1.ncol() != mat2.nrow()) {
         throw std::out_of_range("Dimension mismatch");
     }
 
-    Matrix m(mat1.nrow(), mat2.ncol());
+    Matrix *m = new Matrix(mat1.nrow(), mat2.ncol());
     cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, mat1.nrow(),
                 mat2.ncol(), mat1.ncol(), 1, mat1.data(), mat1.ncol(),
-                mat2.data(), mat2.ncol(), 0, m.data(), m.ncol());
+                mat2.data(), mat2.ncol(), 0, m->data(), m->ncol());
 
-    return m;
+    return *m;
 }
 
 PYBIND11_MODULE(_matrix, m) {
@@ -211,9 +211,9 @@ PYBIND11_MODULE(_matrix, m) {
         })
         .def("__repr__", &Matrix::to_string)
         .def("__eq__", &Matrix::operator==);
-    m.def("multiply_naive", &Matrix::multiply_naive);
-    m.def("multiply_tile", &Matrix::multiply_tile);
-    m.def("multiply_mkl", &Matrix::multiply_mkl);
+    m.def("multiply_naive", &Matrix::multiply_naive, py::return_value_policy::take_ownership);
+    m.def("multiply_tile", &Matrix::multiply_tile, py::return_value_policy::take_ownership);
+    m.def("multiply_mkl", &Matrix::multiply_mkl, py::return_value_policy::take_ownership);
     m.def("bytes", &Matrix::bytes);
     m.def("allocated", &Matrix::allocated);
     m.def("deallocated", &Matrix::deallocated);

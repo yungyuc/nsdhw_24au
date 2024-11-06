@@ -5,6 +5,8 @@
 #include <pybind11/stl.h>
 #include <mkl/mkl.h>
 
+#include "allocator.h"
+
 namespace py = pybind11;
 
 class Matrix {
@@ -87,7 +89,7 @@ public:
         return retval;
     }
 
-    double *data() const { return m_buffer; }
+    double *data() const { return (double *) m_buffer.data(); }
 
     size_t nrow() const { return m_nrow; }
 
@@ -97,6 +99,21 @@ public:
     static Matrix multiply_tile(Matrix const &a, Matrix const &b, const size_t step);
     static Matrix multiply_mkl(Matrix const &a, Matrix const &b);
 
+    const static size_t bytes()
+    {
+        return CustomAllocator<double>::bytes();
+    }
+
+    const static size_t allocated()
+    {
+        return CustomAllocator<double>::allocated();
+    }
+
+    const static size_t deallocated()
+    {
+        return CustomAllocator<double>::deallocated();
+    }
+
 private:
     size_t index(size_t row, size_t col) const
     {
@@ -105,15 +122,14 @@ private:
 
     void reset_buffer(size_t nrow, size_t ncol)
     {
-        if (m_buffer) {
-            delete[] m_buffer;
-        }
-        const size_t nelement = nrow * ncol;
-        if (nelement) {
-            m_buffer = new double[nelement];
-            memset(m_buffer, 0, sizeof(double) * nelement);
+        if (nrow == 0 || ncol == 0) {
+            m_buffer.clear();
         } else {
-            m_buffer = nullptr;
+            const size_t nelement = nrow * ncol;
+            if (m_buffer.size() < nelement) {
+                m_buffer.resize(nelement);
+                std::fill(m_buffer.begin(), m_buffer.end(), 0);
+            }
         }
         m_nrow = nrow;
         m_ncol = ncol;
@@ -198,4 +214,7 @@ PYBIND11_MODULE(_matrix, m) {
     m.def("multiply_naive", &Matrix::multiply_naive);
     m.def("multiply_tile", &Matrix::multiply_tile);
     m.def("multiply_mkl", &Matrix::multiply_mkl);
+    m.def("bytes", &Matrix::bytes);
+    m.def("allocated", &Matrix::allocated);
+    m.def("deallocated", &Matrix::deallocated);
 }

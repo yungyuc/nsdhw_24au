@@ -3,6 +3,8 @@ import random
 import _matrix
 
 def test_construct():
+    assert _matrix.bytes() == 0
+
     a = _matrix.Matrix(2, 2)
     a[0, 0] = 1
     a[0, 1] = 2
@@ -18,6 +20,8 @@ def test_construct():
     assert a == b
 
 def test_naive():
+    assert _matrix.bytes() == 0
+
     a = _matrix.Matrix(2, 2)
     a[0, 0] = 1
     a[0, 1] = 2
@@ -35,6 +39,8 @@ def test_naive():
     assert c[0, 0] == 7 and c[0, 1] == 10 and c[1, 0] == 15 and c[1, 1] == 22
 
 def test_tile():
+    assert _matrix.bytes() == 0
+
     a = _matrix.Matrix(1000, 1005)
     for i in range(1000):
         for j in range(1005):
@@ -51,6 +57,8 @@ def test_tile():
     assert(m1 == m2)
 
 def test_mkl():
+    assert _matrix.bytes() == 0
+
     a = _matrix.Matrix(1000, 1005)
     for i in range(1000):
         for j in range(1005):

@@ -30,13 +30,10 @@ bool operator==(ByteCounter const & a, ByteCounter const & b) {
 template <class T>
 MyAllocator<T>::MyAllocator() {
     byte_counter = new ByteCounter;
-    std::cout << "[Allocator] MyAllocator()" << std::endl;
-};
+}
 
 template <class T>
-MyAllocator<T>::MyAllocator(ByteCounter *byte_counter) : byte_counter(byte_counter) {
-    std::cout << "[Allocator] MyAllocator(ByteCounter *byte_counter)" << std::endl;
-};
+MyAllocator<T>::MyAllocator(ByteCounter *byte_counter) : byte_counter(byte_counter) {}
 
 template <class T>
 template <class U>
@@ -52,11 +49,7 @@ T * MyAllocator<T>::allocate(std::size_t n){
     const std::size_t bytes = n*sizeof(T);
     T * p = static_cast<T *>(std::malloc(bytes));
     if (p) {
-        std::cout << "[Allocator] Addr of this: " << this << std::endl;
-        std::cout << "[Allocator] Addr of this->byte_counter: " << this->byte_counter << std::endl;
-        std::cout << "[Allocator] Allocated " << bytes << " bytes." << std::endl;
         (this->byte_counter)->increase(bytes);
-        std::cout << "[Allocator] Current allocated: " << byte_counter->allocated() << " bytes." << std::endl << std::endl;
         
         return p;
     }
@@ -69,11 +62,7 @@ template <class T>
 void MyAllocator<T>::deallocate(T* p, std::size_t n) noexcept{
     std::free(p);
     const std::size_t bytes = n*sizeof(T);
-    std::cout << "[Allocator] Addr of this: " << this << std::endl;
-    std::cout << "[Allocator] Addr of this->byte_counter: " << this->byte_counter << std::endl;
-    std::cout << "[Allocator] Deallocated " << bytes << " bytes." << std::endl;
     (this->byte_counter)->decrease(bytes);
-    std::cout << "[Allocator] Current deallocated: " << byte_counter->deallocated() << " bytes." << std::endl << std::endl;
 }
 
 template <class T>
@@ -90,9 +79,6 @@ bool operator!= (const MyAllocator<T> & a, const MyAllocator<T> & b) {
 
 /* Matrix */
 Matrix::Matrix(size_t num_row, size_t num_col) : nrow(num_row), ncol(num_col) {
-    std::cout << "[Matrix] Constructor called" << std::endl;
-    std::cout << "[Matrix] Addr of allocator: " << &alloc << std::endl;
-    std::cout << "[Matrix] Addr of byte_counter: " << alloc.byte_counter << std::endl << std::endl;
     data = std::vector<double, MyAllocator<double>>(num_row * num_col, 0, alloc);
 }
 
@@ -134,13 +120,11 @@ bool Matrix::operator==(const Matrix &m) const {
 
 /* copy constructor */
 Matrix::Matrix(Matrix const & other) : nrow(other.nrow), ncol(other.ncol) {
-    std::cout << "[Matrix] Matrix copy constructor called" << std::endl;
     data = other.data;
 }
 
 /* copy assignment operator */
 Matrix & Matrix::operator=(Matrix const & other) {
-    std::cout << "[Matrix] Matrix copy assignment operator called" << std::endl;
     if (this == &other) { return *this; }
     
     if (nrow != other.nrow || ncol != other.ncol) {
@@ -154,9 +138,7 @@ Matrix & Matrix::operator=(Matrix const & other) {
 }
 
 /* move constructor */
-Matrix::Matrix(Matrix && other) : nrow(other.nrow), ncol(other.ncol) {
-    std::cout << "[Matrix] Matrix move constructor called" << std::endl;
-    
+Matrix::Matrix(Matrix && other) : nrow(other.nrow), ncol(other.ncol) {    
     std::swap(nrow, other.nrow);
     std::swap(ncol, other.ncol);
     data.swap(other.data);
@@ -164,7 +146,6 @@ Matrix::Matrix(Matrix && other) : nrow(other.nrow), ncol(other.ncol) {
 
 /* move assignment operator */
 Matrix & Matrix::operator=(Matrix && other) {
-    std::cout << "[Matrix] Matrix move assignment operator called" << std::endl;
     if (this == &other) { return *this; }
     std::swap(nrow, other.nrow);
     std::swap(ncol, other.ncol);
@@ -173,7 +154,6 @@ Matrix & Matrix::operator=(Matrix && other) {
 }
 
 Matrix::~Matrix() {
-    std::cout << "[Matrix] Matrix destructor called" << std::endl;
     data.clear();
     nrow = 0;
     ncol = 0;
@@ -285,31 +265,14 @@ Matrix multiply_mkl(Matrix const & mat1, Matrix const & mat2) {
 
 /* Allocator function */
 int bytes() {
-    std::cout << std::endl << "========= bytes() =========" << std::endl;
-    std::cout << "[bytes] addr of allocator: " << &alloc << std::endl;
-    std::cout << "[bytes] addr of byte_counter: " << alloc.byte_counter << std::endl;
-    std::cout << "[bytes] Allocated " << alloc.byte_counter->allocated() << " bytes." << std::endl;
-    std::cout << "[bytes] Deallocated " << alloc.byte_counter->deallocated() << " bytes." << std::endl;
-    std::cout << "[bytes] Remaining " << alloc.byte_counter->allocated() - alloc.byte_counter->deallocated() << " bytes." << std::endl;
-    std::cout << "===========================" << std::endl;
     return alloc.byte_counter->allocated() - alloc.byte_counter->deallocated();
 }
 
 int allocated() {
-    std::cout << std::endl << "========= allocated() =========" << std::endl; 
-    std::cout << "[allocated] addr of allocator: " << &alloc << std::endl;
-    std::cout << "[allocated] addr of byte_counter: " << alloc.byte_counter << std::endl;
-    std::cout << "[allocated] Allocated " << alloc.byte_counter->allocated() << " bytes." << std::endl;
-    std::cout << "===============================" << std::endl;
     return alloc.byte_counter->allocated();
 }
 
 int deallocated() {
-    std::cout << std::endl << "========= deallocated() =========" << std::endl;
-    std::cout << "[deallocated] addr of allocator: " << &alloc << std::endl;
-    std::cout << "[deallocated] addr of byte_counter: " << alloc.byte_counter << std::endl;
-    std::cout << "[deallocated] Deallocated " << alloc.byte_counter->deallocated() << " bytes." << std::endl;
-    std::cout << "================================" << std::endl;
     return alloc.byte_counter->deallocated();
 }
 /* End Allocator function */

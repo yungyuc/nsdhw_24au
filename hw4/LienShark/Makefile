@@ -8,9 +8,9 @@ else
 endif
 
 ifeq ($(UNAME_S),Linux)
-    MKLINCLUDE = -I/usr/include/mkl
+    MKLINCLUDE = -lblas -I/usr/include/mkl
     MKLLIB = -L/usr/lib/mkl
-	LDFLAGS = -L/usr/lib/mkl -lmkl_intel_ilp64 -lmkl_core -lmkl_sequential -lmkl_def -lpthread -lm -ldl
+	LDFLAGS = -L/usr/lib/mkl -lmkl_rt -lmkl_intel_ilp64 -lmkl_core -lmkl_sequential -lmkl_def -lpthread -lm -ldl
 else ifeq ($(UNAME_S),Darwin)
     MKLINCLUDE = -I/opt/intel/oneapi/mkl/2023.2.2/include
     MKLLIB = -L/opt/intel/oneapi/mkl/2023.2.2/lib
@@ -59,3 +59,5 @@ test: $(TARGET)
 # 清理指令
 clean:
 	rm -f $(TARGET) *.o
+	rm -f *.so
+	rm -f *.o

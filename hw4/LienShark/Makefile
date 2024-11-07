@@ -10,23 +10,28 @@ else ifeq ($(UNAME_S),Darwin)
 else
     $(error "Unsupported operating system")
 endif
-#MKLINCLUDE = -I/opt/intel/oneapi/mkl/2023.2.2/include
-#MKLLIB = /opt/intel/oneapi/mkl/2023.2.2/lib
+
 COMPILERLIB = /opt/intel/oneapi/compiler/latest/mac/compiler/lib
 
 # 編譯器選項
 CXX = g++
 CXXFLAGS = -O3 -Wall -shared -std=c++17 -fPIC -DMKL_ILP64 -m64 $(MKLINCLUDE) `python3-config --includes`
+
+ifeq ($(UNAME_S),Darwin)
+    DYNAMIC_LOOKUP_FLAG = -undefined dynamic_lookup
+else
+    DYNAMIC_LOOKUP_FLAG =
+endif
+
 LDFLAGS = $(MKLLIB)/libmkl_intel_ilp64.dylib \
           $(MKLLIB)/libmkl_intel_thread.dylib \
           $(MKLLIB)/libmkl_core.dylib \
           -L$(COMPILERLIB) -Wl,-rpath,$(MKLLIB) -Wl,-rpath,$(COMPILERLIB) \
-          -liomp5 -lpthread -lm -ldl -undefined dynamic_lookup
+          -liomp5 -lpthread -lm -ldl $(DYNAMIC_LOOKUP_FLAG)
 
 # 目標名稱
 TARGET = _matrix$(shell python3-config --extension-suffix)
 ALLOCATOR = _allocate.hpp
-ALLOCATOR_OBJ = _allocate.o
 PYBIND_OBJ = _pybind.o
 MATRIX_OBJ = _matrix.o
 # 編譯規則

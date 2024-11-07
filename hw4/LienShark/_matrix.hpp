@@ -41,8 +41,8 @@ public:
         if((m_nrow != B.nrow()) || (m_ncol != B.ncol())){
             return false;
         }else{
-            for(int i = 0 ; i < m_nrow ; ++i){
-                for(int j = 0 ; j < m_ncol ; ++j){
+            for(size_t i = 0 ; i < m_nrow ; ++i){
+                for(size_t j = 0 ; j < m_ncol ; ++j){
                     if(m_buffer[i * m_ncol + j] != B.m_buffer[i * m_ncol + j]){
                         return false;
                     }

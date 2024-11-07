@@ -1,12 +1,25 @@
 # 指定 MKL 的包含和庫路徑
 UNAME_S := $(shell uname -s)
 
+ifeq ($(UNAME_S),Darwin)
+    DYNAMIC_LOOKUP_FLAG = -undefined dynamic_lookup
+else
+    DYNAMIC_LOOKUP_FLAG =
+endif
+
 ifeq ($(UNAME_S),Linux)
     MKLINCLUDE = -I/usr/include/mkl
     MKLLIB = -L/usr/lib/mkl
+	LDFLAGS = -L/usr/lib/mkl -lmkl_intel_ilp64 -lmkl_core -lmkl_sequential -lpthread -lm -ldl
 else ifeq ($(UNAME_S),Darwin)
     MKLINCLUDE = -I/opt/intel/oneapi/mkl/2023.2.2/include
     MKLLIB = -L/opt/intel/oneapi/mkl/2023.2.2/lib
+	LDFLAGS = $(MKLLIB)/libmkl_intel_ilp64.dylib \
+          $(MKLLIB)/libmkl_intel_thread.dylib \
+          $(MKLLIB)/libmkl_core.dylib \
+          -L$(COMPILERLIB) -Wl,-rpath,$(MKLLIB) -Wl,-rpath,$(COMPILERLIB) \
+          -liomp5 -lpthread -lm -ldl $(DYNAMIC_LOOKUP_FLAG)
+
 else
     $(error "Unsupported operating system")
 endif
@@ -16,18 +29,6 @@ COMPILERLIB = /opt/intel/oneapi/compiler/latest/mac/compiler/lib
 # 編譯器選項
 CXX = g++
 CXXFLAGS = -O3 -Wall -shared -std=c++17 -fPIC -DMKL_ILP64 -m64 $(MKLINCLUDE) `python3-config --includes`
-
-ifeq ($(UNAME_S),Darwin)
-    DYNAMIC_LOOKUP_FLAG = -undefined dynamic_lookup
-else
-    DYNAMIC_LOOKUP_FLAG =
-endif
-
-LDFLAGS = $(MKLLIB)/libmkl_intel_ilp64.dylib \
-          $(MKLLIB)/libmkl_intel_thread.dylib \
-          $(MKLLIB)/libmkl_core.dylib \
-          -L$(COMPILERLIB) -Wl,-rpath,$(MKLLIB) -Wl,-rpath,$(COMPILERLIB) \
-          -liomp5 -lpthread -lm -ldl $(DYNAMIC_LOOKUP_FLAG)
 
 # 目標名稱
 TARGET = _matrix$(shell python3-config --extension-suffix)

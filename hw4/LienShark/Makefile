@@ -1,6 +1,17 @@
 # 指定 MKL 的包含和庫路徑
-MKLINCLUDE = -I/opt/intel/oneapi/mkl/2023.2.2/include
-MKLLIB = /opt/intel/oneapi/mkl/2023.2.2/lib
+UNAME_S := $(shell uname -s)
+
+ifeq ($(UNAME_S),Linux)
+    MKLINCLUDE = -I/usr/include/mkl
+    MKLLIB = -L/usr/lib/mkl
+else ifeq ($(UNAME_S),Darwin)
+    MKLINCLUDE = -I/opt/intel/oneapi/mkl/2023.2.2/include
+    MKLLIB = -L/opt/intel/oneapi/mkl/2023.2.2/lib
+else
+    $(error "Unsupported operating system")
+endif
+#MKLINCLUDE = -I/opt/intel/oneapi/mkl/2023.2.2/include
+#MKLLIB = /opt/intel/oneapi/mkl/2023.2.2/lib
 COMPILERLIB = /opt/intel/oneapi/compiler/latest/mac/compiler/lib
 
 # 編譯器選項

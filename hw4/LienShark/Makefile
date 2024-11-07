@@ -58,4 +58,4 @@ test: $(TARGET)
 
 # 清理指令
 clean:
-	rm -f $(TARGET)
+	rm -f $(TARGET) *.o

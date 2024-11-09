@@ -8,7 +8,7 @@ else
 endif
 
 CXX = g++
-CXXFLAGS = -std=c++14 -Wall -Wextra -Werror -Ofast -march=native -m64 -fPIC $(OSDEF)
+CXXFLAGS = -std=c++17 -Wall -Wextra -Werror -Ofast -march=native -m64 -fPIC $(OSDEF)
 LDFLAGS = -shared
 INCLUDE = -I./include -Ithird_party/pybind11/include $(shell python3-config --includes)
 
@@ -34,4 +34,4 @@ test: $(TARGET)
 	python3 -m pytest -v
 
 clean:
-	-rm -f $(OBJS) $(TARGET)
+	-rm -f $(OBJS) $(TARGET) tcpp

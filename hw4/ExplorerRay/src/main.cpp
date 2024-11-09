@@ -1,5 +1,6 @@
 #include "matrix.hpp"
 #include "matrix-multiply.hpp"
+#include "allocator.hpp"
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
@@ -19,6 +20,10 @@ PYBIND11_MODULE(_matrix, m) {
         .def("__eq__", [](matrix_2d &mat, matrix_2d &other) {
             return mat == other;
         });
+
+    m.def("bytes", &CustomAllocator<double>::bytes);
+    m.def("allocated", &CustomAllocator<double>::allocated);
+    m.def("deallocated", &CustomAllocator<double>::deallocated);
 
     m.def("multiply_naive", &multiply_naive, "A C++ function that multiply 2D matrix (naive)");
     m.def("multiply_tile", &multiply_tile, "A C++ function that multiply 2D matrix (tile)");

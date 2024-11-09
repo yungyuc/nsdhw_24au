@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <stdexcept>
 #include <vector>
+#include "allocator.hpp"
 
 class matrix_2d {
 public:
@@ -27,7 +28,7 @@ public:
     size_t get_nrow() const;
     size_t get_ncol() const;
     const double* get_buffer() const;
-    std::vector<double> m_buffer;
+    std::vector<double, CustomAllocator<double>> m_buffer;
 
 private:
     size_t m_nrow;

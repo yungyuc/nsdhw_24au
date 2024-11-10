@@ -122,40 +122,39 @@ def test_multiply_match():
     res12 = _matrix.multiply_mkl(matC, matD)
     assert ((res10 == res11) & (res11 == res12))
 
-def test_tile():
-    setup = '''
-import _matrix
+def test_zero():
+        
+        _matrix.reset_memory_tracking()
+        assert(0 == _matrix.bytes())
 
-mat1 = _matrix.Matrix(size,size)
-mat2 = _matrix.Matrix(size,size)
+        size = 200
+        mat1 = _matrix.Matrix(200, 200)
+        mat2 = _matrix.Matrix(200, 200)
+        mat3 = _matrix.Matrix(200, 200)
+        assert(3*8 * size*size == _matrix.bytes())
+        base_alloc = _matrix.allocated()
+        base_dealloc = _matrix.deallocated()
 
-for it in range(size):
-    for jt in range(size):
-        mat1[it, jt] = it * size + jt + 1
-        mat2[it, jt] = it * size + jt + 1
-'''
+        ret_naive = _matrix.multiply_naive(mat1, mat3)
+        ret_mkl = _matrix.multiply_mkl(mat1, mat3)
 
-    naive = '''
-_matrix.multiply_naive(mat1, mat2)
-'''
+        assert(size == ret_naive.nrow)
+        assert(size == ret_naive.ncol)
+        assert(size == ret_mkl.nrow)
+        assert(size == ret_mkl.ncol)
 
-    tile  = '''
-_matrix.multiply_tile(mat1, mat2, time)
-'''
-    size = 1000
-    naive_time = timeit.Timer(stmt=naive, setup=setup, globals=locals()).timeit(number=1)
+        for i in range(ret_naive.nrow):
+            for j in range(ret_naive.ncol):
+               assert(0 == ret_naive[i,j])
+               assert(0 == ret_mkl[i,j])
 
-    time = 16
-    tile_time = timeit.Timer(stmt=tile, setup=setup, globals=locals()).timeit(number=1)
-    assert(tile_time/naive_time < 0.8)
-    time = 17
-    tile_time = timeit.Timer(stmt=tile, setup=setup, globals=locals()).timeit(number=1)
-    assert(tile_time/naive_time < 0.8)
-    time = 19
-    tile_time = timeit.Timer(stmt=tile, setup=setup, globals=locals()).timeit(number=1)
-    assert(tile_time/naive_time < 0.8)
+        assert(5*8 * size*size == _matrix.bytes())
+        assert(base_alloc + (2*8 * size*size) == _matrix.allocated())
+        assert(base_dealloc == _matrix.deallocated())
 
 def test_memory():
+     
+     _matrix.reset_memory_tracking()
      assert(0 == _matrix.bytes())
      base_alloc = _matrix.allocated()
      base_dealloc = _matrix.deallocated()

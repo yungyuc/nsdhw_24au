@@ -18,27 +18,20 @@ public:
     template <class U> 
     CustomAllocator(const CustomAllocator<U> & other) noexcept
     {
-        m_allocated = other.allocated();
-        m_deallocated = other.deallocated();
+        m_allocated = other.m_allocated;
+        m_deallocated = other.m_deallocated;
     }
 
     T * allocate(std::size_t n)
     {
         if (n > std::numeric_limits<std::size_t>::max() / sizeof(T))
-        {
             throw std::bad_alloc();
-        }
+
         const std::size_t bytes = n*sizeof(T);
         T * p = static_cast<T *>(std::malloc(bytes));
-        if (p)
-        {
-            m_allocated += bytes;
-            return p;
-        }
-        else
-        {
-            throw std::bad_alloc();
-        }
+        if (!p) { throw std::bad_alloc(); }
+
+        m_allocated += bytes;
         return p;
     }
 
@@ -48,6 +41,13 @@ public:
         const std::size_t bytes = n*sizeof(T);
         m_deallocated += bytes;
     }
+
+    static void reset_memory_tracking()
+    {
+        m_allocated = 0;
+        m_deallocated = 0;
+    }
+
 
     static std::size_t bytes() { return m_allocated - m_deallocated; }
     static std::size_t allocated() { return m_allocated; }
@@ -59,8 +59,10 @@ private:
     static std::size_t m_deallocated;
 
 };
+
 template <class T> std::size_t CustomAllocator<T>::m_allocated = 0;
 template <class T> std::size_t CustomAllocator<T>::m_deallocated = 0;
+
 
 class Matrix {
 
@@ -85,7 +87,12 @@ public:
         }
     }
 
-    double   operator() (size_t row, size_t col) const
+    ~Matrix()
+    {
+        reset_buffer(0, 0);
+    }
+
+    double operator() (size_t row, size_t col) const
     {
         return m_buffer[index(row, col)];
     }
@@ -145,21 +152,21 @@ private:
         return row * m_ncol + col;
     }
 
-    void reset_buffer(size_t nrow, size_t ncol)
-    {
+    void reset_buffer(size_t nrow, size_t ncol) {
+        if (!m_buffer.empty()) { m_buffer.clear(); }
         const size_t nelement = nrow * ncol;
-        if (nelement) {
-            m_buffer.resize(nelement);
-            for(size_t i = 0; i < nelement; i++){
+        if (nelement)
+        {
+            m_buffer = std::vector<double, CustomAllocator<double>>(nelement);
+            for (size_t i=0; i<nelement; ++i)
                 m_buffer[i] = 0;
-            }
         }
+        else { m_buffer = std::vector<double, CustomAllocator<double>>(); }
         m_nrow = nrow;
         m_ncol = ncol;
     }
-
-    size_t m_nrow = 0;
-    size_t m_ncol = 0;
+    size_t m_nrow;
+    size_t m_ncol;
     std::vector<double, CustomAllocator<double>> m_buffer;
 };
 
@@ -232,10 +239,11 @@ PYBIND11_MODULE(_matrix, m){
         .def("buf_get", &Matrix::buf_get)
         .def("buf_set", &Matrix::buf_set)
         .def("printm", &Matrix::printm)
-        .def_property_readonly("nrow", &Matrix::nrow)
-        .def_property_readonly("ncol", &Matrix::ncol)
-        .def_property_readonly("size", &Matrix::size);
+        .def_property("nrow", &Matrix::nrow, nullptr)
+        .def_property("ncol", &Matrix::ncol, nullptr)
+        .def_property("size", &Matrix::size, nullptr);
     m.def("bytes", &CustomAllocator<double>::bytes);
     m.def("allocated", &CustomAllocator<double>::allocated);
-    m.def("deallocated", &CustomAllocator<double>::deallocated);   
+    m.def("deallocated", &CustomAllocator<double>::deallocated);
+    m.def("reset_memory_tracking", &CustomAllocator<double>::reset_memory_tracking);
 }

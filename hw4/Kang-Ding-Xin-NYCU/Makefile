@@ -15,6 +15,7 @@ default: $(TARGET)
 
 $(TARGET): $(SOURCE)
 	$(CXX) $(CXXFLAGS) $(SOURCE) -I$(MKL_INCLUDE) $(PYTHON) -o $@ $(MKL_LIB)
+	
 
 test: $(TARGET)
 	python -m pytest -v

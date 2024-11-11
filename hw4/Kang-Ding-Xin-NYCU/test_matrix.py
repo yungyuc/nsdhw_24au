@@ -124,7 +124,6 @@ def test_multiply_match():
 
 def test_zero():
         
-        _matrix.reset_memory_tracking()
         assert(0 == _matrix.bytes())
 
         size = 200
@@ -154,7 +153,6 @@ def test_zero():
 
 def test_memory():
      
-     _matrix.reset_memory_tracking()
      assert(0 == _matrix.bytes())
      base_alloc = _matrix.allocated()
      base_dealloc = _matrix.deallocated()

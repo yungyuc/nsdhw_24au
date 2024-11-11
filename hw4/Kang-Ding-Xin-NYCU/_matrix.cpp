@@ -18,8 +18,9 @@ public:
     template <class U> 
     CustomAllocator(const CustomAllocator<U> & other) noexcept
     {
-        m_allocated = other.m_allocated;
-        m_deallocated = other.m_deallocated;
+        m_current = other.bytes();
+        m_allocated = other.allocated();
+        m_deallocated = other.deallocated();
     }
 
     T * allocate(std::size_t n)
@@ -29,9 +30,15 @@ public:
 
         const std::size_t bytes = n*sizeof(T);
         T * p = static_cast<T *>(std::malloc(bytes));
-        if (!p) { throw std::bad_alloc(); }
+        if(p){ 
+            m_current += bytes;
+            m_allocated += bytes;
+        }
+        else{
+            throw std::bad_alloc();
+        }
 
-        m_allocated += bytes;
+        
         return p;
     }
 
@@ -39,6 +46,7 @@ public:
     {
         std::free(p);
         const std::size_t bytes = n*sizeof(T);
+        m_current -= bytes;
         m_deallocated += bytes;
     }
 
@@ -49,20 +57,36 @@ public:
     }
 
 
-    static std::size_t bytes() { return m_allocated - m_deallocated; }
+    static std::size_t bytes() { return m_current; }
     static std::size_t allocated() { return m_allocated; }
     static std::size_t deallocated() { return m_deallocated; }
 
 private:
 
+    static std::size_t m_current;
     static std::size_t m_allocated;
     static std::size_t m_deallocated;
 
 };
 
+template <class T> std::size_t CustomAllocator<T>::m_current = 0;
 template <class T> std::size_t CustomAllocator<T>::m_allocated = 0;
 template <class T> std::size_t CustomAllocator<T>::m_deallocated = 0;
 
+template <class T, class U>
+bool operator==(const CustomAllocator<T> & a, const CustomAllocator<U> & b)
+{
+    if (a.bytes() != b.bytes()) { return false; }
+    if (a.allocated() != b.allocated()) { return false; }
+    if (a.deallocated() != b.deallocated()) { return false; }
+    return true;
+}
+
+template <class T, class U>
+bool operator!=(const CustomAllocator<T> & a, const CustomAllocator<U> & b)
+{
+    return !(a == b);
+}
 
 class Matrix {
 
@@ -85,6 +109,14 @@ public:
                 (*this)(i,j) = other(i,j);
             }
         }
+    }
+
+    Matrix(Matrix && other): m_nrow(other.m_nrow), m_ncol(other.m_ncol)
+    {
+        reset_buffer(0, 0);
+        std::swap(m_nrow, other.m_nrow);
+        std::swap(m_ncol, other.m_ncol);
+        std::swap(m_buffer, other.m_buffer);
     }
 
     ~Matrix()
@@ -153,7 +185,7 @@ private:
     }
 
     void reset_buffer(size_t nrow, size_t ncol) {
-        if (!m_buffer.empty()) { m_buffer.clear(); }
+        m_buffer.clear();
         const size_t nelement = nrow * ncol;
         if (nelement)
         {
@@ -245,5 +277,4 @@ PYBIND11_MODULE(_matrix, m){
     m.def("bytes", &CustomAllocator<double>::bytes);
     m.def("allocated", &CustomAllocator<double>::allocated);
     m.def("deallocated", &CustomAllocator<double>::deallocated);
-    m.def("reset_memory_tracking", &CustomAllocator<double>::reset_memory_tracking);
 }

@@ -1,5 +1,8 @@
 #include <algorithm>
+#include <vector>
 #include <cstddef>
+#include <memory>
+#include <limits>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <utility>
@@ -10,9 +13,46 @@ using data_t = double;
 
 namespace py = pybind11;
 
+template <typename T> class MyAllocator {
+public:
+    typedef T value_type;
+    static inline size_t allo_cnt = 0, bytes_cnt = 0, dallo_cnt = 0;
+  
+    MyAllocator() noexcept {}
+
+    T* allocate(std::size_t n)
+    {
+      allo_cnt += n * sizeof(value_type);
+      bytes_cnt += n * sizeof(value_type);
+      // printf("a: %lu %lu %lu\n", allo_cnt, bytes_cnt, n);
+        return static_cast<T*>(
+            ::operator new(n * sizeof(value_type)));
+    }
+
+    void deallocate(T* p, std::size_t n) noexcept
+    {
+      dallo_cnt += n * sizeof(value_type);
+      bytes_cnt -= n * sizeof(value_type);
+      // printf("d: %lu %lu %lu\n", dallo_cnt, bytes_cnt, n);
+        ::operator delete(p);
+    }
+  
+    static size_t bytes() {
+      return bytes_cnt;
+    }
+
+    static size_t allocated() {
+      return allo_cnt;
+    }
+
+    static size_t deallocated() {
+      return dallo_cnt;
+    }
+};
+
 class Matrix {
 public:
-  Matrix multiply_naive(Matrix a, Matrix b) {
+  Matrix multiply_naive(const Matrix &a, const Matrix &b) {
     if (a.ncol != b.nrow) {
       throw std::invalid_argument(
           "Matrix dimensions do not allow multiplication.");
@@ -29,7 +69,7 @@ public:
     return result;
   }
 
-  Matrix multiply_tile(Matrix a, Matrix b, size_t tile_size) {
+  Matrix multiply_tile(const Matrix &a, const Matrix &b, size_t tile_size) {
     if (a.ncol != b.nrow) {
       throw std::invalid_argument(
           "Matrix dimensions do not allow multiplication.");
@@ -53,7 +93,7 @@ public:
     return result;
   }
 
-  Matrix multiply_mkl(Matrix a, Matrix b) {
+  Matrix multiply_mkl(const Matrix &a, const Matrix &b) {
     if (a.ncol != b.nrow) {
       throw std::invalid_argument(
           "Matrix dimensions do not allow multiplication.");
@@ -68,15 +108,15 @@ public:
 
     // Perform the multiplication: result = alpha * (a * b) + beta * result
     cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, a.nrow, b.ncol,
-                a.ncol, alpha, a.data, a.ncol,   // Matrix A
-                b.data, b.ncol,                  // Matrix B
-                beta, result.data, result.ncol); // Result matrix
+                a.ncol, alpha, a.data.data(), a.ncol,   // Matrix A
+                b.data.data(), b.ncol,                  // Matrix B
+                beta, result.data.data(), result.ncol); // Result matrix
 
     return result;
   }
 
   Matrix(size_t nrow, size_t ncol) : nrow(nrow), ncol(ncol) {
-    data = new data_t[nrow * ncol];
+    this->data = std::vector<double, MyAllocator<double>>(nrow * ncol);
   }
 
   data_t get_element(std::pair<size_t, size_t> idx) {
@@ -92,12 +132,10 @@ public:
   data_t operator()(size_t i, size_t j) const { return data[i * ncol + j]; }
 
   bool equal(Matrix const &m) const {
-    // Check if dimensions are the same
     if (this->nrow != m.nrow || this->ncol != m.ncol) {
       return false;
     }
 
-    // Compare each element of the matrices
     for (size_t i = 0; i < this->nrow; ++i) {
       for (size_t j = 0; j < this->ncol; ++j) {
         if ((*this)(i, j) != m(i, j)) {
@@ -106,7 +144,6 @@ public:
       }
     }
 
-    // If all elements are the same, return true
     return true;
   }
 
@@ -116,10 +153,10 @@ public:
 
   size_t nrow, ncol;
 
-  data_t *data;
+  std::vector<double, MyAllocator<double>> data;
 };
 
-Matrix multiply_naive(Matrix a, Matrix b) {
+Matrix multiply_naive(const Matrix &a, const Matrix &b) {
   if (a.ncol != b.nrow) {
     throw std::invalid_argument(
         "Matrix dimensions do not allow multiplication.");
@@ -136,7 +173,7 @@ Matrix multiply_naive(Matrix a, Matrix b) {
   return result;
 }
 
-Matrix multiply_tile(Matrix a, Matrix b, size_t tile_size) {
+Matrix multiply_tile(const Matrix &a, const Matrix &b, size_t tile_size) {
   if (a.ncol != b.nrow) {
     throw std::invalid_argument(
         "Matrix dimensions do not allow multiplication.");
@@ -164,7 +201,7 @@ Matrix multiply_tile(Matrix a, Matrix b, size_t tile_size) {
   return result;
 }
 
-Matrix multiply_mkl(Matrix a, Matrix b) {
+Matrix multiply_mkl(const Matrix &a, const Matrix &b) {
   if (a.ncol != b.nrow) {
     throw std::invalid_argument(
         "Matrix dimensions do not allow multiplication.");
@@ -176,7 +213,7 @@ Matrix multiply_mkl(Matrix a, Matrix b) {
   const float beta = 0.0f;
 
   cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, a.nrow, b.ncol, a.ncol,
-              alpha, a.data, a.ncol, b.data, b.ncol, beta, result.data,
+              alpha, a.data.data(), a.ncol, b.data.data(), b.ncol, beta, result.data.data(),
               result.ncol);
 
   return result;
@@ -196,4 +233,7 @@ PYBIND11_MODULE(_matrix, m) {
   m.def("multiply_naive", &multiply_naive);
   m.def("multiply_tile", &multiply_tile);
   m.def("multiply_mkl", &multiply_mkl);
+  m.def("bytes", &MyAllocator<double>::bytes);
+  m.def("allocated", &MyAllocator<double>::allocated);
+  m.def("deallocated", &MyAllocator<double>::deallocated);
 }

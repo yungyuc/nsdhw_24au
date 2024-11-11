@@ -15,19 +15,28 @@ class CustomAllocator
         static size_t get_current() { return current; }
         static size_t get_allocated() { return allocated; }
         static size_t get_deallocated() { return deallocated; }
-        T* allocate(size_t n, const void* hint=0)
+        T* allocate(size_t n, const void* nn)
         {
             current += n*sizeof(T);
             allocated += n*sizeof(T);
             std::allocator<T> alloc;
-            return alloc.allocate(n, hint);
+            return alloc.allocate(n, nn);
         }
-        void deallocate(T* p, size_t n) noexcept
+
+        T* allocate(size_t n)
         {
-            current -= n*sizeof(T);
-            deallocated += n*sizeof(T);
+            current += n*sizeof(T);
+            allocated += n*sizeof(T);
             std::allocator<T> alloc;
-            alloc.deallocate(p, n);
+            return alloc.allocate(n, 0);
+        }
+
+        void deallocate(T* ptr, size_t n) noexcept
+        {
+            current -= n * sizeof(T);
+            deallocated += n * sizeof(T);
+            std::allocator<T> alloc;
+            alloc.deallocate(ptr, n);
         }
     private:
         static size_t current;

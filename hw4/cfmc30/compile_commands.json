@@ -1,0 +1,22 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-Ofast",
+      "-std=c++11",
+      "-fPIC",
+      "-I/usr/include/python3.12",
+      "-I/usr/lib/python3.12/site-packages/pybind11/include",
+      "-I/usr/include/mkl",
+      "-I/usr/include/python3.12",
+      "-I/usr/include/python3.12",
+      "-o",
+      "_matrix.so",
+      "_matrix.cpp"
+    ],
+    "directory": "/home/cfmc/repo/nsd/NYCU-2024-NSD/hw4/cfmc30",
+    "file": "/home/cfmc/repo/nsd/NYCU-2024-NSD/hw4/cfmc30/_matrix.cpp",
+    "output": "/home/cfmc/repo/nsd/NYCU-2024-NSD/hw4/cfmc30/_matrix.so"
+  }
+]

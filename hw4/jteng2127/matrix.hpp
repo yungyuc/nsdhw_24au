@@ -1,11 +1,12 @@
 #pragma once
 
 #include<cstddef>
+#include<vector>
 
 class Matrix {
  private:
   size_t m_nrow, m_ncol;
-  double* data;
+  std::vector<double> data;
 
  public:
   Matrix(size_t nrow, size_t ncol);
@@ -14,7 +15,7 @@ class Matrix {
 
   size_t nrow() const;
   size_t ncol() const;
-  double* getData() const;
+  std::vector<double> getData() const;
 
   Matrix& operator=(const Matrix& other);
 

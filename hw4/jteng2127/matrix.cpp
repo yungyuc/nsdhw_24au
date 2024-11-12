@@ -4,6 +4,7 @@
 #include <pybind11/operators.h>
 #include <pybind11/pybind11.h>
 
+#include <vector>
 #include <cstring>
 #include <stdexcept>
 #include <mkl.h>
@@ -11,33 +12,31 @@
 namespace py = pybind11;
 
 Matrix::Matrix(size_t nrow, size_t ncol)
-    : m_nrow(nrow), m_ncol(ncol), data(new double[nrow * ncol]()) {}
+    : m_nrow(nrow), m_ncol(ncol), data(std::vector<double>(nrow * ncol)) {}
 
 Matrix::Matrix(const Matrix& other)
     : m_nrow(other.m_nrow),
       m_ncol(other.m_ncol),
-      data(new double[other.m_nrow * other.m_ncol]) {
-  std::copy(other.data, other.data + (m_nrow * m_ncol), data);
-}
+      data(std::vector<double>(other.data)) {}
 
 Matrix& Matrix::operator=(const Matrix& other) {
   if (this != &other) {
     delete[] data;
     m_nrow = other.m_nrow;
     m_ncol = other.m_ncol;
-    data = new double[m_nrow * m_ncol];
+    data = std::vector<double>(m_nrow * m_ncol);
     std::copy(other.data, other.data + (m_nrow * m_ncol), data);
   }
   return *this;
 }
 
-Matrix::~Matrix() { delete[] data; }
+Matrix::~Matrix() {}
 
 size_t Matrix::nrow() const { return m_nrow; }
 
 size_t Matrix::ncol() const { return m_ncol; }
 
-double* Matrix::getData() const { return data; }
+std::vector<double> Matrix::getData() const { return data; }
 
 double& Matrix::operator()(size_t i, size_t j) {
   if (i >= m_nrow || j >= m_ncol) {

@@ -37,8 +37,6 @@ public:
         else{
             throw std::bad_alloc();
         }
-
-        
         return p;
     }
 
@@ -149,12 +147,12 @@ public:
         return true;
     }
 
-    double*   buf_get() const 
-    { 
-        return (double *) m_buffer.data();
+    double* buf_get() const 
+    {
+        return (double *)m_buffer.data();
     }
 
-    void   buf_set(std::vector<double> &data) 
+    void buf_set(std::vector<double> &data) 
     { 
         for(size_t i = 0; i < m_nrow*m_ncol; ++i)
         {
@@ -187,13 +185,9 @@ private:
     void reset_buffer(size_t nrow, size_t ncol) {
         m_buffer.clear();
         const size_t nelement = nrow * ncol;
-        if (nelement)
-        {
-            m_buffer = std::vector<double, CustomAllocator<double>>(nelement);
-            for (size_t i=0; i<nelement; ++i)
-                m_buffer[i] = 0;
-        }
-        else { m_buffer = std::vector<double, CustomAllocator<double>>(); }
+        m_buffer.resize(nelement);
+        for (size_t i=0; i<nelement; ++i)
+            m_buffer[i] = 0;
         m_nrow = nrow;
         m_ncol = ncol;
     }

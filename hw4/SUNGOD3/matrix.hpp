@@ -3,6 +3,7 @@
 #include <cstring>
 #include <memory>
 #include <atomic>
+#include <stdexcept>
 
 // Global counters for memory tracking
 struct MemoryStats {

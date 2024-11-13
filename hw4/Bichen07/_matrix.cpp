@@ -13,114 +13,144 @@
 
 class Matrix {
 public:
-    Matrix(size_t nrow, size_t ncol) : m_nrow(nrow), m_ncol(ncol), data(nrow * ncol) {}
+    Matrix(size_t nrow, size_t ncol) 
+        : m_nrow(nrow), m_ncol(ncol)    
+    {
+        reset_buffer(nrow, ncol);
+    }
 
-    double& operator()(size_t row, size_t col) { return data[row * m_ncol + col]; }
-    const double& operator()(size_t row, size_t col) const { return data[row * m_ncol + col]; }
+    Matrix(size_t nrow, size_t ncol, std::vector<double> const & vec): m_nrow(nrow), m_ncol(ncol)
+    {
+        reset_buffer(nrow, ncol);
+        (*this) = vec;
+    }
+
+    Matrix(const Matrix &mat): m_nrow(mat.m_nrow), m_ncol(mat.m_ncol) {
+        reset_buffer(mat.m_nrow, mat.m_ncol);
+        for (size_t i = 0; i < m_nrow; ++i) {
+            for (size_t j = 0; j < m_ncol; ++j) {
+                (*this)(i, j) = mat(i, j);  
+            }
+        }
+    }
+
+    // Copy Assignment Operator (Deep Copy)
+    Matrix & operator=(Matrix const &mat) {
+        // Step 1: Self-assignment check
+        if (this == &mat) {
+            return *this; // Return *this to allow chained assignment (e.g., a = b = c)
+        }
+
+        // Step 2: Delete old data
+        reset_buffer(mat.m_nrow, mat.m_ncol);
+        for (size_t i=0; i<m_nrow; ++i)
+        {
+            for (size_t j=0; j<m_ncol; ++j)
+            {
+                (*this)(i,j) = mat(i,j);
+            }
+        }
+        // Return *this to allow chained assignments
+        return *this;
+    }
+
+
+    Matrix & operator=(std::vector<double> const & vec)
+    {
+        if (size() != vec.size())
+            throw std::out_of_range("number of elements mismatch");
+
+        size_t k = 0;
+        for (size_t i=0; i<m_nrow; ++i)
+        {
+            for (size_t j=0; j<m_ncol; ++j)
+            {
+                (*this)(i,j) = vec[k];
+                ++k;
+            }
+        }
+        return *this;
+    }
+
+    Matrix(Matrix && other): m_nrow(other.m_nrow), m_ncol(other.m_ncol)
+    {
+        reset_buffer(0, 0);
+        std::swap(m_nrow, other.m_nrow);
+        std::swap(m_ncol, other.m_ncol);
+        std::swap(m_buffer, other.m_buffer);
+    }
+
+    ~Matrix() {reset_buffer(0, 0);}
+
+    void assign_from_vector(std::vector<double> const& vec) {
+        if (vec.size() != m_nrow * m_ncol) {
+            throw std::invalid_argument("Vector size does not match matrix dimensions");
+        }
+        std::copy(vec.begin(), vec.end(), m_buffer.begin());
+    }
 
     size_t nrow() const { return m_nrow; }
     size_t ncol() const { return m_ncol; }
+    size_t size() const { return m_nrow * m_ncol; }
+    size_t index(size_t i, size_t j) const {return i * m_ncol + j;}
 
-    // Tracking functions
-    static size_t bytes() { return CustomAllocator<double>::bytes(); }
-    static size_t allocated() { return CustomAllocator<double>::allocated(); }
-    static size_t deallocated() { return CustomAllocator<double>::deallocated(); }
+    double buffer(size_t i) const { return m_buffer[i]; }
+    double *get_buffer() const { return (double *) m_buffer.data(); }
 
-private:
-    size_t m_nrow, m_ncol;
-    std::vector<double, CustomAllocator<double>> data;  // Use the custom allocator
-};
-
-// Initialize Matrix with value = 0
-Matrix::Matrix(size_t nrow, size_t ncol): m_nrow(nrow), m_ncol(ncol){
-    data = new double[nrow * ncol]; 
-    for (size_t i = 0; i < nrow * ncol; i++) {
-        data[i] = 0;
-    }  
-}
-
-// assign same value for each elements in matrix
-Matrix::Matrix(size_t nrow, size_t ncol, double init): m_nrow(nrow), m_ncol(ncol){
-    data = new double[nrow * ncol]; 
-    for (size_t i = 0; i < nrow * ncol; i++) {
-        data[i] = init;
-    }  
-}
-
-
-// Copy Constructor (Deep Copy)
-Matrix::Matrix(const Matrix &mat): m_nrow(mat.m_nrow), m_ncol(mat.m_ncol){
-    data = new double[m_nrow * m_ncol]; 
-    for (size_t i = 0; i < m_nrow * m_ncol; i++) {
-        data[i] = mat.data[i];
-    } 
-} 
-
-// Copy Assignment Operator (Deep Copy)
-Matrix& Matrix::operator=(const Matrix &mat) {
-    // Step 1: Self-assignment check
-    if (this == &mat) {
-        return *this; // Return *this to allow chained assignment (e.g., a = b = c)
+    // Access an element for read and write
+    double& operator()(size_t row, size_t col) {
+        return m_buffer[index(row, col)];
     }
 
-    // Step 2: Delete old data
-    delete[] data;
-
-    // Step 3: Copy the dimensions and allocate new memory
-    m_nrow = mat.m_nrow;
-    m_ncol = mat.m_ncol;
-    data = new double[m_nrow * m_ncol];
-
-    // Step 4: Copy the elements
-    for (size_t i = 0; i < m_nrow * m_ncol; i++) {
-        data[i] = mat.data[i];
+    // Access an element for read-only
+    const double& operator()(size_t row, size_t col) const {
+        return m_buffer[index(row, col)];
     }
 
-    // Step 5: Return *this to allow chained assignments
-    return *this;
-}
-
-// Desctructor
-Matrix::~Matrix() {
-    delete[] data;
-}
-
-/* get size*/
-// return size of row and col
-size_t Matrix::nrow() const { return m_nrow; }
-size_t Matrix::ncol() const { return m_ncol; }
-
-// return index of (i, j) element
-size_t Matrix::index(size_t i, size_t j) const {
-    return i * m_ncol + j;
-}
-
-double *Matrix::getData() const {
-    return data;
-}
-
-/* Overload operator to access and compare elements */
-double &Matrix::operator()(size_t row, size_t col) {
-    return data[index(row, col)];
-}
-
-const double &Matrix::operator()(size_t row, size_t col) const {
-    return data[index(row, col)];
-}
-
-bool Matrix::operator==(const Matrix &other) const {
-    // Check if the dimensions are the same
-    if (m_nrow != other.m_nrow || m_ncol != other.m_ncol) {
-        return false;
-    }
-    // Compare each element
-    for (size_t i = 0; i < m_nrow * m_ncol; i++) {
-        if (data[i] != other.data[i]) {
+    // Equality operator overload
+    bool operator==(const Matrix &other) const {
+        // Check if the dimensions are the same
+        if (m_nrow != other.m_nrow || m_ncol != other.m_ncol) {
             return false;
         }
+        // Compare each element
+        for (size_t i = 0; i < m_nrow * m_ncol; i++) {
+            if (m_buffer[i] != other.m_buffer[i]) {
+                return false;
+            }
+        }
+        return true;
     }
-    return true;
-}
+
+private:
+
+    // Resets the buffer with given dimensions and zeroes out elements
+    void reset_buffer(size_t nrow, size_t ncol) {
+        // Clear the buffer if it's not empty
+        if (!m_buffer.empty()) { 
+            m_buffer.clear(); 
+        }
+
+        // Calculate total elements
+        const size_t nelement = nrow * ncol;
+
+        // Allocate new buffer with custom allocator if nelement > 0
+        if (nelement > 0) {
+            m_buffer = std::vector<double, CustomAllocator<double>>(nelement, 0.0); // Initialized to 0
+        } else {
+            m_buffer = std::vector<double, CustomAllocator<double>>(); // Empty vector if no elements
+        }
+
+        // Update row and column dimensions
+        m_nrow = nrow;
+        m_ncol = ncol;
+    }
+
+    size_t m_nrow;   // Number of rows
+    size_t m_ncol;   // Number of columns
+    std::vector<double, CustomAllocator<double>> m_buffer; // Matrix buffer with custom allocator
+};
+
 
 //  Naive matrix matrix multiplication.
 Matrix multiply_naive(Matrix const & mat1, Matrix const & mat2){
@@ -184,28 +214,29 @@ Matrix multiply_mkl(Matrix const & mat1, Matrix const & mat2){
     const double beta = 0.0;   // scaling factor for C (result initialized as 0)
 
     // Call to MKL's cblas_dgemm function for matrix multiplication
-    cblas_dgemm(layout, transA, transB, 
-                mat1.nrow(), mat2.ncol(), mat1.ncol(), alpha, 
-                mat1.getData(), mat1.ncol(), // matrix A
-                mat2.getData(), mat2.ncol(), // matrix B
-                beta, 
-                result.getData(), result.ncol()); // matrix C
-
+    cblas_dgemm(layout, transA, transB, mat1.nrow(), mat2.ncol(), mat1.ncol(),
+                alpha, mat1.get_buffer(), mat1.ncol(),
+                mat2.get_buffer(), mat2.ncol(),
+                beta, result.get_buffer(), result.ncol());
     return result;
 }
 
-// Binding Matrix class to Python
-namespace py = pybind11;
-
-PYBIND11_MODULE(matrix_allocator, m) {
+PYBIND11_MODULE(_matrix, m) {
     m.def("bytes", &CustomAllocator<double>::bytes, "Return the number of bytes currently used");
     m.def("allocated", &CustomAllocator<double>::allocated, "Return the total number of bytes allocated");
     m.def("deallocated", &CustomAllocator<double>::deallocated, "Return the total number of bytes deallocated");
+    m.def("multiply_naive", &multiply_naive);
+    m.def("multiply_tile", &multiply_tile);
+    m.def("multiply_mkl", &multiply_mkl);
 
-    py::class_<Matrix>(m, "Matrix")
-        .def(py::init<size_t, size_t>())
-        .def_property_readonly("nrow", &Matrix::nrow)
-        .def_property_readonly("ncol", &Matrix::ncol)
+    pybind11::class_<Matrix>(m, "Matrix")
+        .def(pybind11::init<size_t, size_t>())
+        .def(pybind11::init<size_t, size_t, std::vector<double> const&>())
+        .def("__eq__", &Matrix::operator==)
+        .def_property("nrow", &Matrix::nrow, nullptr)
+        .def_property("ncol", &Matrix::ncol, nullptr)
+        .def("buffer", &Matrix::buffer)
+        .def("get_buffer", &Matrix::get_buffer)
         .def("__getitem__", [](const Matrix &self, std::pair<size_t, size_t> index) {
             return self(index.first, index.second);
         })

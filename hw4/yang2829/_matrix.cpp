@@ -98,7 +98,7 @@ public:
         return row * m_ncol + col;
     }
 
-    double* data() const { return &m_buffer[0]; }
+    double* data() const { return const_cast<double*>(m_buffer.data()); }
     const std::vector<double, CustomAllocator<double>> get_buffer() const { return m_buffer; }
     size_t nrow() const { return m_nrow; }
     size_t ncol() const { return m_ncol; }
@@ -106,7 +106,7 @@ public:
 
 private:
     size_t m_nrow = 0, m_ncol = 0;
-    std::vector<double, CustomAllocator<double>> m_buffer
+    std::vector<double, CustomAllocator<double>> m_buffer;
 };
 
 Matrix multiply_naive(Matrix const & mat1, Matrix const & mat2) {

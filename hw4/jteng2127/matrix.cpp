@@ -12,20 +12,26 @@
 namespace py = pybind11;
 
 Matrix::Matrix(size_t nrow, size_t ncol)
-    : m_nrow(nrow), m_ncol(ncol), data(std::vector<double>(nrow * ncol)) {}
+    : m_nrow(nrow), m_ncol(ncol), data(nrow * ncol) {}
 
 Matrix::Matrix(const Matrix& other)
     : m_nrow(other.m_nrow),
       m_ncol(other.m_ncol),
-      data(std::vector<double>(other.data)) {}
+      data(other.data) {}
+
+Matrix::Matrix(Matrix&& other)
+    : m_nrow(std::move(other.m_nrow)),
+      m_ncol(std::move(other.m_ncol)),
+      data(std::move(other.data)) {
+  other.m_nrow = 0;
+  other.m_ncol = 0;
+}
 
 Matrix& Matrix::operator=(const Matrix& other) {
   if (this != &other) {
-    delete[] data;
     m_nrow = other.m_nrow;
     m_ncol = other.m_ncol;
-    data = std::vector<double>(m_nrow * m_ncol);
-    std::copy(other.data, other.data + (m_nrow * m_ncol), data);
+    data = std::vector<double, CustomAllocator<double>>(other.data);
   }
   return *this;
 }
@@ -36,7 +42,10 @@ size_t Matrix::nrow() const { return m_nrow; }
 
 size_t Matrix::ncol() const { return m_ncol; }
 
-std::vector<double> Matrix::getData() const { return data; }
+double* Matrix::getData() const {
+  double* d = const_cast<double*>(data.data());
+  return d;
+}
 
 double& Matrix::operator()(size_t i, size_t j) {
   if (i >= m_nrow || j >= m_ncol) {
@@ -56,7 +65,7 @@ bool Matrix::operator==(const Matrix& m) const {
   if (m_nrow != m.m_nrow || m_ncol != m.m_ncol) {
     return false;
   }
-  return std::memcmp(data, m.data, m_nrow * m_ncol * sizeof(double)) == 0;
+  return data == m.data;
 }
 
 Matrix multiply_naive(const Matrix& A, const Matrix& B) {
@@ -113,11 +122,27 @@ Matrix multiply_mkl(const Matrix& A, const Matrix& B) {
   Matrix C(A.nrow(), B.ncol());
 
   // Use MKL's cblas_dgemm for matrix multiplication
-  cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, A.nrow(), B.ncol(),
-              A.ncol(), 1.0, A.getData(), A.ncol(), B.getData(), B.ncol(),
-              0.0, C.getData(), C.ncol());
+  cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,
+              A.nrow(), B.ncol(), A.ncol(),
+              1.0,
+              A.getData(), A.ncol(),
+              B.getData(), B.ncol(),
+              0.0,
+              C.getData(), C.ncol());
 
   return C;
+}
+
+std::size_t bytes() {
+  return CustomAllocator<double>::bytes();
+}
+
+std::size_t allocated() {
+  return CustomAllocator<double>::allocated();
+}
+
+std::size_t deallocated() {
+  return CustomAllocator<double>::deallocated();
 }
 
 PYBIND11_MODULE(_matrix, m) {
@@ -154,4 +179,7 @@ PYBIND11_MODULE(_matrix, m) {
         py::arg("A"), py::arg("B"), py::arg("tile_size"));
   m.def("multiply_mkl", &multiply_mkl, "MKL optimized matrix multiplication",
         py::arg("A"), py::arg("B"));
+  m.def("bytes", &bytes, "Get total bytes allocated");
+  m.def("allocated", &allocated, "Get total bytes allocated");
+  m.def("deallocated", &deallocated, "Get total bytes deallocated");
 }

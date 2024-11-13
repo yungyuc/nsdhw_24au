@@ -49,6 +49,7 @@ public:
     static std::size_t allocated() { return m_allocated; }
     static std::size_t deallocated() { return m_deallocated; }
     static std::size_t refcount() { return m_refcount; }
+    // static std::size_t m_allocated;
 
 private:
     static std::size_t m_allocated;

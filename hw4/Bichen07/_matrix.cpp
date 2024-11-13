@@ -38,9 +38,9 @@ public:
     Matrix & operator=(Matrix const &mat) {
         // Step 1: Self-assignment check
         if (this == &mat) {
+            reset_buffer(mat.m_nrow, mat.m_ncol);
             return *this; // Return *this to allow chained assignment (e.g., a = b = c)
         }
-
         // Step 2: Delete old data
         reset_buffer(mat.m_nrow, mat.m_ncol);
         for (size_t i=0; i<m_nrow; ++i)

@@ -2,14 +2,14 @@
 
 #include "matrix.hpp"
 
-matrix_2d multiply_naive(
-    matrix_2d const &A, matrix_2d const &B
+Matrix multiply_naive(
+    Matrix const &A, Matrix const &B
 );
 
-matrix_2d multiply_tile(
-    matrix_2d const &A, matrix_2d const &B, size_t tsize
+Matrix multiply_tile(
+    Matrix const &A, Matrix const &B, size_t tsize
 );
 
-matrix_2d multiply_mkl(
-    matrix_2d const &A, matrix_2d const &B
+Matrix multiply_mkl(
+    Matrix const &A, Matrix const &B
 );

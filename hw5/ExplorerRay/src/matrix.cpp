@@ -1,27 +1,27 @@
 #include "matrix.hpp"
 
-matrix_2d::matrix_2d(size_t nrow, size_t ncol)
-  : m_nrow(nrow), m_ncol(ncol) {
-    if (nrow <= 0 || ncol <= 0) {
-        throw std::invalid_argument("matrix_2d: nrow and ncol must be positive");
+Matrix::Matrix(size_t m_nrow, size_t m_ncol)
+  : m_nrow(m_nrow), m_ncol(m_ncol) {
+    if (m_nrow <= 0 || m_ncol <= 0) {
+        throw std::invalid_argument("Matrix: m_nrow and m_ncol must be positive");
     }
 
-    size_t nelement = nrow * ncol;
+    size_t nelement = m_nrow * m_ncol;
     m_buffer.resize(nelement);
 };
 
-// matrix_2d::~matrix_2d() {
+// Matrix::~Matrix() {
 //     delete[] m_buffer;
 // };
 
-double   matrix_2d::operator() (size_t row, size_t col) const {
+double   Matrix::operator() (size_t row, size_t col) const {
     return m_buffer[index(row, col)];
 }
-double & matrix_2d::operator() (size_t row, size_t col) {
+double & Matrix::operator() (size_t row, size_t col) {
     return m_buffer[index(row, col)];
 }
 
-bool matrix_2d::operator==(matrix_2d const &m) const {
+bool Matrix::operator==(Matrix const &m) const {
     if (m_nrow != m.m_nrow || m_ncol != m.m_ncol) {
         return false;
     }
@@ -37,15 +37,15 @@ bool matrix_2d::operator==(matrix_2d const &m) const {
     return true;
 }
 
-matrix_2d & matrix_2d::transpose() {
+Matrix & Matrix::transpose() {
     m_transpose = !m_transpose;
     std::swap(m_nrow, m_ncol);
     return *this;
 }
 
-size_t matrix_2d::index(size_t row, size_t col) const {
+size_t Matrix::index(size_t row, size_t col) const {
     if (row >= m_nrow || col >= m_ncol) {
-        throw std::out_of_range("matrix_2d: index out of range");
+        throw std::out_of_range("Matrix: index out of range");
     }
 
     // m_nrow and m_ncol are swapped if the matrix is transposed
@@ -54,8 +54,10 @@ size_t matrix_2d::index(size_t row, size_t col) const {
     if (m_transpose) { return col * m_nrow + row; }
     else             { return row * m_ncol + col; }
 }
-bool matrix_2d::is_transposed() const { return m_transpose; }
+bool Matrix::is_transposed() const { return m_transpose; }
 
-size_t matrix_2d::get_nrow() const { return m_nrow; };
-size_t matrix_2d::get_ncol() const { return m_ncol; };
-const double* matrix_2d::get_buffer() const { return m_buffer.data(); };
+size_t Matrix::get_nrow() const { return m_nrow; };
+size_t Matrix::get_ncol() const { return m_ncol; };
+size_t Matrix::nrow() const { return m_nrow; };
+size_t Matrix::ncol() const { return m_ncol; };
+const double* Matrix::get_buffer() const { return m_buffer.data(); };

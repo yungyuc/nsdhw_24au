@@ -27,13 +27,13 @@ struct Block
         return *this;
     }
 
-    void save(matrix_2d & mat, size_t it, size_t jt);
+    void save(Matrix & mat, size_t it, size_t jt);
 
     double m_buffer[N * N];
 };
 
 template<size_t N> void Block<N>::save(
-    matrix_2d & mat, size_t it, size_t jt
+    Matrix & mat, size_t it, size_t jt
 )
 {
     const size_t ncol = mat.get_ncol();
@@ -56,8 +56,8 @@ struct Tiler
     static constexpr const size_t NDIM = N;
 
     void load(
-        matrix_2d const & mat1, size_t it1, size_t jt1
-      , matrix_2d const & mat2, size_t it2, size_t jt2
+        Matrix const & mat1, size_t it1, size_t jt1
+      , Matrix const & mat2, size_t it2, size_t jt2
     );
 
     void multiply();
@@ -68,8 +68,8 @@ struct Tiler
 };
 
 template<size_t N> void Tiler<N>::load(
-    matrix_2d const & mat1, size_t it1, size_t jt1
-  , matrix_2d const & mat2, size_t it2, size_t jt2
+    Matrix const & mat1, size_t it1, size_t jt1
+  , Matrix const & mat2, size_t it2, size_t jt2
 )
 {
     const size_t ncol1 = mat1.get_ncol();
@@ -129,7 +129,7 @@ template<size_t N> void Tiler<N>::multiply()
     }
 }
 
-matrix_2d multiply_naive(matrix_2d const &A, matrix_2d const &B) {
+Matrix multiply_naive(Matrix const &A, Matrix const &B) {
     if (A.get_ncol() != B.get_nrow()) {
         throw std::out_of_range("Matrix dimensions do not match");
     }
@@ -137,7 +137,7 @@ matrix_2d multiply_naive(matrix_2d const &A, matrix_2d const &B) {
     auto row_iter = A.get_nrow();
     auto col_iter = B.get_ncol();
     auto inner_iter = A.get_ncol();
-    matrix_2d C(row_iter, col_iter);
+    Matrix C(row_iter, col_iter);
     for (size_t i = 0; i < row_iter; ++i) {
         for (size_t j = 0; j < col_iter; ++j) {
             double sum = 0;
@@ -150,7 +150,7 @@ matrix_2d multiply_naive(matrix_2d const &A, matrix_2d const &B) {
     return C;
 }
 
-matrix_2d multiply_tile(matrix_2d const &A, matrix_2d const &B, size_t tsize){
+Matrix multiply_tile(Matrix const &A, Matrix const &B, size_t tsize){
     if (A.get_ncol() != B.get_nrow()) {
         throw std::out_of_range("Matrix dimensions do not match");
     }
@@ -161,7 +161,7 @@ matrix_2d multiply_tile(matrix_2d const &A, matrix_2d const &B, size_t tsize){
     const size_t col_iter = B.get_ncol();
     const size_t inner_iter = A.get_ncol();
 
-    matrix_2d C(row_iter, col_iter);
+    Matrix C(row_iter, col_iter);
 
     const size_t ntrow1 = row_iter / 10;
     const size_t ntcol1 = col_iter / 10;
@@ -186,12 +186,12 @@ matrix_2d multiply_tile(matrix_2d const &A, matrix_2d const &B, size_t tsize){
     return C;
 }
 
-matrix_2d multiply_mkl(matrix_2d const &A, matrix_2d const &B){
+Matrix multiply_mkl(Matrix const &A, Matrix const &B){
     if (A.get_ncol() != B.get_nrow()) {
         throw std::out_of_range("Matrix dimensions do not match");
     }
 
-    matrix_2d C(A.get_nrow(), B.get_ncol());
+    Matrix C(A.get_nrow(), B.get_ncol());
     cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,
                 A.get_nrow(), B.get_ncol(), A.get_ncol(),
                 1.0, A.get_buffer(), A.get_ncol(),

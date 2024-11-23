@@ -37,7 +37,7 @@ public:
         return m_buffer[row*m_ncol + col];
     } 
 
-    bool operator==(const Matrix &B){
+    bool operator==(const Matrix &B) const {
         if((m_nrow != B.nrow()) || (m_ncol != B.ncol())){
             return false;
         }else{

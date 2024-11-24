@@ -25,4 +25,4 @@ banchmark: $(TARGET)
 	python performance.py	
 
 clean:
-	rm -rf *.so __pycache__ .pytest_cache
+	rm -rf *.so ../__pycache__ ../.pytest_cache

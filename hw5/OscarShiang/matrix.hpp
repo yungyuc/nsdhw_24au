@@ -59,7 +59,7 @@ public:
         return m_buffer[index(row, col)];
     }
 
-    bool operator== (Matrix const &m)
+    bool operator== (const Matrix m) const
     {
         if (m_nrow != m.nrow() || m_ncol != m.ncol()) {
             return false;
@@ -96,10 +96,6 @@ public:
 
     size_t ncol() const { return m_ncol; }
 
-    static Matrix multiply_naive(Matrix const &a, Matrix const &b);
-    static Matrix multiply_tile(Matrix const &a, Matrix const &b, const size_t step);
-    static Matrix multiply_mkl(Matrix const &a, Matrix const &b);
-
 private:
     size_t index(size_t row, size_t col) const
     {
@@ -127,7 +123,7 @@ private:
     double *m_buffer = nullptr;
 };
 
-Matrix Matrix::multiply_naive(Matrix const &mat1, Matrix const &mat2)
+Matrix multiply_naive(Matrix const &mat1, Matrix const &mat2)
 {
     if (mat1.ncol() != mat2.nrow()) {
         throw std::out_of_range("Dimesion mismatch");
@@ -146,7 +142,7 @@ Matrix Matrix::multiply_naive(Matrix const &mat1, Matrix const &mat2)
     return ret;
 }
 
-Matrix Matrix::multiply_tile(Matrix const &mat1, Matrix const &mat2, const size_t step)
+Matrix multiply_tile(Matrix const &mat1, Matrix const &mat2, const size_t step)
 {
     if (mat1.ncol() != mat2.nrow()) {
         throw std::out_of_range("Dimension mismatch");
@@ -170,7 +166,7 @@ Matrix Matrix::multiply_tile(Matrix const &mat1, Matrix const &mat2, const size_
     return m;
 }
 
-Matrix Matrix::multiply_mkl(Matrix const &mat1, Matrix const &mat2)
+Matrix multiply_mkl(Matrix const &mat1, Matrix const &mat2)
 {
     if (mat1.ncol() != mat2.nrow()) {
         throw std::out_of_range("Dimension mismatch");
@@ -182,25 +178,6 @@ Matrix Matrix::multiply_mkl(Matrix const &mat1, Matrix const &mat2)
                 mat2.data(), mat2.ncol(), 0, m.data(), m.ncol());
 
     return m;
-}
-
-PYBIND11_MODULE(_matrix, m) {
-    py::class_<Matrix>(m, "Matrix")
-        .def(py::init<size_t, size_t>())
-        .def_property_readonly("nrow", &Matrix::nrow)
-        .def_property_readonly("ncol", &Matrix::ncol)
-        .def("__assign__", &Matrix::operator=)
-        .def("__setitem__", [](Matrix &m, std::vector<size_t> idx, double val) {
-            m(idx[0], idx[1]) = val;
-        })
-        .def("__getitem__", [](Matrix &m, std::vector<size_t> idx) {
-            return m(idx[0], idx[1]);
-        })
-        .def("__repr__", &Matrix::to_string)
-        .def("__eq__", &Matrix::operator==);
-    m.def("multiply_naive", &Matrix::multiply_naive);
-    m.def("multiply_tile", &Matrix::multiply_tile);
-    m.def("multiply_mkl", &Matrix::multiply_mkl);
 }
 
 #endif /* __MATRIX_HPP__ */

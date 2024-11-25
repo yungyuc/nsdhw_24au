@@ -99,9 +99,9 @@ Time Table
       https://github.com/ExplorerRay/onnxinfo
   * - 9
     - 09:00 - 09:15
-    - `SUNGOD3 <https://github.com/SUNGOD3>`__
-    - `AdvancedVectorSearch <SUNGOD3/README.rst>`__:
-      https://github.com/SUNGOD3/AdvancedVectorSearch
+    - `chris901003 <https://github.com/chris901003>`__
+    - `PoissonNet <chris901003/README.rst>`__:
+      https://github.com/chris901003/PoissonNet
   * - 10
     - 09:15 - 09:30
     - `LienShark <https://github.com/LienShark>`__
@@ -129,9 +129,9 @@ Time Table
       https://github.com/cfmc30/FDCT
   * - 15
     - 10:30 - 10:45
-    - `chris901003 <https://github.com/chris901003>`__
-    - `PoissonNet <chris901003/README.rst>`__:
-      https://github.com/chris901003/PoissonNet
+    - `SUNGOD3 <https://github.com/SUNGOD3>`__
+    - `AdvancedVectorSearch <SUNGOD3/README.rst>`__:
+      https://github.com/SUNGOD3/AdvancedVectorSearch
   * - 16
     - 10:45 - 11:00
     - `hsiehbingting <https://github.com/hsiehbingting>`__

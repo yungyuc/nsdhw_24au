@@ -154,8 +154,8 @@ Matrix multiply_tile(Matrix const &mat1, Matrix const &mat2, const size_t step)
         for (size_t k = 0; k < mat2.ncol(); k += step) {
             for (size_t j = 0; j < mat1.ncol(); j += step) {
                 for (size_t ti = i; ti < std::min(mat1.nrow(), i + step); ++ti) {
-                    for (size_t tk = k; tk < std::min(mat2.ncol(), k + step); ++tk) {
-                        for (size_t tj = j; tj < std::min(mat1.ncol(), j + step); ++tj) {
+                    for (size_t tj = j; tj < std::min(mat1.ncol(), j + step); ++tj) {
+                        for (size_t tk = k; tk < std::min(mat2.ncol(), k + step); ++tk) {
                             m(ti, tk) += mat1(ti, tj) * mat2(tj, tk);
                         }
                     }

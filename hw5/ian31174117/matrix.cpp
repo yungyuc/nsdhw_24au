@@ -58,9 +58,9 @@ Matrix multiply_tile(const Matrix &A, const Matrix &B, size_t tile_size) {
     for (size_t i = 0; i < n; i += tile_size) {
         for (size_t j = 0; j < p; j += tile_size) {
             for (size_t k = 0; k < m; k += tile_size) {
-                size_t i_end = std::min(i + tile_size, n);
-                size_t j_end = std::min(j + tile_size, p);
-                size_t k_end = std::min(k + tile_size, m);
+                size_t i_end = i + tile_size < n ? i+tile_size : n;
+                size_t j_end = j + tile_size < p ? j+tile_size : p;
+                size_t k_end = k + tile_size < m ? k+tile_size : m;
 
                 for (size_t ii = i; ii < i_end; ++ii) {
                     for (size_t jj = j; jj < j_end; ++jj) {

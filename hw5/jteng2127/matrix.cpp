@@ -132,39 +132,3 @@ Matrix multiply_mkl(const Matrix& A, const Matrix& B) {
 
   return C;
 }
-
-PYBIND11_MODULE(_matrix, m) {
-  py::class_<Matrix>(m, "Matrix")
-      .def(py::init<size_t, size_t>(), "Constructor with rows and columns")
-      .def_property_readonly("nrow", &Matrix::nrow, "Get number of rows")
-      .def_property_readonly("ncol", &Matrix::ncol, "Get number of columns")
-      .def("getData", &Matrix::getData, "Get the pointer to the matrix data")
-      .def("__call__",
-           (double& (Matrix::*)(size_t, size_t)) & Matrix::operator(),
-           "Access matrix elements with (i, j) operator")
-      .def("__call__",
-           (const double& (Matrix::*)(size_t, size_t) const) &
-               Matrix::operator(),
-           "Access matrix elements with (i, j) operator (const)")
-      .def(
-          "__setitem__",
-          [](Matrix& m, std::pair<size_t, size_t> idx, double value) {
-            m(idx.first, idx.second) = value;
-          },
-          "Set matrix element at (i, j)")
-      .def(
-          "__getitem__",
-          [](const Matrix& m, std::pair<size_t, size_t> idx) -> double {
-            return m(idx.first, idx.second);
-          },
-          "Get matrix element at (i, j)")
-      .def("getData", &Matrix::getData, py::return_value_policy::reference)
-      .def(py::self == py::self, "Equality operator for matrices");
-
-  m.def("multiply_naive", &multiply_naive, "Naive matrix multiplication",
-        py::arg("A"), py::arg("B"));
-  m.def("multiply_tile", &multiply_tile, "Tiled matrix multiplication",
-        py::arg("A"), py::arg("B"), py::arg("tile_size"));
-  m.def("multiply_mkl", &multiply_mkl, "MKL optimized matrix multiplication",
-        py::arg("A"), py::arg("B"));
-}

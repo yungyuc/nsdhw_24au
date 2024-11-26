@@ -7,7 +7,7 @@ SO = _matrix$(shell python3-config --extension-suffix)
 
 all: $(SO)
 
-$(SO): matrix.cpp
+$(SO): matrix.cpp ../mod.cpp
 	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS) 
 
 test: $(SO)

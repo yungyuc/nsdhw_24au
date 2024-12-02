@@ -1,6 +1,7 @@
 import _matrix
 import pytest
 import random
+import numpy as np
 from utils import generate_matrix_2d
 
 def test_constructor():
@@ -20,7 +21,7 @@ def test_generate_matrix():
 def test_false_row():
     with pytest.raises(ValueError):
         mat = _matrix.Matrix(0, 1)
-    
+
 def test_false_col():
     with pytest.raises(ValueError):
         mat = _matrix.Matrix(1, 0)
@@ -59,3 +60,7 @@ def test_basic():
 
     assert mat1 == mat2
     assert mat1 is not mat2
+
+def test_ndarray():
+    mat = generate_matrix_2d(100, 100)
+    assert(isinstance(mat.array, np.ndarray))

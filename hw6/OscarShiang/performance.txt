@@ -1,0 +1,4 @@
+func	time	speedup
+naive	0.494s	1.00x
+tile	0.324s	1.52x
+mkl	0.011s	45.27x

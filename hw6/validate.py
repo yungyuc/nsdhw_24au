@@ -112,6 +112,7 @@ class GradingTest(unittest.TestCase):
             for jt in range(size):
                 mat[it, jt] = it * size + jt + 1
 
+
         for i in range(size):
             for j in range(size):
                 self.assertNotEqual(0, mat[i,j])
